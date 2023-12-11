@@ -1,0 +1,5 @@
+.textfield {
+    width: 100%;
+    resize: none;
+    max-height: 500px;
+}

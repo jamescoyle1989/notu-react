@@ -6,7 +6,7 @@ const meta = {
     title: 'NoteEditor',
     component: NoteEditor,
     parameters: {
-        layout: 'centerd'
+        layout: 'left'
     },
     tags: ['autodocs']
 } satisfies Meta<typeof NoteEditor>;
@@ -34,9 +34,9 @@ export const Primary: Story = {
             attr1.id = 1;
             return [attr1];
         })(),
-        confirm: () => {
+        onConfirm: () => {
             console.log('Confirm clicked');
             return null;
         }
     }
-}
+};

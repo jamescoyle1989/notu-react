@@ -1,12 +1,15 @@
 import { Attr, Note, NoteAttr, NoteTag, Space, Tag } from 'notu';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
+import { NoteTagBadge } from './NoteTagBadge';
+import 'purecss';
+import './NoteEditor.css';
 
 interface NoteEditorProps {
     note: Note,
     spaces: Array<Space>,
     tags: Array<Tag>,
     attrs: Array<Attr>,
-    confirm: () => string
+    onConfirm: () => string
 }
 
 
@@ -15,7 +18,7 @@ export const NoteEditor = ({
     spaces,
     tags,
     attrs,
-    confirm
+    onConfirm
 }: NoteEditorProps) => {
     const [date, setDate] = useState(note.date.toISOString().split('T')[0]);
     const [spaceId, setSpaceId] = useState(note.spaceId);
@@ -24,6 +27,7 @@ export const NoteEditor = ({
     const [archived, setArchived] = useState(note.archived);
     const [tagIds, setTagIds] = useState(note.tags.map(x => x.tagId));
     const [attrIds, setAttrIds] = useState(note.attrs.filter(x => x.tagId == null).map(x => x.attrId));
+    const textAreaRef = useRef(null);
 
     function onDateChange(event): void {
         setDate(event.target.value);
@@ -43,6 +47,11 @@ export const NoteEditor = ({
     function onTextChange(event): void {
         setText(event.target.value);
         note.text = event.target.value;
+        if (!!textAreaRef.current) {
+            const textArea = textAreaRef.current;
+            textArea.style.height = '';
+            textArea.style.height = textArea.scrollHeight + 'px';
+        }
     }
 
     function onArchivedChange(event): void {
@@ -122,52 +131,59 @@ export const NoteEditor = ({
     }
 
     return (
-        <div>
-            <div>
-                <label>Space</label>
-                <select value={spaceId} onChange={onSpaceIdChange}>
-                    <option key="0" value={null}></option>
-                    {spaces.map(x => (<option key={x.id} value={x.id}>{x.name}</option>))}
-                </select>
-            </div>
+        <form className="pure-form pure-form-aligned">
+            <fieldset>
+                <div className="pure-control-group">
+                    <label>Space</label>
+                    <select value={spaceId} onChange={onSpaceIdChange}>
+                        <option key="0" value={null}></option>
+                        {spaces.map(x => (<option key={x.id} value={x.id}>{x.name}</option>))}
+                    </select>
+                </div>
 
-            <div>
-                <label>Date</label>
-                <input type="date" value={date} onChange={onDateChange}></input>
-                <input type="time" value={time} onChange={onTimeChange}></input>
-            </div>
+                <div className="pure-control-group">
+                    <label>Date</label>
+                    <input type="date" value={date} onChange={onDateChange}></input>
+                    <input type="time" value={time} onChange={onTimeChange}></input>
+                </div>
 
-            <div>
-                <label>Text</label>
-                <input type="text" value={text} onChange={onTextChange}></input>
-            </div>
+                <div className="pure-control-group">
+                    <label>Text</label>
+                    <textarea value={text} onChange={onTextChange} ref={textAreaRef} className="textfield"/>
+                </div>
 
-            <div>
-                <label>Archived</label>
-                <input type="checkbox" checked={archived} onChange={onArchivedChange}></input>
-            </div>
+                <div className="pure-control-group">
+                    <label>Archived</label>
+                    <input type="checkbox" checked={archived} onChange={onArchivedChange}></input>
+                </div>
 
-            <div>
-                <label>Tags</label>
-                {note.tags.map(x => tagBadge(x))}
-                <select onChange={onTagSelected}>
-                    <option key="0" value={null}></option>
-                    {tagsThatCanBeAdded()
-                        .map(x => (<option key={x.id} value={x.id}>{getTagName(x)}</option>))}
-                </select>
-            </div>
+                <div className="pure-control-group">
+                    <label>Tags</label>
+                    <select onChange={onTagSelected}>
+                        <option key="0" value={null}></option>
+                        {tagsThatCanBeAdded()
+                            .map(x => (<option key={x.id} value={x.id}>{getTagName(x)}</option>))}
+                    </select>
+                </div>
+                
+                <div className="pure-controls">
+                    {note.tags.map(x => (<NoteTagBadge key={x.tag.id} noteTag={x} spaces={spaces} onDelete={null}/>))}
+                </div>
 
-            <div>
-                <label>Attrs</label>
-                {note.attrs.map(x => attrField(x))}
-                <select onChange={onAttrSelected}>
-                    <option key="0" value={null}></option>
-                    {attrsThatCanBeAdded()
-                        .map(x => (<option key={x.id} value={x.id}>{getAttrName(x)}</option>))}
-                </select>
-            </div>
+                <div className="pure-control-group">
+                    <label>Attrs</label>
+                    {note.attrs.map(x => attrField(x))}
+                    <select onChange={onAttrSelected}>
+                        <option key="0" value={null}></option>
+                        {attrsThatCanBeAdded()
+                            .map(x => (<option key={x.id} value={x.id}>{getAttrName(x)}</option>))}
+                    </select>
+                </div>
 
-            <button onClick={confirm}>Confirm</button>
-        </div>
+                <div className="pure-controls">
+                    <button type="button" onClick={onConfirm} className="pure-button pure-button-primary">Confirm</button>
+                </div>
+            </fieldset>
+        </form>
     );
 };

@@ -1,0 +1,12 @@
+.mainbadge {
+    display: inline;
+    background-color: red;
+    padding: 2px 5px;
+    border-radius: 10px;
+}
+
+.deletebutton {
+    cursor: pointer;
+    margin-left: 5px;
+    user-select: none;
+}
