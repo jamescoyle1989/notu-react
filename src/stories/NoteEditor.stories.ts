@@ -6,7 +6,7 @@ const meta = {
     title: 'NoteEditor',
     component: NoteEditor,
     parameters: {
-        layout: 'left'
+        layout: 'padded'
     },
     tags: ['autodocs']
 } satisfies Meta<typeof NoteEditor>;

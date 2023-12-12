@@ -104,11 +104,22 @@ export const NoteEditor = ({
         return `${spaces.find(x => x.id == attr.spaceId).name}.${attr.name}`;
     }
 
-    function attrField(noteAttr: NoteAttr) {
+    function renderAttrFields() {
+        if (note.attrs.length == 0)
+            return;
+        
         return (
-            <div key={noteAttr.attr.id}>
+            <div className="attrFieldsContainer">
+                {note.attrs.map(x => renderAttrField(x))}
+            </div>
+        );
+    }
+
+    function renderAttrField(noteAttr: NoteAttr) {
+        return (
+            <div key={noteAttr.attr.id} className="pure-control-group">
                 <label>{getAttrName(noteAttr.attr)}</label>
-                <label>TO DO: Add AttrValueEditor component that goes here</label>
+                <input type="text" value="TO DO: Add AttrValueEditor component that goes here"/>
                 <button onClick={() => removeAttr(noteAttr.attr)}>X</button>
             </div>
         );
@@ -172,13 +183,14 @@ export const NoteEditor = ({
 
                 <div className="pure-control-group">
                     <label>Attrs</label>
-                    {note.attrs.map(x => attrField(x))}
                     <select onChange={onAttrSelected}>
                         <option key="0" value={null}></option>
                         {attrsThatCanBeAdded()
                             .map(x => (<option key={x.id} value={x.id}>{getAttrName(x)}</option>))}
                     </select>
                 </div>
+
+                {renderAttrFields()}
 
                 <div className="pure-controls">
                     <button type="button" onClick={onConfirm} className="pure-button pure-button-primary">Confirm</button>
