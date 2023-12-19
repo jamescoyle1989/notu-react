@@ -5,7 +5,7 @@ import './NoteTagBadge.css';
 interface NoteTagBadgeProps {
     noteTag: NoteTag,
     spaces: Array<Space>,
-    onDelete: () => void
+    onDelete?: () => void
 }
 
 
