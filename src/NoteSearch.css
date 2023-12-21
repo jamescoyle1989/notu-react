@@ -1,0 +1,7 @@
+.notesearch_base {
+    display: flex;
+}
+
+.notesearch_text {
+    flex-grow: 1;
+}
