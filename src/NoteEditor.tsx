@@ -3,6 +3,7 @@ import { useState, useRef } from 'react';
 import { NoteTagBadge } from './NoteTagBadge';
 import 'purecss';
 import './NoteEditor.css';
+import { NoteAttrEditor } from './NoteAttrEditor';
 
 interface NoteEditorProps {
     note: Note,
@@ -85,15 +86,6 @@ export const NoteEditor = ({
         note.removeTag(tag);
     }
 
-    function tagBadge(noteTag: NoteTag) {
-        return (
-            <div key={noteTag.tag.id}>
-                {getTagName(noteTag.tag)}
-                <button onClick={() => removeTag(noteTag.tag)}>X</button>
-            </div>
-        );
-    }
-
     function attrsThatCanBeAdded(): Array<Attr> {
         return attrs.filter(x => !attrIds.find(y => y == x.id));
     }
@@ -110,17 +102,9 @@ export const NoteEditor = ({
         
         return (
             <div className="attrFieldsContainer">
-                {note.attrs.map(x => renderAttrField(x))}
-            </div>
-        );
-    }
-
-    function renderAttrField(noteAttr: NoteAttr) {
-        return (
-            <div key={noteAttr.attr.id} className="pure-control-group">
-                <label>{getAttrName(noteAttr.attr)}</label>
-                <input type="text" value="TO DO: Add AttrValueEditor component that goes here"/>
-                <button onClick={() => removeAttr(noteAttr.attr)}>X</button>
+                {note.attrs.map(noteAttr => (
+                    <NoteAttrEditor noteAttr={noteAttr} spaces={spaces} onRemove={() => removeAttr(noteAttr.attr)}/>
+                ))}
             </div>
         );
     }
@@ -178,7 +162,7 @@ export const NoteEditor = ({
                 </div>
                 
                 <div className="pure-controls">
-                    {note.tags.map(x => (<NoteTagBadge key={x.tag.id} noteTag={x} spaces={spaces} onDelete={null}/>))}
+                    {note.tags.map(x => (<NoteTagBadge key={x.tag.id} noteTag={x} spaces={spaces} onDelete={() => removeTag(x.tag)}/>))}
                 </div>
 
                 <div className="pure-control-group">
