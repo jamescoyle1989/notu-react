@@ -18,7 +18,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
     args: {
-        space: new Space(),
+        space: new Space('Test'),
         onConfirm: () => {
             console.log('Confirm clicked');
             return null;

@@ -44,7 +44,7 @@ export const SpaceEditor = ({
 
                 <div className="pure-control-group">
                     <label>Name</label>
-                    <input type="text" onChange={onNameChange}/>
+                    <input type="text" value={name} onChange={onNameChange}/>
                 </div>
 
                 <div className="pure-controls">

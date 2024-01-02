@@ -1,4 +1,4 @@
-import { Attr, Note, NoteAttr, NoteTag, Space, Tag } from 'notu';
+import { Attr, Note, Space, Tag } from 'notu';
 import { useState, useRef } from 'react';
 import { NoteTagBadge } from './NoteTagBadge';
 import 'purecss';
@@ -177,7 +177,8 @@ export const NoteEditor = ({
                 {renderAttrFields()}
 
                 <div className="pure-controls">
-                    <button type="button" onClick={onConfirm} className="pure-button pure-button-primary">Confirm</button>
+                    <button type="button" onClick={onConfirm}
+                            className="pure-button pure-button-primary">Confirm</button>
                 </div>
             </fieldset>
         </form>
