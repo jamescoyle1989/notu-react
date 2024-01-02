@@ -1,19 +1,25 @@
-import { NoteAttr, Space } from 'notu';
+import { NoteAttr } from 'notu';
 import 'purecss';
 import './NoteAttrBadge.css';
 
 interface NoteAttrBadgeProps {
     noteAttr: NoteAttr,
-    spaces: Array<Space>,
+    contextSpaceId: number,
     onDelete?: () => void
 }
 
 
 export const NoteAttrBadge = ({
     noteAttr,
-    spaces,
+    contextSpaceId,
     onDelete
 }: NoteAttrBadgeProps) => {
+
+    function getAttrName(): string {
+        if (noteAttr.attr.spaceId == contextSpaceId)
+            return noteAttr.attr.name;
+        return `${noteAttr.attr.space.name}.${noteAttr.attr.name}`;
+    }
 
     function renderDeleteButton() {
         if (!onDelete)
@@ -23,7 +29,7 @@ export const NoteAttrBadge = ({
 
     return (
         <div className="mainbadge">
-            {noteAttr.attr.name}: {noteAttr.value}
+            {getAttrName()}: {noteAttr.value}
             {renderDeleteButton()}
         </div>
     );

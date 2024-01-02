@@ -5,13 +5,13 @@ import './SimpleNoteViewer.css';
 
 interface SimpleNoteViewerProps {
     note: Note,
-    spaces: Array<Space>
+    contextSpaceId: number
 }
 
 
 export const SimpleNoteViewer = ({
     note,
-    spaces
+    contextSpaceId
 }: SimpleNoteViewerProps) => {
 
     return (
@@ -22,7 +22,7 @@ export const SimpleNoteViewer = ({
 
             <div>
                 {note.tags.map(nt => (
-                    <NoteTagBadge noteTag={nt} spaces={spaces}></NoteTagBadge>
+                    <NoteTagBadge noteTag={nt} contextSpaceId={contextSpaceId}></NoteTagBadge>
                 ))}
             </div>
         </div>

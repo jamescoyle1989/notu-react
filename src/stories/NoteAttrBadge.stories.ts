@@ -21,15 +21,9 @@ export const Primary: Story = {
         noteAttr: (() => {
             const attr = new Attr('Test').asNumber().clean();
             attr.id = 123;
-            const na = new Note().in(1).addAttr(attr);
-            na.value = 15;
-            return na;
+            return new Note().in(1).addAttr(attr).withValue(15);
         })(),
-        spaces: (() => {
-            const space1 = new Space('Test Space').clean();
-            space1.id = 1;
-            return [space1];
-        })(),
+        contextSpaceId: 1,
         onDelete: null
     }
 };
@@ -39,15 +33,23 @@ export const WithDeleteButton: Story = {
         noteAttr: (() => {
             const attr = new Attr('Test').asNumber().clean();
             attr.id = 123;
-            const na = new Note().in(1).addAttr(attr);
-            na.value = 15;
-            return na;
+            return new Note().in(1).addAttr(attr).withValue(15);
         })(),
-        spaces: (() => {
-            const space1 = new Space('Test Space').clean();
-            space1.id = 1;
-            return [space1];
-        })(),
+        contextSpaceId: 1,
         onDelete: () => { console.log('Delete clicked'); }
     }
 };
+
+export const ShowsSpaceNameIfRequired: Story = {
+    args: {
+        noteAttr: (() => {
+            const attr = new Attr('Test').asNumber().clean();
+            attr.id = 123;
+            const space = new Space('Space 2').clean();
+            space.id = 2;
+            return new Note().in(space).addAttr(attr).withValue(15);
+        })(),
+        contextSpaceId: 1,
+        onDelete: null
+    }
+}

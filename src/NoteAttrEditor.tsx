@@ -4,22 +4,22 @@ import './NoteAttrEditor.css';
 
 interface NoteAttrEditorProps {
     noteAttr: NoteAttr,
-    spaces: Array<Space>,
+    contextSpaceId: number,
     onRemove: () => void
 }
 
 
 export const NoteAttrEditor = ({
     noteAttr,
-    spaces,
+    contextSpaceId,
     onRemove
 }: NoteAttrEditorProps) => {
     const [value, setValue] = useState(noteAttr.value);
 
     function getAttrName(): string {
-        if (noteAttr.attr.spaceId == noteAttr.note.spaceId)
+        if (noteAttr.attr.spaceId == contextSpaceId)
             return noteAttr.attr.name;
-        return `${spaces.find(x => x.id == noteAttr.attr.spaceId).name}.${noteAttr.attr.name}`;
+        return `${noteAttr.attr.space.name}.${noteAttr.attr.name}`;
     }
 
     function onValueChange(event): void {
@@ -63,7 +63,7 @@ export const NoteAttrEditor = ({
     }
 
     return (
-        <div key={noteAttr.attr.id} className="pure-control-group">
+        <div className="pure-control-group">
             <label>{getAttrName()}</label>
             {renderInput()}
             <button onClick={onRemove}>X</button>

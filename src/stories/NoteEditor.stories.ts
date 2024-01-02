@@ -15,22 +15,24 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 
+const space1 = new Space('Space 1').clean();
+space1.id = 1;
+const space2 = new Space('Space 2').clean();
+space2.id = 2;
+
 
 export const Primary: Story = {
     args: {
         note: new Note('hello').at(new Date(1987, 6, 5, 4, 3, 2)),
-        spaces: (() => {
-            const space1 = new Space('Test Space').clean();
-            space1.id = 1;
-            return [space1];
-        })(),
+        spaces: [space1, space2],
         tags: (() => {
             const tag1 = new Tag('Test Tag', 1).clean();
             tag1.id = 1;
+            tag1.space = space1;
             return [tag1];
         })(),
         attrs: (() => {
-            const attr1 = new Attr('Test Attr').in(1).clean();
+            const attr1 = new Attr('Test Attr').in(space1).clean();
             attr1.id = 1;
             return [attr1];
         })(),

@@ -103,7 +103,7 @@ export const NoteEditor = ({
         return (
             <div className="attrFieldsContainer">
                 {note.attrs.map(noteAttr => (
-                    <NoteAttrEditor noteAttr={noteAttr} spaces={spaces} onRemove={() => removeAttr(noteAttr.attr)}/>
+                    <NoteAttrEditor key={noteAttr.attrId} noteAttr={noteAttr} contextSpaceId={note.spaceId} onRemove={() => removeAttr(noteAttr.attr)}/>
                 ))}
             </div>
         );
@@ -162,7 +162,7 @@ export const NoteEditor = ({
                 </div>
                 
                 <div className="pure-controls">
-                    {note.tags.map(x => (<NoteTagBadge key={x.tag.id} noteTag={x} spaces={spaces} onDelete={() => removeTag(x.tag)}/>))}
+                    {note.tags.map(x => (<NoteTagBadge key={x.tag.id} noteTag={x} contextSpaceId={note.spaceId} onDelete={() => removeTag(x.tag)}/>))}
                 </div>
 
                 <div className="pure-control-group">
