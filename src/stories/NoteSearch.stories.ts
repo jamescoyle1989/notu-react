@@ -27,15 +27,27 @@ class FakeHttpClient {
 }
 
 
+const space1 = new Space('Test1');
+space1.id = 1;
+const space2 = new Space('Test2');
+space2.id = 2;
+
 
 export const Primary: Story = {
     args: {
-        space: (() => {
-            const space = new Space('Test');
-            space.id = 123;
-            return space;
-        })(),
+        space: space1,
+        availableSpaces: [space1, space2],
         notuClient: new FakeHttpClient() as any,
         onFetch: (notes) => console.log(notes)
     }
 };
+
+
+export const NoAvailableSpaces: Story = {
+    args: {
+        space: space1,
+        availableSpaces: null,
+        notuClient: new FakeHttpClient() as any,
+        onFetch: (notes) => console.log(notes)
+    }
+}
