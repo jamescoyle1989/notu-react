@@ -1,6 +1,6 @@
 import { NoteAttr } from 'notu';
 import 'purecss';
-import './NoteAttrBadge.css';
+import style from './NoteAttrBadge.module.css';
 
 interface NoteAttrBadgeProps {
     noteAttr: NoteAttr,
@@ -24,11 +24,11 @@ export const NoteAttrBadge = ({
     function renderDeleteButton() {
         if (!onDelete)
             return;
-        return (<span className="deletebutton" onClick={onDelete}>&#x2716;</span>);
+        return (<span className={style.deletebutton} onClick={onDelete}>&#x2716;</span>);
     }
 
     return (
-        <div className="mainbadge">
+        <div className={style.mainbadge}>
             {getAttrName()}: {noteAttr.value}
             {renderDeleteButton()}
         </div>

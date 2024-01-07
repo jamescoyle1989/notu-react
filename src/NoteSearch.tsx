@@ -1,7 +1,7 @@
 import { HttpClient, Note, Space } from 'notu';
 import { useState } from 'react';
 import 'purecss';
-import './NoteSearch.css';
+import style from './NoteSearch.module.css';
 
 interface NoteSearchProps {
     notuClient: HttpClient,
@@ -52,9 +52,9 @@ export const NoteSearch = ({
     }
 
     return (
-        <div className="notesearch_base">
+        <div className={style.notesearch_base}>
             {renderSpaceDropdown()}
-            <input type="text" className="notesearch_text"
+            <input type="text" className={style.notesearch_text}
                 value={searchText} onChange={onSearchTextChange}></input>
 
             <button onClick={onSearchSubmit}>Search</button>

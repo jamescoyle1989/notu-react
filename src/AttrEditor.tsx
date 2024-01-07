@@ -1,7 +1,7 @@
 import { Attr, Space } from 'notu';
 import { useState } from 'react';
 import 'purecss';
-import './AttrEditor.css';
+import styles from './AttrEditor.module.css';
 
 interface AttrEditorProps {
     attr: Attr,
@@ -44,7 +44,7 @@ export const AttrEditor = ({
         if (!error)
             return;
         return (
-            <div className="errorBanner">
+            <div className={styles.errorBanner}>
                 <label>Error: {error}</label>
             </div>
         );

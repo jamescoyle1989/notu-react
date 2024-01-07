@@ -1,6 +1,6 @@
-import { NoteAttr, Space } from 'notu';
+import { NoteAttr } from 'notu';
 import { useState } from 'react';
-import './NoteAttrEditor.css';
+import style from './NoteAttrEditor.module.css';
 
 interface NoteAttrEditorProps {
     noteAttr: NoteAttr,
@@ -49,7 +49,7 @@ export const NoteAttrEditor = ({
         if (noteAttr.attr.isDate) {
             const date = noteAttr.value.toISOString().split('T')[0];
             const time = noteAttr.value.toTimeString().split(' ')[0].substring(0, 5);
-            return (<div className="dateTimeContainer">
+            return (<div className={style.dateTimeContainer}>
                 <input type="date" value={date} onChange={evt => onDateChange(evt, time)}></input>
                 <input type="time" value={time} onChange={evt => onTimeChange(evt, date)}></input>
             </div>);

@@ -1,6 +1,6 @@
 import { NoteTag } from 'notu';
 import 'purecss';
-import './NoteTagBadge.css';
+import style from './NoteTagBadge.module.css';
 
 interface NoteTagBadgeProps {
     noteTag: NoteTag,
@@ -24,11 +24,11 @@ export const NoteTagBadge = ({
     function renderDeleteButton() {
         if (!onDelete)
             return;
-        return (<span className="deletebutton" onClick={onDelete}>&#x2716;</span>);
+        return (<span className={style.deletebutton} onClick={onDelete}>&#x2716;</span>);
     }
 
     return (
-        <div className="mainbadge" style={{backgroundColor: noteTag.tag.color ?? '#969DA3'}}>
+        <div className={style.mainbadge} style={{backgroundColor: noteTag.tag.color ?? '#969DA3'}}>
             {getTagName()}
             {renderDeleteButton()}
         </div>

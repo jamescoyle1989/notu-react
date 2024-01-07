@@ -1,7 +1,7 @@
 import { Note, Space } from 'notu';
 import { NoteTagBadge } from './NoteTagBadge';
 import 'purecss';
-import './SimpleNoteViewer.css';
+import style from './SimpleNoteViewer.module.css';
 
 interface SimpleNoteViewerProps {
     note: Note,
@@ -16,7 +16,7 @@ export const SimpleNoteViewer = ({
 
     return (
         <div>
-            <p className='date'>{note.date.toDateString()}</p>
+            <p className={style.date}>{note.date.toDateString()}</p>
 
             <p>{note.text}</p>
 

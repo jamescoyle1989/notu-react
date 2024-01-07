@@ -1,7 +1,7 @@
 import { Space } from 'notu';
 import { useState } from 'react';
 import 'purecss';
-import './SpaceEditor.css';
+import style from './SpaceEditor.module.css';
 
 interface SpaceEditorProps {
     space: Space,
@@ -31,7 +31,7 @@ export const SpaceEditor = ({
         if (!error)
             return;
         return (
-            <div className="errorBanner">
+            <div className={style.errorBanner}>
                 <label>Error: {error}</label>
             </div>
         );

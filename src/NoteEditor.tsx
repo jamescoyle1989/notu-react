@@ -2,7 +2,7 @@ import { Attr, Note, Space, Tag } from 'notu';
 import { useState, useRef } from 'react';
 import { NoteTagBadge } from './NoteTagBadge';
 import 'purecss';
-import './NoteEditor.css';
+import style from './NoteEditor.module.css';
 import { NoteAttrEditor } from './NoteAttrEditor';
 
 interface NoteEditorProps {
@@ -101,7 +101,7 @@ export const NoteEditor = ({
             return;
         
         return (
-            <div className="attrFieldsContainer">
+            <div className={style.attrFieldsContainer}>
                 {note.attrs.map(noteAttr => (
                     <NoteAttrEditor key={noteAttr.attrId} noteAttr={noteAttr} contextSpaceId={note.spaceId} onRemove={() => removeAttr(noteAttr.attr)}/>
                 ))}
@@ -144,7 +144,7 @@ export const NoteEditor = ({
 
                 <div className="pure-control-group">
                     <label>Text</label>
-                    <textarea value={text} onChange={onTextChange} ref={textAreaRef} className="textfield"/>
+                    <textarea value={text} onChange={onTextChange} ref={textAreaRef} className={style.textfield}/>
                 </div>
 
                 <div className="pure-control-group">
