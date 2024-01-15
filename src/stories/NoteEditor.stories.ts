@@ -36,8 +36,8 @@ export const Primary: Story = {
             attr1.id = 1;
             return [attr1];
         })(),
-        onConfirm: () => {
-            console.log('Confirm clicked');
+        onConfirm: (note) => {
+            console.log('Confirm clicked', note);
             return null;
         }
     }

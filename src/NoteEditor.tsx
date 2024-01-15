@@ -10,7 +10,7 @@ interface NoteEditorProps {
     spaces: Array<Space>,
     tags: Array<Tag>,
     attrs: Array<Attr>,
-    onConfirm: () => string
+    onConfirm: (note: Note) => string
 }
 
 
@@ -24,6 +24,7 @@ export const NoteEditor = ({
     const [date, setDate] = useState(note.date.toISOString().split('T')[0]);
     const [spaceId, setSpaceId] = useState(note.spaceId);
     const [time, setTime] = useState(note.date.toTimeString().split(' ')[0].substring(0, 5));
+    const [ownTagName, setOwnTagName] = useState(note.ownTag?.name ?? '');
     const [text, setText] = useState(note.text);
     const [archived, setArchived] = useState(note.archived);
     const [tagIds, setTagIds] = useState(note.tags.map(x => x.tagId));
@@ -43,6 +44,14 @@ export const NoteEditor = ({
     function onSpaceIdChange(event): void {
         setSpaceId(event.target.value);
         note.space = spaces.find(x => x.id == event.target.value);
+    }
+
+    function onOwnTagNameChange(event): void {
+        setOwnTagName(event.target.value);
+        if (event.target.value.length == 0)
+            note.removeOwnTag();
+        else
+            note.setOwnTag(event.target.value);
     }
 
     function onTextChange(event): void {
@@ -143,6 +152,11 @@ export const NoteEditor = ({
                 </div>
 
                 <div className="pure-control-group">
+                    <label>Own Tag</label>
+                    <input type="text" value={ownTagName} onChange={onOwnTagNameChange}></input>
+                </div>
+
+                <div className="pure-control-group">
                     <label>Text</label>
                     <textarea value={text} onChange={onTextChange} ref={textAreaRef} className={style.textfield}/>
                 </div>
@@ -177,7 +191,7 @@ export const NoteEditor = ({
                 {renderAttrFields()}
 
                 <div className="pure-controls">
-                    <button type="button" onClick={onConfirm}
+                    <button type="button" onClick={() => onConfirm(note)}
                             className="pure-button pure-button-primary">Confirm</button>
                 </div>
             </fieldset>
