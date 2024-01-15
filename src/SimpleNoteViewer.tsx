@@ -1,4 +1,4 @@
-import { Note, Space } from 'notu';
+import { Note } from 'notu';
 import { NoteTagBadge } from './NoteTagBadge';
 import 'purecss';
 import style from './SimpleNoteViewer.module.css';
@@ -13,16 +13,17 @@ export const SimpleNoteViewer = ({
     note,
     contextSpaceId
 }: SimpleNoteViewerProps) => {
+    const dateTimeString = `${note.date.toDateString()} ${note.date.getHours().toString().padStart(2, '0')}:${note.date.getMinutes().toString().padStart(2, '0')}`;
 
     return (
         <div>
-            <p className={style.date}>{note.date.toDateString()}</p>
+            <p className={style.date}>{dateTimeString}</p>
 
             <p>{note.text}</p>
 
             <div>
                 {note.tags.map(nt => (
-                    <NoteTagBadge noteTag={nt} contextSpaceId={contextSpaceId}></NoteTagBadge>
+                    <NoteTagBadge key={nt.tagId} noteTag={nt} contextSpaceId={contextSpaceId}></NoteTagBadge>
                 ))}
             </div>
         </div>
