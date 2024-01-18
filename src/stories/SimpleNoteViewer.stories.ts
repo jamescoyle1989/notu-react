@@ -24,13 +24,18 @@ space2.id = 2;
 export const Primary: Story = {
     args: {
         note: (() => {
-            const output = new Note('Test test').at(new Date(2023, 11, 18));
+            const output = new Note('Test test')
+                .at(new Date(2023, 11, 18))
+                .setOwnTag('My Tag');
+            output.ownTag.color = '#0000FF';
             const tag1 = new Tag('Tag 1', 1).clean();
             tag1.id = 1;
+            tag1.color = '#FF0000';
             tag1.space = space1;
             output.addTag(tag1);
             const tag2 = new Tag('Tag 2', 2).clean();
             tag2.id = 2;
+            tag2.color = '#00FF00';
             tag2.space = space2;
             output.addTag(tag2);
             return output;
