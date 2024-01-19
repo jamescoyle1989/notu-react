@@ -1,8 +1,19 @@
 {
   "name": "notu-react",
-  "private": false,
-  "version": "0.0.0",
+  "version": "0.1.0",
+  "main": "dist/notu-react.js",
+  "unpkg": "dist/notu-react.js",
+  "types": "dist/types/index.d.ts",
   "type": "module",
+  "files": [
+    "/dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jamescoyle1989/notu-react.git"
+  },
+  "author": "James Coyle",
+  "license": "MIT",
   "scripts": {
     "test": "vitest",
     "build": "tsc && vite build",
