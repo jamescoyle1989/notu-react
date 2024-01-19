@@ -1,20 +1,22 @@
 import { Note } from 'notu';
-import { SimpleNoteViewer } from './SimpleNoteViewer';
+import { SimpleNoteViewer, SimpleNoteViewerAction } from './SimpleNoteViewer';
 
 interface SimpleNoteListProps {
     notes: Array<Note>,
-    contextSpaceId: number
+    contextSpaceId: number,
+    actionsGenerator: (note: Note) => Array<SimpleNoteViewerAction>
 }
 
 
 export const SimpleNoteList = ({
     notes,
-    contextSpaceId
+    contextSpaceId,
+    actionsGenerator
 }: SimpleNoteListProps) => {
     return (
         <div>
             {notes.map(n => (
-                <SimpleNoteViewer key={n.id} note={n} contextSpaceId={contextSpaceId}/>
+                <SimpleNoteViewer key={n.id} note={n} contextSpaceId={contextSpaceId} actions={actionsGenerator(n)}/>
             ))}
         </div>
     );

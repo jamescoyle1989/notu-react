@@ -2,18 +2,43 @@ import { Note, NoteTag } from 'notu';
 import { NoteTagBadge } from './NoteTagBadge';
 import 'purecss';
 import style from './SimpleNoteViewer.module.css';
+import { useState } from 'react';
 
 interface SimpleNoteViewerProps {
     note: Note,
-    contextSpaceId: number
+    contextSpaceId: number,
+    actions: Array<SimpleNoteViewerAction>
+}
+
+
+export class SimpleNoteViewerAction {
+    name: string;
+    action: (note: Note) => void;
+
+    public constructor(name: string, action: (note: Note) => void) {
+        this.name = name;
+        this.action = action;
+    }
 }
 
 
 export const SimpleNoteViewer = ({
     note,
-    contextSpaceId
+    contextSpaceId,
+    actions
 }: SimpleNoteViewerProps) => {
+    const [showActions, setShowActions] = useState(false);
+
     const dateTimeString = `${note.date.toDateString()} ${note.date.getHours().toString().padStart(2, '0')}:${note.date.getMinutes().toString().padStart(2, '0')}`;
+
+    function toggleShowActions() {
+        setShowActions(!showActions);
+    }
+
+    function callAction(action: (note: Note) => void) {
+        action(note);
+        setShowActions(false);
+    }
 
     function renderOwnTag() {
         if (!!note.ownTag) {
@@ -22,19 +47,38 @@ export const SimpleNoteViewer = ({
         }
     }
 
+    function renderActions() {
+        if (actions?.length ?? 0 > 0) {
+            return (
+                <div className={style.actions_container}>
+                    <button className={style.actions_button} onClick={toggleShowActions}>•••</button>
+                    <div className={`${showActions ? style.actions_dropdown_display : style.actions_dropdown_hidden}`}>
+                        {actions.map(x => (
+                            <span key={x.name} onClick={() => callAction(x.action)}>{x.name}</span>
+                        ))}
+                    </div>
+                </div>
+            );
+        }
+    }
+
     return (
-        <div>
-            <p className={style.date}>{dateTimeString}</p>
+        <div className={style.note_container}>
+            <div className={style.note_body}>
+                <p className={style.date}>{dateTimeString}</p>
 
-            <p>{note.text}</p>
+                <p>{note.text}</p>
 
-            <div>
-                {renderOwnTag()}
+                <div>
+                    {renderOwnTag()}
 
-                {note.tags.map(nt => (
-                    <NoteTagBadge key={nt.tagId} noteTag={nt} contextSpaceId={contextSpaceId}></NoteTagBadge>
-                ))}
+                    {note.tags.map(nt => (
+                        <NoteTagBadge key={nt.tagId} noteTag={nt} contextSpaceId={contextSpaceId}></NoteTagBadge>
+                    ))}
+                </div>
             </div>
+
+            {renderActions()}
         </div>
     );
 }
