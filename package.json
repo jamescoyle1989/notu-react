@@ -19,7 +19,7 @@
     "build": "tsc && vite build",
     "publish": "tsc && vite build && npm publish",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build -o ./docs && node setDocsNoJekyll.js"
   },
   "dependencies": {
     "notu": "^0.3.5",
