@@ -2,12 +2,13 @@ import { Note, NoteTag } from 'notu';
 import { NoteTagBadge } from './NoteTagBadge';
 import 'purecss';
 import style from './SimpleNoteViewer.module.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface SimpleNoteViewerProps {
     note: Note,
     contextSpaceId: number,
-    actions: Array<SimpleNoteViewerAction>
+    actions: Array<SimpleNoteViewerAction>,
+    isSelected: boolean
 }
 
 
@@ -25,9 +26,15 @@ export class SimpleNoteViewerAction {
 export const SimpleNoteViewer = ({
     note,
     contextSpaceId,
-    actions
+    actions,
+    isSelected
 }: SimpleNoteViewerProps) => {
     const [showActions, setShowActions] = useState(false);
+
+    useEffect(() => {
+        if (!isSelected)
+            setShowActions(false);
+    }, [isSelected])
 
     const dateTimeString = `${note.date.toDateString()} ${note.date.getHours().toString().padStart(2, '0')}:${note.date.getMinutes().toString().padStart(2, '0')}`;
 
@@ -52,7 +59,7 @@ export const SimpleNoteViewer = ({
             return (
                 <div className={style.actions_container}>
                     <button className={style.actions_button} onClick={toggleShowActions}>•••</button>
-                    <div className={`${showActions ? style.actions_dropdown_display : style.actions_dropdown_hidden}`}>
+                    <div className={`${(showActions && isSelected) ? style.actions_dropdown_display : style.actions_dropdown_hidden}`}>
                         {actions.map(x => (
                             <span key={x.name} onClick={() => callAction(x.action)}>{x.name}</span>
                         ))}
@@ -63,7 +70,7 @@ export const SimpleNoteViewer = ({
     }
 
     return (
-        <div className={style.note_container}>
+        <div className={`${style.note_container} ${isSelected ? style.note_selected : ''}`}>
             <div className={style.note_body}>
                 <p className={style.date}>{dateTimeString}</p>
 

@@ -3,6 +3,10 @@
     align-items: center;
 }
 
+.note_selected {
+    background-color: #ddd;
+}
+
 .note_body {
     flex-grow: 1;
 }
@@ -33,6 +37,7 @@
     background-color: #F1F1F1;
     min-width: 160px;
     right: 0;
+    z-index: 100;
 }
 
 .actions_dropdown_display span {
