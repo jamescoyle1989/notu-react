@@ -29,6 +29,9 @@ export default [
                 exclude: /\/stories\//
             }),
             postcss()
+        ],
+        external: [
+            'react'
         ]
     },
     //And this then takes the esm type files and just combines them down into a single file
