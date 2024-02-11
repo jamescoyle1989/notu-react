@@ -5,6 +5,8 @@ import dts from 'rollup-plugin-dts';
 import postcss from 'rollup-plugin-postcss';
 
 export default [
+    //As far as I can tell...
+    //This does the main packaging into cjs & esm versions of the library
     {
         input: 'src/index.ts',
         output: [
@@ -29,10 +31,10 @@ export default [
             postcss()
         ]
     },
+    //And this then takes the esm type files and just combines them down into a single file
     {
         input: 'dist/esm/types/index.d.ts',
         output: [{ file: 'dist/types/index.d.ts', format: 'esm' }],
-        plugins: [dts()],
-        external: [/\.css$/]
+        plugins: [dts()]
     }
 ];

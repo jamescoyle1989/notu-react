@@ -16,8 +16,8 @@
   "author": "James Coyle",
   "license": "MIT",
   "scripts": {
-    "build": "rollup -c",
-    "publish": "tsc && vite build && npm publish",
+    "build": "rollup -c && node deleteDistTempTypeFolders.js",
+    "publish": "npm run build && npm publish",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build -o ./docs && node setDocsNoJekyll.js"
   },
