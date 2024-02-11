@@ -1,3 +1,4 @@
+import React from 'react';
 import { NoteAttr } from 'notu';
 import 'purecss';
 import style from './NoteAttrBadge.module.css';

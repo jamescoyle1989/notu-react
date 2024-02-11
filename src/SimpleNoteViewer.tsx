@@ -1,3 +1,4 @@
+import React from 'react';
 import { Note, NoteTag } from 'notu';
 import { NoteTagBadge } from './NoteTagBadge';
 import 'purecss';

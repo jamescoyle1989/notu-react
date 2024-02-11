@@ -1,3 +1,4 @@
+import React from 'react';
 import { NoteTag } from 'notu';
 import 'purecss';
 import style from './NoteTagBadge.module.css';

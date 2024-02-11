@@ -1,3 +1,4 @@
+import React from 'react';
 import { Attr, Note, Space, Tag } from 'notu';
 import { useState, useRef } from 'react';
 import { NoteTagBadge } from './NoteTagBadge';

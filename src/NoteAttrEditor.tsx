@@ -1,3 +1,4 @@
+import React from 'react';
 import { NoteAttr } from 'notu';
 import { useState } from 'react';
 import style from './NoteAttrEditor.module.css';

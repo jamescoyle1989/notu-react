@@ -1,3 +1,4 @@
+import React from 'react';
 import { Note } from 'notu';
 import { SimpleNoteViewer, SimpleNoteViewerAction } from './SimpleNoteViewer';
 import { useState } from 'react';

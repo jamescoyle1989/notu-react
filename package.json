@@ -1,12 +1,13 @@
 {
   "name": "notu-react",
   "version": "0.1.0",
-  "main": "dist/notu-react.js",
-  "unpkg": "dist/notu-react.js",
+  "main": "dist/cjs/notu-react.js",
+  "module": "dist/esm/notu-react.js",
+  "unpkg": "dist/cjs/notu-react.js",
   "types": "dist/types/index.d.ts",
   "type": "module",
   "files": [
-    "/dist"
+    "dist"
   ],
   "repository": {
     "type": "git",
@@ -15,8 +16,7 @@
   "author": "James Coyle",
   "license": "MIT",
   "scripts": {
-    "test": "vitest",
-    "build": "tsc && vite build",
+    "build": "rollup -c",
     "publish": "tsc && vite build && npm publish",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build -o ./docs && node setDocsNoJekyll.js"
@@ -28,6 +28,9 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-typescript": "^11.1.6",
     "@storybook/addon-essentials": "^7.5.3",
     "@storybook/addon-interactions": "^7.5.3",
     "@storybook/addon-links": "^7.5.3",
@@ -40,14 +43,14 @@
     "@types/react-dom": "^18.2.15",
     "@typescript-eslint/eslint-plugin": "^6.10.0",
     "@typescript-eslint/parser": "^6.10.0",
-    "@vitejs/plugin-react": "^4.2.0",
     "eslint": "^8.53.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.4",
+    "postcss": "^8.4.35",
+    "rollup": "^4.9.6",
+    "rollup-plugin-dts": "^6.1.0",
+    "rollup-plugin-postcss": "^4.0.2",
     "storybook": "^7.5.3",
-    "typescript": "^5.2.2",
-    "vite": "^5.0.0",
-    "vite-plugin-dts": "^3.6.3",
-    "vitest": "^0.34.6"
+    "typescript": "^5.2.2"
   }
 }

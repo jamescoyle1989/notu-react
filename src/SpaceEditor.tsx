@@ -1,3 +1,4 @@
+import React from 'react';
 import { Space } from 'notu';
 import { useState } from 'react';
 import 'purecss';
