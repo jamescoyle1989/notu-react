@@ -13,12 +13,12 @@ export default [
             {
                 file: 'dist/cjs/notu-react.js',
                 format: 'cjs',
-                sourcemap: true
+                sourcemap: false
             },
             {
                 file: 'dist/esm/notu-react.js',
                 format: 'esm',
-                sourcemap: true
+                sourcemap: false
             }
         ],
         plugins: [
