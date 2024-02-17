@@ -1,6 +1,6 @@
 {
   "name": "notu-react",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "main": "dist/cjs/notu-react.js",
   "module": "dist/esm/notu-react.js",
   "unpkg": "dist/cjs/notu-react.js",
@@ -22,10 +22,10 @@
     "build-storybook": "storybook build -o ./docs && node setDocsNoJekyll.js"
   },
   "dependencies": {
-    "notu": "^0.4.0",
     "purecss": "^3.0.0"
   },
   "peerDependencies": {
+    "notu": "^0.4.0",
     "react": "^18.2.0"
   },
   "devDependencies": {

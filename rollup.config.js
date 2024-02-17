@@ -31,6 +31,7 @@ export default [
             postcss()
         ],
         external: [
+            'notu',
             'react'
         ]
     },
