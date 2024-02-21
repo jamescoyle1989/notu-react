@@ -1,12 +1,11 @@
 import React from 'react';
 import { Space } from 'notu';
 import { useState } from 'react';
-import 'purecss';
-import style from './SpaceEditor.module.css';
+import 'bulma';
 
 interface SpaceEditorProps {
     space: Space,
-    onConfirm: () => string
+    onConfirm: () => Promise<string>
 }
 
 
@@ -23,8 +22,8 @@ export const SpaceEditor = ({
         space.name = event.target.value;
     }
 
-    function onConfirmClick() {
-        const errorMessage = onConfirm();
+    async function onConfirmClick() {
+        const errorMessage = await onConfirm();
         setError(errorMessage ?? null);
     }
 
@@ -32,24 +31,27 @@ export const SpaceEditor = ({
         if (!error)
             return;
         return (
-            <div className={style.errorBanner}>
+            <div className="notification is-danger">
                 <label>Error: {error}</label>
             </div>
         );
     }
 
     return (
-        <form className="pure-form pure-form-aligned">
+        <form>
             <fieldset>
                 {renderErrorMessage()}
 
-                <div className="pure-control-group">
-                    <label>Name</label>
-                    <input type="text" value={name} onChange={onNameChange}/>
+                <div className="field">
+                    <label className="label">Name</label>
+                    <div className="control">
+                        <input type="text" className="input" value={name} onChange={onNameChange}/>
+                    </div>
                 </div>
 
-                <div className="pure-controls">
-                    <button type="button" onClick={onConfirmClick} className="pure-button pure-button-primary">Confirm</button>
+                <div className="field">
+                    <button type="button" onClick={onConfirmClick}
+                            className="button is-link">Confirm</button>
                 </div>
             </fieldset>
         </form>

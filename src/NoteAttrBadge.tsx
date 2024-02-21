@@ -1,7 +1,6 @@
 import React from 'react';
 import { NoteAttr } from 'notu';
-import 'purecss';
-import style from './NoteAttrBadge.module.css';
+import 'bulma';
 
 interface NoteAttrBadgeProps {
     noteAttr: NoteAttr,
@@ -25,13 +24,13 @@ export const NoteAttrBadge = ({
     function renderDeleteButton() {
         if (!onDelete)
             return;
-        return (<span className={style.deletebutton} onClick={onDelete}>&#x2716;</span>);
+        return (<button className="delete" onClick={onDelete}></button>);
     }
 
     return (
-        <div className={style.mainbadge}>
+        <span className="tag is-small is-unselectable is-rounded">
             {getAttrName()}: {noteAttr.value}
             {renderDeleteButton()}
-        </div>
+        </span>
     );
 };

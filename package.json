@@ -22,7 +22,7 @@
     "build-storybook": "storybook build -o ./docs && node setDocsNoJekyll.js"
   },
   "dependencies": {
-    "purecss": "^3.0.0"
+    "bulma": "^0.9.4"
   },
   "peerDependencies": {
     "notu": "^0.4.0",
@@ -47,12 +47,14 @@
     "eslint": "^8.53.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.4",
+    "notu": "^0.4.0",
     "postcss": "^8.4.35",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "rollup": "^4.9.6",
     "rollup-plugin-dts": "^6.1.0",
     "rollup-plugin-postcss": "^4.0.2",
+    "sass": "^1.71.0",
     "storybook": "^7.6.14",
     "typescript": "^5.2.2",
     "vite": "^5.1.1"

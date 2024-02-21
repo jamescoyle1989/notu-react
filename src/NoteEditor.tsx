@@ -1,9 +1,8 @@
 import React from 'react';
 import { Attr, Note, Space, Tag } from 'notu';
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { NoteTagBadge } from './NoteTagBadge';
-import 'purecss';
-import style from './NoteEditor.module.css';
+import 'bulma';
 import { NoteAttrEditor } from './NoteAttrEditor';
 
 interface NoteEditorProps {
@@ -11,7 +10,7 @@ interface NoteEditorProps {
     spaces: Array<Space>,
     tags: Array<Tag>,
     attrs: Array<Attr>,
-    onConfirm: (note: Note) => string
+    onConfirm: (note: Note) => Promise<string>
 }
 
 
@@ -30,7 +29,6 @@ export const NoteEditor = ({
     const [archived, setArchived] = useState(note.archived);
     const [tagIds, setTagIds] = useState(note.tags.map(x => x.tagId));
     const [attrIds, setAttrIds] = useState(note.attrs.filter(x => x.tagId == null).map(x => x.attrId));
-    const textAreaRef = useRef(null);
 
     function onDateChange(event): void {
         setDate(event.target.value);
@@ -58,11 +56,6 @@ export const NoteEditor = ({
     function onTextChange(event): void {
         setText(event.target.value);
         note.text = event.target.value;
-        if (!!textAreaRef.current) {
-            const textArea = textAreaRef.current;
-            textArea.style.height = '';
-            textArea.style.height = textArea.scrollHeight + 'px';
-        }
     }
 
     function onArchivedChange(event): void {
@@ -106,12 +99,59 @@ export const NoteEditor = ({
         return `${spaces.find(x => x.id == attr.spaceId).name}.${attr.name}`;
     }
 
+    function renderTagsDropdown() {
+        if (tagsThatCanBeAdded().length == 0)
+            return;
+
+        return (
+            <div className="control">
+                <div className="select">
+                    <select onChange={onTagSelected}>
+                        <option key="0" value={null}></option>
+                        {tagsThatCanBeAdded()
+                            .map(x => (<option key={x.id} value={x.id}>{getTagName(x)}</option>))}
+                    </select>
+                </div>
+            </div>
+        );
+    }
+
+    function renderTags() {
+        if (note.tags.length == 0)
+            return;
+
+        return (
+            <div className="box">
+                <div>
+                    {note.tags.map(x => (<NoteTagBadge key={x.tag.id} noteTag={x} contextSpaceId={note.spaceId} onDelete={() => removeTag(x.tag)}/>))}
+                </div>
+            </div>
+        );
+    }
+
+    function renderAttrsDropdown() {
+        if (attrsThatCanBeAdded().length == 0)
+            return;
+
+        return (
+            <div className="control">
+                <div className="select">
+                    <select onChange={onAttrSelected}>
+                        <option key="0" value={null}></option>
+                        {attrsThatCanBeAdded()
+                            .map(x => (<option key={x.id} value={x.id}>{getAttrName(x)}</option>))}
+                    </select>
+                </div>
+            </div>
+        );
+    }
+
     function renderAttrFields() {
         if (note.attrs.length == 0)
             return;
         
         return (
-            <div className={style.attrFieldsContainer}>
+            <div className="box">
                 {note.attrs.map(noteAttr => (
                     <NoteAttrEditor key={noteAttr.attrId} noteAttr={noteAttr} contextSpaceId={note.spaceId} onRemove={() => removeAttr(noteAttr.attr)}/>
                 ))}
@@ -136,64 +176,69 @@ export const NoteEditor = ({
     }
 
     return (
-        <form className="pure-form pure-form-aligned">
+        <form>
             <fieldset>
-                <div className="pure-control-group">
-                    <label>Space</label>
-                    <select value={spaceId} onChange={onSpaceIdChange}>
-                        <option key="0" value={null}></option>
-                        {spaces.map(x => (<option key={x.id} value={x.id}>{x.name}</option>))}
-                    </select>
+                <div className="field">
+                    <label className="label">Space</label>
+                    <div className="control">
+                        <div className="select">
+                        <select value={spaceId} onChange={onSpaceIdChange}>
+                            <option key="0" value={null}></option>
+                            {spaces.map(x => (<option key={x.id} value={x.id}>{x.name}</option>))}
+                        </select>
+                        </div>
+                    </div>
                 </div>
 
-                <div className="pure-control-group">
-                    <label>Date</label>
-                    <input type="date" value={date} onChange={onDateChange}></input>
-                    <input type="time" value={time} onChange={onTimeChange}></input>
+                <div className="field">
+                    <label className="label">Date</label>
+                    <div className="control">
+                        <div className="field has-addons">
+                            <p className="control">
+                                <input type="date" className="input" value={date} onChange={onDateChange}></input>
+                            </p>
+                            <p className="control">
+                                <input type="time" className="input" value={time} onChange={onTimeChange}></input>
+                            </p>
+                        </div>
+                    </div>
                 </div>
 
-                <div className="pure-control-group">
-                    <label>Own Tag</label>
-                    <input type="text" value={ownTagName} onChange={onOwnTagNameChange}></input>
+                <div className="field">
+                    <label className="label">Own Tag</label>
+                    <div className="control">
+                        <input type="text" className="input" value={ownTagName} onChange={onOwnTagNameChange}></input>
+                    </div>
                 </div>
 
-                <div className="pure-control-group">
-                    <label>Text</label>
-                    <textarea value={text} onChange={onTextChange} ref={textAreaRef} className={style.textfield}/>
+                <div className="field">
+                    <label className="label">Text</label>
+                    <div className="control">
+                        <textarea value={text} className="textarea" onChange={onTextChange}/>
+                    </div>
                 </div>
 
-                <div className="pure-control-group">
-                    <label>Archived</label>
-                    <input type="checkbox" checked={archived} onChange={onArchivedChange}></input>
-                </div>
-
-                <div className="pure-control-group">
-                    <label>Tags</label>
-                    <select onChange={onTagSelected}>
-                        <option key="0" value={null}></option>
-                        {tagsThatCanBeAdded()
-                            .map(x => (<option key={x.id} value={x.id}>{getTagName(x)}</option>))}
-                    </select>
-                </div>
+                <label className="label">Archived
+                    <input type="checkbox" className="ml-2" checked={archived} onChange={onArchivedChange}></input>
+                </label>
                 
-                <div className="pure-controls">
-                    {note.tags.map(x => (<NoteTagBadge key={x.tag.id} noteTag={x} contextSpaceId={note.spaceId} onDelete={() => removeTag(x.tag)}/>))}
+                <div className="field">
+                    <label className="label">Tags</label>
+                    {renderTagsDropdown()}
                 </div>
 
-                <div className="pure-control-group">
-                    <label>Attrs</label>
-                    <select onChange={onAttrSelected}>
-                        <option key="0" value={null}></option>
-                        {attrsThatCanBeAdded()
-                            .map(x => (<option key={x.id} value={x.id}>{getAttrName(x)}</option>))}
-                    </select>
+                {renderTags()}
+
+                <div className="field">
+                    <label className="label">Attrs</label>
+                    {renderAttrsDropdown()}
                 </div>
 
                 {renderAttrFields()}
 
-                <div className="pure-controls">
+                <div className="field">
                     <button type="button" onClick={() => onConfirm(note)}
-                            className="pure-button pure-button-primary">Confirm</button>
+                            className="button is-link">Confirm</button>
                 </div>
             </fieldset>
         </form>

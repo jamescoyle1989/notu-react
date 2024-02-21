@@ -1,7 +1,6 @@
 import React from 'react';
 import { NoteAttr } from 'notu';
 import { useState } from 'react';
-import style from './NoteAttrEditor.module.css';
 
 interface NoteAttrEditorProps {
     noteAttr: NoteAttr,
@@ -38,36 +37,73 @@ export const NoteAttrEditor = ({
         setValue(noteAttr.value);
     }
 
-    function onBooleanChange(event): void {
-        noteAttr.value = event.target.checked;
+    function onBooleanChange(): void {
+        noteAttr.value = !noteAttr.value;
         setValue(noteAttr.value);
     }
 
-    function renderInput() {
-        if (noteAttr.attr.isText)
-            return (<input type="text" value={noteAttr.value} onChange={onValueChange}/>);
+    function renderLabelPortion() {
+        return (
+            <p className="control">
+                <a className="button is-static">
+                    {getAttrName()}
+                    <button className="delete ml-2" onClick={onRemove}></button>
+                </a>
+            </p>
+        );
+    }
+
+    function renderForm() {
+        if (noteAttr.attr.isText) {
+            return (
+                <div className="field has-addons">
+                    {renderLabelPortion()}
+                    <p className="control">
+                        <input type="text" className="input" value={noteAttr.value} onChange={onValueChange}/>
+                    </p>
+                </div>
+            );
+        }
 
         if (noteAttr.attr.isDate) {
             const date = noteAttr.value.toISOString().split('T')[0];
             const time = noteAttr.value.toTimeString().split(' ')[0].substring(0, 5);
-            return (<div className={style.dateTimeContainer}>
-                <input type="date" value={date} onChange={evt => onDateChange(evt, time)}></input>
-                <input type="time" value={time} onChange={evt => onTimeChange(evt, date)}></input>
-            </div>);
+            return (
+                <div className="field has-addons">
+                    {renderLabelPortion()}
+                    <p className="control">
+                        <input type="date" className="input" value={date} onChange={evt => onDateChange(evt, time)}></input>
+                    </p>
+                    <p className="control">
+                        <input type="time" className="input" value={time} onChange={evt => onTimeChange(evt, date)}></input>
+                    </p>
+                </div>
+            );
         }
 
-        if (noteAttr.attr.isNumber)
-            return (<input type="number" value={noteAttr.value} onChange={onValueChange}/>);
+        if (noteAttr.attr.isNumber) {
+            return (
+                <div className="field has-addons">
+                    {renderLabelPortion()}
+                    <p className="control">
+                        <input type="number" className="input" value={noteAttr.value} onChange={onValueChange}/>
+                    </p>
+                </div>
+            );
+        }
 
-        if (noteAttr.attr.isBoolean)
-            return (<input type="checkbox" checked={noteAttr.value} onChange={onBooleanChange}/>);
+        if (noteAttr.attr.isBoolean) {
+            return (
+                <div className="field has-addons">
+                    {renderLabelPortion()}
+                    <p className="control">
+                        <button className={`button ${noteAttr.value ? 'is-success' : 'is-danger'}`}
+                                onClick={onBooleanChange}/>
+                    </p>
+                </div>
+            );
+        }
     }
 
-    return (
-        <div className="pure-control-group">
-            <label>{getAttrName()}</label>
-            {renderInput()}
-            <button onClick={onRemove}>X</button>
-        </div>
-    );
+    return renderForm();
 };

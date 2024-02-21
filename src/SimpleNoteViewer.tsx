@@ -1,8 +1,7 @@
 import React from 'react';
 import { Note, NoteTag } from 'notu';
 import { NoteTagBadge } from './NoteTagBadge';
-import 'purecss';
-import style from './SimpleNoteViewer.module.css';
+import 'bulma';
 import { useEffect, useState } from 'react';
 
 interface SimpleNoteViewerProps {
@@ -58,12 +57,17 @@ export const SimpleNoteViewer = ({
     function renderActions() {
         if (actions?.length ?? 0 > 0) {
             return (
-                <div className={style.actions_container}>
-                    <button className={style.actions_button} onClick={toggleShowActions}>•••</button>
-                    <div className={`${(showActions && isSelected) ? style.actions_dropdown_display : style.actions_dropdown_hidden}`}>
-                        {actions.map(x => (
-                            <span key={x.name} onClick={() => callAction(x.action)}>{x.name}</span>
-                        ))}
+                <div className={`dropdown is-right ${showActions ? 'is-active' : ''}`}>
+                    <div className="dropdown-trigger">
+                        <button className="button" aria-haspopup="true" aria-controls="dropdown-menu"
+                                onClick={toggleShowActions}>•••</button>
+                    </div>
+                    <div className="dropdown-menu" role="menu">
+                        <div className="dropdown-content">
+                            {actions.map(x => (
+                                <a key={x.name} className="dropdown-item" onClick={() => callAction(x.action)}>{x.name}</a>
+                            ))}
+                        </div>
                     </div>
                 </div>
             );
@@ -71,9 +75,9 @@ export const SimpleNoteViewer = ({
     }
 
     return (
-        <div className={`${style.note_container} ${isSelected ? style.note_selected : ''}`}>
-            <div className={style.note_body}>
-                <p className={style.date}>{dateTimeString}</p>
+        <div className={`is-flex is-align-items-center ${isSelected ? 'has-background-light' : 'has-background-white'}`}>
+            <div className="is-flex-grow-1">
+                <p className="is-italic has-text-grey">{dateTimeString}</p>
 
                 <p>{note.text}</p>
 

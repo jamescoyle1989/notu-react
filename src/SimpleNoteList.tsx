@@ -25,7 +25,7 @@ export const SimpleNoteList = ({
     return (
         <div>
             {notes.map(n => (
-                <div onClick={() => onNoteClick(n)}>
+                <div key={n.id} onClick={() => onNoteClick(n)}>
                     <SimpleNoteViewer key={n.id} note={n} contextSpaceId={contextSpaceId} 
                         actions={actionsGenerator(n)}
                         isSelected={selectedNote === n}/>

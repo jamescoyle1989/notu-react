@@ -1,8 +1,7 @@
 import React from 'react';
 import { HttpClient, Note, Space } from 'notu';
 import { useState } from 'react';
-import 'purecss';
-import style from './NoteSearch.module.css';
+import 'bulma';
 
 interface NoteSearchProps {
     notuClient: HttpClient,
@@ -38,27 +37,38 @@ export const NoteSearch = ({
     function renderSpaceDropdown() {
         if (!availableSpaces) {
             return (
-                <select value={activeSpace.id} onChange={onSpaceChange} disabled={true}>
-                    <option value={activeSpace.id}>{activeSpace.name}</option>
-                </select>
+                <div className="control">
+                    <div className="select">
+                        <select value={activeSpace.id} onChange={onSpaceChange} disabled={true}>
+                            <option value={activeSpace.id}>{activeSpace.name}</option>
+                        </select>
+                    </div>
+                </div>
             );
         }
         else {
             return (
-                <select value={activeSpace.id} onChange={onSpaceChange}>
-                    {availableSpaces.map(x => (<option key={x.id} value={x.id}>{x.name}</option>))}
-                </select>
+                <div className="control">
+                    <div className="select">
+                        <select value={activeSpace.id} onChange={onSpaceChange}>
+                            {availableSpaces.map(x => (<option key={x.id} value={x.id}>{x.name}</option>))}
+                        </select>
+                    </div>
+                </div>
             );
         }
     }
 
     return (
-        <div className={style.notesearch_base}>
+        <div className="field has-addons is-flex">
             {renderSpaceDropdown()}
-            <input type="text" className={style.notesearch_text}
-                value={searchText} onChange={onSearchTextChange}></input>
-
-            <button onClick={onSearchSubmit}>Search</button>
+            <div className="control is-flex-grow-1">
+                <input type="text" className="input"
+                    value={searchText} onChange={onSearchTextChange}></input>
+            </div>
+            <div className="control">
+                <button className="button" onClick={onSearchSubmit}>Search</button>
+            </div>
         </div>
     );
 }

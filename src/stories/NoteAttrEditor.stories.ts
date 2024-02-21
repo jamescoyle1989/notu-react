@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { NoteAttrEditor } from '../NoteAttrEditor';
 import { Attr, Note, Space } from 'notu';
-import 'purecss';
+import 'bulma';
 
 const meta = {
     title: 'NoteAttrEditor',

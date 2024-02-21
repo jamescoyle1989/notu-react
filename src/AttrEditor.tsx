@@ -1,8 +1,7 @@
 import React from 'react';
 import { Attr, Space } from 'notu';
 import { useState } from 'react';
-import 'purecss';
-import styles from './AttrEditor.module.css';
+import 'bulma';
 
 interface AttrEditorProps {
     attr: Attr,
@@ -45,43 +44,53 @@ export const AttrEditor = ({
         if (!error)
             return;
         return (
-            <div className={styles.errorBanner}>
+            <div className="notification is-danger">
                 <label>Error: {error}</label>
             </div>
         );
     }
 
     return (
-        <form className="pure-form pure-form-aligned">
+        <form>
             <fieldset>
                 {renderErrorMessage()}
 
-                <div className="pure-control-group">
-                    <label>Space</label>
-                    <select value={spaceId} onChange={onSpaceIdChange}>
-                        <option key="0" value={null}></option>
-                        {spaces.map(x => (<option key={x.id} value={x.id}>{x.name}</option>))}
-                    </select>
+                <div className="field">
+                    <label className="label">Space</label>
+                    <div className="control">
+                        <div className="select">
+                            <select value={spaceId} onChange={onSpaceIdChange}>
+                                <option key="0" value={null}></option>
+                                {spaces.map(x => (<option key={x.id} value={x.id}>{x.name}</option>))}
+                            </select>
+                        </div>
+                    </div>
                 </div>
 
-                <div className="pure-control-group">
-                    <label>Name</label>
-                    <input type="text" value={name} onChange={onNameChange}/>
+                <div className="field">
+                    <label className="label">Name</label>
+                    <div className="control">
+                        <input type="text" className="input" value={name} onChange={onNameChange}/>
+                    </div>
                 </div>
 
-                <div className="pure-control-group">
-                    <label>Type</label>
-                    <select value={type} onChange={onTypeChange}>
-                        <option value="TEXT">Text</option>
-                        <option value="NUMBER">Number</option>
-                        <option value="BOOLEAN">Boolean</option>
-                        <option value="DATE">Date</option>
-                    </select>
+                <div className="field">
+                    <label className="label">Type</label>
+                    <div className="control">
+                        <div className="select">
+                            <select value={type} onChange={onTypeChange}>
+                                <option value="TEXT">Text</option>
+                                <option value="NUMBER">Number</option>
+                                <option value="BOOLEAN">Boolean</option>
+                                <option value="DATE">Date</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
 
-                <div className="pure-controls">
+                <div className="field">
                     <button type="button" onClick={onConfirmClick}
-                            className="pure-button pure-button-primary">Confirm</button>
+                            className="button is-link">Confirm</button>
                 </div>
             </fieldset>
         </form>

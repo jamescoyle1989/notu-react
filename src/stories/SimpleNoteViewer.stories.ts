@@ -33,18 +33,14 @@ export const Primary: Story = {
             tag1.color = '#FF0000';
             tag1.space = space1;
             output.addTag(tag1);
-            const tag2 = new Tag('Tag 2', 2).clean();
-            tag2.id = 2;
-            tag2.color = '#00FF00';
-            tag2.space = space2;
-            output.addTag(tag2);
             return output;
         })(),
         contextSpaceId: 1,
         actions: [
             new SimpleNoteViewerAction('Say Hello', n => console.log('Hello')),
             new SimpleNoteViewerAction('Say Goodbye', n => console.log('Goodbye'))
-        ]
+        ],
+        isSelected: true
     }
 };
 
@@ -61,14 +57,10 @@ export const NoActions: Story = {
             tag1.color = '#FF0000';
             tag1.space = space1;
             output.addTag(tag1);
-            const tag2 = new Tag('Tag 2', 2).clean();
-            tag2.id = 2;
-            tag2.color = '#00FF00';
-            tag2.space = space2;
-            output.addTag(tag2);
             return output;
         })(),
         contextSpaceId: 1,
-        actions: []
+        actions: [],
+        isSelected: true
     }
 }
