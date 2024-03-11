@@ -7,7 +7,6 @@ import { NoteAttrEditor } from './NoteAttrEditor';
 
 interface NoteEditorProps {
     note: Note,
-    spaces: Array<Space>,
     tags: Array<Tag>,
     attrs: Array<Attr>,
     onConfirm: (note: Note) => Promise<string>
@@ -16,13 +15,14 @@ interface NoteEditorProps {
 
 export const NoteEditor = ({
     note,
-    spaces,
     tags,
     attrs,
     onConfirm
 }: NoteEditorProps) => {
+    if (!note.space)
+        throw new Error('Note must define the space that it belongs to');
+
     const [date, setDate] = useState(note.date.toISOString().split('T')[0]);
-    const [spaceId, setSpaceId] = useState(note.spaceId);
     const [time, setTime] = useState(note.date.toTimeString().split(' ')[0].substring(0, 5));
     const [ownTagName, setOwnTagName] = useState(note.ownTag?.name ?? '');
     const [text, setText] = useState(note.text);
@@ -38,11 +38,6 @@ export const NoteEditor = ({
     function onTimeChange(event): void {
         setTime(event.target.value);
         note.date = new Date(`${date} ${event.target.value}`);
-    }
-
-    function onSpaceIdChange(event): void {
-        setSpaceId(event.target.value);
-        note.space = spaces.find(x => x.id == event.target.value);
     }
 
     function onOwnTagNameChange(event): void {
@@ -81,7 +76,7 @@ export const NoteEditor = ({
     function getTagName(tag: Tag): string {
         if (tag.spaceId == note.spaceId)
             return tag.name;
-        return `${spaces.find(x => x.id == tag.spaceId).name}.${tag.name}`;
+        return `${tag.space.name}.${tag.name}`;
     }
 
     function removeTag(tag: Tag): void {
@@ -91,12 +86,6 @@ export const NoteEditor = ({
 
     function attrsThatCanBeAdded(): Array<Attr> {
         return attrs.filter(x => !attrIds.find(y => y == x.id));
-    }
-
-    function getAttrName(attr: Attr): string {
-        if (attr.spaceId == note.spaceId)
-            return attr.name;
-        return `${spaces.find(x => x.id == attr.spaceId).name}.${attr.name}`;
     }
 
     function renderTagsDropdown() {
@@ -139,7 +128,7 @@ export const NoteEditor = ({
                     <select onChange={onAttrSelected}>
                         <option key="0" value={null}></option>
                         {attrsThatCanBeAdded()
-                            .map(x => (<option key={x.id} value={x.id}>{getAttrName(x)}</option>))}
+                            .map(x => (<option key={x.id} value={x.id}>{x.name}</option>))}
                     </select>
                 </div>
             </div>
@@ -178,18 +167,6 @@ export const NoteEditor = ({
     return (
         <form>
             <fieldset>
-                <div className="field">
-                    <label className="label">Space</label>
-                    <div className="control">
-                        <div className="select">
-                        <select value={spaceId} onChange={onSpaceIdChange}>
-                            <option key="0" value={null}></option>
-                            {spaces.map(x => (<option key={x.id} value={x.id}>{x.name}</option>))}
-                        </select>
-                        </div>
-                    </div>
-                </div>
-
                 <div className="field">
                     <label className="label">Date</label>
                     <div className="control">
