@@ -36,18 +36,7 @@ space2.id = 2;
 export const Primary: Story = {
     args: {
         space: space1,
-        availableSpaces: [space1, space2],
         notuClient: new FakeHttpClient() as any,
         onFetch: (notes) => console.log(notes)
     }
 };
-
-
-export const NoAvailableSpaces: Story = {
-    args: {
-        space: space1,
-        availableSpaces: null,
-        notuClient: new FakeHttpClient() as any,
-        onFetch: (notes) => console.log(notes)
-    }
-}
