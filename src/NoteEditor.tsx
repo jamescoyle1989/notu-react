@@ -1,5 +1,5 @@
 import React from 'react';
-import { Attr, Note, Space, Tag } from 'notu';
+import { Attr, Note, Tag } from 'notu';
 import { useState } from 'react';
 import { NoteTagBadge } from './NoteTagBadge';
 import 'bulma';
@@ -22,22 +22,18 @@ export const NoteEditor = ({
     if (!note.space)
         throw new Error('Note must define the space that it belongs to');
 
-    const [date, setDate] = useState(note.date.toISOString().split('T')[0]);
-    const [time, setTime] = useState(note.date.toTimeString().split(' ')[0].substring(0, 5));
+    const date = note.date.toISOString().split('T')[0];
+    const time = note.date.toTimeString().split(' ')[0].substring(0, 5);
+
     const [ownTagName, setOwnTagName] = useState(note.ownTag?.name ?? '');
     const [text, setText] = useState(note.text);
     const [archived, setArchived] = useState(note.archived);
     const [tagIds, setTagIds] = useState(note.tags.map(x => x.tagId));
     const [attrIds, setAttrIds] = useState(note.attrs.filter(x => x.tagId == null).map(x => x.attrId));
 
-    function onDateChange(event): void {
-        setDate(event.target.value);
-        note.date = new Date(`${event.target.value} ${time}`);
-    }
-
-    function onTimeChange(event): void {
-        setTime(event.target.value);
-        note.date = new Date(`${date} ${event.target.value}`);
+    async function submitNote(evt): Promise<void> {
+        evt.preventDefault();
+        note.date = new Date(`${evt.target.elements.date.value} ${evt.target.elements.time.value}`);
     }
 
     function onOwnTagNameChange(event): void {
@@ -165,17 +161,17 @@ export const NoteEditor = ({
     }
 
     return (
-        <form>
+        <form onSubmit={submitNote}>
             <fieldset>
                 <div className="field">
                     <label className="label">Date</label>
                     <div className="control">
                         <div className="field has-addons">
                             <p className="control">
-                                <input type="date" className="input" value={date} onChange={onDateChange}></input>
+                                <input type="date" className="input" name="date" defaultValue={date}></input>
                             </p>
                             <p className="control">
-                                <input type="time" className="input" value={time} onChange={onTimeChange}></input>
+                                <input type="time" className="input" name="time" defaultValue={time}></input>
                             </p>
                         </div>
                     </div>
@@ -214,8 +210,7 @@ export const NoteEditor = ({
                 {renderAttrFields()}
 
                 <div className="field">
-                    <button type="button" onClick={() => onConfirm(note)}
-                            className="button is-link">Confirm</button>
+                    <button type="submit" className="button is-link">Confirm</button>
                 </div>
             </fieldset>
         </form>
