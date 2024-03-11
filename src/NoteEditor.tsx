@@ -26,14 +26,15 @@ export const NoteEditor = ({
     const time = note.date.toTimeString().split(' ')[0].substring(0, 5);
 
     const [ownTagName, setOwnTagName] = useState(note.ownTag?.name ?? '');
-    const [text, setText] = useState(note.text);
-    const [archived, setArchived] = useState(note.archived);
     const [tagIds, setTagIds] = useState(note.tags.map(x => x.tagId));
     const [attrIds, setAttrIds] = useState(note.attrs.filter(x => x.tagId == null).map(x => x.attrId));
 
     async function submitNote(evt): Promise<void> {
         evt.preventDefault();
         note.date = new Date(`${evt.target.elements.date.value} ${evt.target.elements.time.value}`);
+        note.text = evt.target.elements.text.value;
+        note.archived = evt.target.elements.archived.checked;
+        console.log(note);
     }
 
     function onOwnTagNameChange(event): void {
@@ -42,16 +43,6 @@ export const NoteEditor = ({
             note.removeOwnTag();
         else
             note.setOwnTag(event.target.value);
-    }
-
-    function onTextChange(event): void {
-        setText(event.target.value);
-        note.text = event.target.value;
-    }
-
-    function onArchivedChange(event): void {
-        setArchived(event.target.checked);
-        note.archived = event.target.checked;
     }
 
     function onTagSelected(event): void {
@@ -187,12 +178,12 @@ export const NoteEditor = ({
                 <div className="field">
                     <label className="label">Text</label>
                     <div className="control">
-                        <textarea value={text} className="textarea" onChange={onTextChange}/>
+                        <textarea defaultValue={note.text} name="text" className="textarea"/>
                     </div>
                 </div>
 
                 <label className="label">Archived
-                    <input type="checkbox" className="ml-2" checked={archived} onChange={onArchivedChange}></input>
+                    <input type="checkbox" name="archived" className="ml-2" defaultChecked={note.archived}></input>
                 </label>
                 
                 <div className="field">
