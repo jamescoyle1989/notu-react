@@ -1,19 +1,26 @@
 import React from 'react';
-import { Attr, Note, Tag } from 'notu';
+import { Attr, HttpClient, Note, Tag } from 'notu';
 import { useState } from 'react';
 import { NoteTagBadge } from './NoteTagBadge';
 import 'bulma';
 import { NoteAttrEditor } from './NoteAttrEditor';
 
 interface NoteEditorProps {
+    /** Used for saving the note once changes have been confirmed */
+    notuClient: HttpClient,
+    /** The note to be edited */
     note: Note,
+    /** The collection of tags that can be added to the note */
     tags: Array<Tag>,
+    /** The collection of attrs that can be added to the note */
     attrs: Array<Attr>,
-    onConfirm: (note: Note) => Promise<string>
+    /** Called when the confirm button is clicked. A false return value will prevent saving, so will a thrown error, which will also display on the note editor */
+    onConfirm: (note: Note) => Promise<boolean>
 }
 
 
 export const NoteEditor = ({
+    notuClient,
     note,
     tags,
     attrs,
@@ -28,13 +35,22 @@ export const NoteEditor = ({
     const [ownTagName, setOwnTagName] = useState(note.ownTag?.name ?? '');
     const [tagIds, setTagIds] = useState(note.tags.map(x => x.tagId));
     const [attrIds, setAttrIds] = useState(note.attrs.filter(x => x.tagId == null).map(x => x.attrId));
+    const [error, setError] = useState(null);
 
     async function submitNote(evt): Promise<void> {
         evt.preventDefault();
         note.date = new Date(`${evt.target.elements.date.value} ${evt.target.elements.time.value}`);
         note.text = evt.target.elements.text.value;
         note.archived = evt.target.elements.archived.checked;
-        console.log(note);
+        try {
+            const confirmResult = await onConfirm(note);
+            if (!!confirmResult)
+                notuClient.saveNotes([note]);
+            setError(null);
+        }
+        catch (err) {
+            setError(err.message);
+        }
     }
 
     function onOwnTagNameChange(event): void {
@@ -72,7 +88,33 @@ export const NoteEditor = ({
     }
 
     function attrsThatCanBeAdded(): Array<Attr> {
-        return attrs.filter(x => !attrIds.find(y => y == x.id));
+        return attrs.filter(x => x.spaceId == note.spaceId && !attrIds.find(y => y == x.id));
+    }
+
+    function removeAttr(attr: Attr): void {
+        setAttrIds(attrIds.filter(x => x != attr.id));
+        note.removeAttr(attr);
+    }
+
+    function onAttrSelected(event): void {
+        const attrId = event.target.value;
+        const attr = attrsThatCanBeAdded().find(x => x.id == attrId);
+        if (!attr)
+            return;
+        const newAttrIds = attrIds.slice();
+        newAttrIds.push(attr.id);
+        setAttrIds(newAttrIds);
+        note.addAttr(attr);
+    }
+
+    function renderErrorMessage() {
+        if (!error)
+            return;
+        return (
+            <div className="notification is-danger">
+                <label>Error: {error}</label>
+            </div>
+        )
     }
 
     function renderTagsDropdown() {
@@ -135,25 +177,11 @@ export const NoteEditor = ({
         );
     }
 
-    function removeAttr(attr: Attr): void {
-        setAttrIds(attrIds.filter(x => x != attr.id));
-        note.removeAttr(attr);
-    }
-
-    function onAttrSelected(event): void {
-        const attrId = event.target.value;
-        const attr = attrsThatCanBeAdded().find(x => x.id == attrId);
-        if (!attr)
-            return;
-        const newAttrIds = attrIds.slice();
-        newAttrIds.push(attr.id);
-        setAttrIds(newAttrIds);
-        note.addAttr(attr);
-    }
-
     return (
         <form onSubmit={submitNote}>
             <fieldset>
+                {renderErrorMessage()}
+
                 <div className="field">
                     <label className="label">Date</label>
                     <div className="control">

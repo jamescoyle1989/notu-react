@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { NoteEditor } from '../NoteEditor';
 import { Attr, Note, Space, Tag } from 'notu';
+import { MockHttpClient } from '../helpers/MockHttpClient';
 
 const meta = {
     title: 'NoteEditor',
@@ -32,17 +33,20 @@ tag2.clean();
 const attr1 = new Attr('Test Attr').in(space1).clean();
 attr1.id = 1;
 
+const notuClient = new MockHttpClient();
+
 
 export const Primary: Story = {
     args: {
+        notuClient: notuClient as any,
         note: new Note('hello')
             .in(space1)
             .at(new Date(1987, 6, 5, 4, 3, 2)),
         tags: [tag1, tag2],
         attrs: [attr1],
         onConfirm: (note) => {
-            console.log('Confirm clicked', note);
-            return null;
+            console.log('Confirm Clicked', notuClient);
+            return Promise.resolve(true);
         }
     }
 };
@@ -50,11 +54,44 @@ export const Primary: Story = {
 
 export const ThrowsErrorIfNoteDoesntSetSpace: Story = {
     args: {
+        notuClient: notuClient as any,
         note: new Note('hello'),
         tags: [tag1, tag2],
         attrs: [attr1],
         onConfirm: note => {
-            return null;
+            return Promise.resolve(true);
         }
     }
 }
+
+
+export const DisplaysErrorMessageOnFailedConfirm: Story = {
+    args: {
+        notuClient: notuClient as any,
+        note: new Note('hello')
+            .in(space1)
+            .at(new Date(1987, 6, 5, 4, 3, 2)),
+        tags: [tag1, tag2],
+        attrs: [attr1],
+        onConfirm: (note) => {
+            console.log(notuClient);
+            throw new Error('This note is crap, try again!');
+        }
+    }
+};
+
+
+export const DoesntCallNotuClientIfOnConfirmReturnsFalse: Story = {
+    args: {
+        notuClient: notuClient as any,
+        note: new Note('hello')
+            .in(space1)
+            .at(new Date(1987, 6, 5, 4, 3, 2)),
+        tags: [tag1, tag2],
+        attrs: [attr1],
+        onConfirm: (note) => {
+            console.log(notuClient);
+            return Promise.resolve(false);
+        }
+    }
+};
