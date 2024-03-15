@@ -97,7 +97,7 @@ export const NoteAttrEditor = ({
                 <div className="field has-addons">
                     {renderLabelPortion()}
                     <p className="control">
-                        <button className={`button ${noteAttr.value ? 'is-success' : 'is-danger'}`}
+                        <button type="button" className={`button ${noteAttr.value ? 'is-success' : 'is-danger'}`}
                                 onClick={onBooleanChange}/>
                     </p>
                 </div>
