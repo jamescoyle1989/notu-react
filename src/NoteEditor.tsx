@@ -41,7 +41,6 @@ export const NoteEditor = ({
         evt.preventDefault();
         note.date = new Date(`${evt.target.elements.date.value} ${evt.target.elements.time.value}`);
         note.text = evt.target.elements.text.value;
-        note.archived = evt.target.elements.archived.checked;
         try {
             const confirmResult = await onConfirm(note);
             if (!!confirmResult)
@@ -209,10 +208,6 @@ export const NoteEditor = ({
                         <textarea defaultValue={note.text} name="text" className="textarea"/>
                     </div>
                 </div>
-
-                <label className="label">Archived
-                    <input type="checkbox" name="archived" className="ml-2" defaultChecked={note.archived}></input>
-                </label>
                 
                 <div className="field">
                     <label className="label">Tags</label>
