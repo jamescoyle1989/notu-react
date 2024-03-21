@@ -15,16 +15,10 @@ export const NoteAttrBadge = ({
     onDelete
 }: NoteAttrBadgeProps) => {
 
-    function getTagName(tag: Tag): string {
-        if (tag.spaceId == contextSpaceId)
-            return tag.name;
-        return `${tag.space.name}.${tag.name}`;
-    }
-
     function getAttrLabel() {
         let output = noteAttr.attr.name;
         if (!!noteAttr.tag)
-            output = getTagName(noteAttr.tag) + '.' + output;
+            output = noteAttr.tag.getQualifiedName(contextSpaceId) + '.' + output;
         return output;
     }
     

@@ -53,7 +53,7 @@ export const SpaceEditor = ({
                 <div className="field">
                     <label className="label">Name</label>
                     <div className="control">
-                        <input type="text" className="input" defaultValue={space.name}/>
+                        <input type="text" className="input" name="name" defaultValue={space.name}/>
                     </div>
                 </div>
 

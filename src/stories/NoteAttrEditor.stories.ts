@@ -91,10 +91,10 @@ export const CanAddTag: Story = {
         })(),
         contextSpaceId: 1,
         tags: (() => {
-            const tag1 = new Tag('Tag1', space1.id);
+            const tag1 = new Tag('Tag1').in(space1);
             tag1.id = 123;
             tag1.space = space1;
-            const tag2 = new Tag('Tag2', space2.id);
+            const tag2 = new Tag('Tag2').in(space2);
             tag2.id = 234;
             tag2.space = space2;
             return [tag1.clean(), tag2.clean()];
@@ -114,10 +114,10 @@ export const DisplaysPreviouslySelectedTagCorrectly: Story = {
         })(),
         contextSpaceId: 1,
         tags: (() => {
-            const tag1 = new Tag('Tag1', space1.id);
+            const tag1 = new Tag('Tag1').in(space1);
             tag1.id = 123;
             tag1.space = space1;
-            const tag2 = new Tag('Tag2', space2.id);
+            const tag2 = new Tag('Tag2').in(space2);
             tag2.id = 234;
             tag2.space = space2;
             return [tag1.clean(), tag2.clean()];

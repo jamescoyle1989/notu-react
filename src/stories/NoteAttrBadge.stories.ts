@@ -50,10 +50,8 @@ export const OnTag: Story = {
         noteAttr: (() => {
             const attr = new Attr('Attr').in(space1).asNumber().clean();
             attr.id = 123;
-            const tag = new Tag('Tag', 2);
-            tag.space = space2;
+            const tag = new Tag('Tag').in(space2).clean();
             tag.id = 234;
-            tag.clean();
             return new Note().addAttr(attr).onTag(tag).withValue(15);
         })(),
         contextSpaceId: 1,

@@ -15,12 +15,6 @@ export const NoteTagBadge = ({
     onDelete
 }: NoteTagBadgeProps) => {
 
-    function getTagName(): string {
-        if (noteTag.tag.spaceId == contextSpaceId)
-            return noteTag.tag.name;
-        return `${noteTag.tag.space.name}.${noteTag.tag.name}`;
-    }
-    
     function renderDeleteButton() {
         if (!onDelete)
             return;
@@ -30,7 +24,7 @@ export const NoteTagBadge = ({
     return (
         <span className="tag is-small is-unselectable is-rounded mr-1"
             style={{backgroundColor: noteTag.tag.color ?? '#969DA3'}}>
-            {getTagName()}
+            {noteTag.tag.getQualifiedName(contextSpaceId)}
             {renderDeleteButton()}
         </span>
     );

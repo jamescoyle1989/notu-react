@@ -25,7 +25,7 @@ export const Primary: Story = {
         space: new Space('Test'),
         onConfirm: () => {
             console.log('Confirm clicked');
-            return null;
+            return Promise.resolve(true);
         }
     }
 };
@@ -37,7 +37,7 @@ export const ShowsErrorMessageOnConfirm: Story = {
         space: new Space(),
         onConfirm: space => {
             console.log('Confirm clicked', space);
-            return Promise.resolve(true);
+            throw Error('Something went wrong!');
         }
     }
 };

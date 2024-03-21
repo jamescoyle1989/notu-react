@@ -21,11 +21,11 @@ space1.id = 1;
 const space2 = new Space('Space 2').clean();
 space2.id = 2;
 
-const tag1 = new Tag('Tag 1', 1);
+const tag1 = new Tag('Tag 1').in(space1);
 tag1.id = 1;
 tag1.space = space1;
 tag1.clean();
-const tag2 = new Tag('Tag 2', 2);
+const tag2 = new Tag('Tag 2').in(space2);
 tag2.id = 2;
 tag2.space = space2;
 tag2.clean();

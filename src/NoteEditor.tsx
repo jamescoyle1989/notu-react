@@ -76,12 +76,6 @@ export const NoteEditor = ({
         return tags.filter(x => !note.tags.find(y => x.id == y.tagId));
     }
 
-    function getTagName(tag: Tag): string {
-        if (tag.spaceId == note.spaceId)
-            return tag.name;
-        return `${tag.space.name}.${tag.name}`;
-    }
-
     function removeTag(tag: Tag): void {
         setTagIds(tagIds.filter(x => x != tag.id));
         note.removeTag(tag);
@@ -127,7 +121,7 @@ export const NoteEditor = ({
                     <select onChange={onTagSelected}>
                         <option key="0" value={null}></option>
                         {tagsThatCanBeAdded()
-                            .map(x => (<option key={x.id} value={x.id}>{getTagName(x)}</option>))}
+                            .map(x => (<option key={x.id} value={x.id}>{x.getQualifiedName(note.spaceId)}</option>))}
                     </select>
                 </div>
             </div>

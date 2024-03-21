@@ -39,12 +39,6 @@ export const NoteAttrEditor = ({
         setValue(noteAttr.value);
     }
 
-    function getTagName(tag: Tag): string {
-        if (tag.spaceId == contextSpaceId)
-            return tag.name;
-        return `${tag.space.name}.${tag.name}`;
-    }
-
     function onTagSelected(evt): void {
         const newTagId = Number(evt.target.value);
         const newTag = tags.find(x => x.id == newTagId);
@@ -71,7 +65,7 @@ export const NoteAttrEditor = ({
                 <div className="select">
                     <select value={noteAttr.tagId ?? 0} onChange={onTagSelected}>
                         <option key="0" value={0}></option>
-                        {tags.map(x => (<option key={x.id} value={x.id}>{getTagName(x)}</option>))}
+                        {tags.map(x => (<option key={x.id} value={x.id}>{x.getQualifiedName(contextSpaceId)}</option>))}
                     </select>
                 </div>
             </div>

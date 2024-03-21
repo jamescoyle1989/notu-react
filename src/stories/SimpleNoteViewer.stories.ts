@@ -28,10 +28,9 @@ export const Primary: Story = {
                 .at(new Date(2023, 11, 18))
                 .setOwnTag('My Tag');
             output.ownTag.color = '#0000FF';
-            const tag1 = new Tag('Tag 1', 1).clean();
+            const tag1 = new Tag('Tag 1').in(space1).clean();
             tag1.id = 1;
             tag1.color = '#FF0000';
-            tag1.space = space1;
             output.addTag(tag1);
             return output;
         })(),
@@ -52,10 +51,9 @@ export const NoActions: Story = {
                 .at(new Date(2023, 11, 18))
                 .setOwnTag('My Tag');
             output.ownTag.color = '#0000FF';
-            const tag1 = new Tag('Tag 1', 1).clean();
+            const tag1 = new Tag('Tag 1').in(space1).clean();
             tag1.id = 1;
             tag1.color = '#FF0000';
-            tag1.space = space1;
             output.addTag(tag1);
             return output;
         })(),

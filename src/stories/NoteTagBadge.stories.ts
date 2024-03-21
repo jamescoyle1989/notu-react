@@ -15,11 +15,17 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 
+const space1 = new Space('Space').clean();
+space1.id = 1;
+const space2 = new Space('Space 2').clean();
+space2.id = 2;
+
+
 
 export const Primary: Story = {
     args: {
         noteTag: (() => {
-            const tag = new Tag('Test', 1).clean();
+            const tag = new Tag('Test').in(space1).clean();
             tag.id = 123;
             return new Note().addTag(tag);
         })(),
@@ -31,7 +37,7 @@ export const Primary: Story = {
 export const WithDeleteButton: Story = {
     args: {
         noteTag: (() => {
-            const tag = new Tag('Test', 1).clean();
+            const tag = new Tag('Test').in(space1).clean();
             tag.id = 123;
             return new Note().addTag(tag);
         })(),
@@ -43,11 +49,8 @@ export const WithDeleteButton: Story = {
 export const ShowsSpaceNameIfRequired: Story = {
     args: {
         noteTag: (() => {
-            const tag = new Tag('Test', 2).clean();
+            const tag = new Tag('Test').in(space2).clean();
             tag.id = 123;
-            const space = new Space('Space 2').clean();
-            space.id = 2;
-            tag.space = space;
             return new Note().addTag(tag);
         })(),
         contextSpaceId: 1,
@@ -58,12 +61,9 @@ export const ShowsSpaceNameIfRequired: Story = {
 export const RedBadge: Story = {
     args: {
         noteTag: (() => {
-            const tag = new Tag('Test', 1).clean();
+            const tag = new Tag('Test').in(space1).clean();
             tag.color = '#FF0000';
             tag.id = 123;
-            const space = new Space('Space').clean();
-            space.id = 1;
-            tag.space = space;
             return new Note().addTag(tag);
         })(),
         contextSpaceId: 1,
@@ -74,12 +74,9 @@ export const RedBadge: Story = {
 export const GreenBadge: Story = {
     args: {
         noteTag: (() => {
-            const tag = new Tag('Test', 1).clean();
+            const tag = new Tag('Test').in(space1).clean();
             tag.color = '#00FF00';
             tag.id = 123;
-            const space = new Space('Space').clean();
-            space.id = 1;
-            tag.space = space;
             return new Note().addTag(tag);
         })(),
         contextSpaceId: 1,
