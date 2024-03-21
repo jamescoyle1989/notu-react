@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { NoteAttrBadge } from '../NoteAttrBadge';
-import { Note, Space, Attr } from 'notu';
+import { Note, Space, Attr, Tag } from 'notu';
 
 const meta: Meta<typeof NoteAttrBadge> = {
     title: 'NoteAttrBadge',
@@ -45,14 +45,18 @@ export const WithDeleteButton: Story = {
     }
 };
 
-export const ShowsSpaceNameIfRequired: Story = {
+export const OnTag: Story = {
     args: {
         noteAttr: (() => {
-            const attr = new Attr('Test').in(space2).asNumber().clean();
+            const attr = new Attr('Attr').in(space1).asNumber().clean();
             attr.id = 123;
-            return new Note().addAttr(attr).withValue(15);
+            const tag = new Tag('Tag', 2);
+            tag.space = space2;
+            tag.id = 234;
+            tag.clean();
+            return new Note().addAttr(attr).onTag(tag).withValue(15);
         })(),
         contextSpaceId: 1,
-        onDelete: null
+        onDelete: () => { console.log('Delete clicked'); }
     }
 }

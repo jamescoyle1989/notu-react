@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { NoteAttrEditor } from '../NoteAttrEditor';
-import { Attr, Note, Space } from 'notu';
+import { Attr, Note, Space, Tag } from 'notu';
 import 'bulma';
 
 const meta: Meta<typeof NoteAttrEditor> = {
@@ -30,6 +30,7 @@ export const Primary: Story = {
             return new Note('Test').clean().addAttr(attr).withValue('abc');
         })(),
         contextSpaceId: 1,
+        tags: [],
         onRemove: () => {
             console.log('Requested to remove NoteAttr');
         }
@@ -44,6 +45,7 @@ export const DateAttr: Story = {
             return new Note('Test').clean().addAttr(attr).withValue(new Date(2023, 3, 4));
         })(),
         contextSpaceId: 1,
+        tags: [],
         onRemove: () => {
             console.log('Requested to remove NoteAttr');
         }
@@ -58,6 +60,7 @@ export const BooleanAttr: Story = {
             return new Note('Test').clean().addAttr(attr);
         })(),
         contextSpaceId: 1,
+        tags: [],
         onRemove: () => {
             console.log('Requested to remove NoteAttr');
         }
@@ -72,22 +75,55 @@ export const NumberAttr: Story = {
             return new Note('Test').clean().addAttr(attr);
         })(),
         contextSpaceId: 1,
+        tags: [],
         onRemove: () => {
             console.log('Requested to remove NoteAttr');
         }
     }
 }
 
-export const ShowsSpaceName: Story = {
+export const CanAddTag: Story = {
     args: {
         noteAttr: (() => {
-            const attr = new Attr('Test').in(space2).asNumber().clean();
+            const attr = new Attr('Test').in(space1).asNumber().clean();
             attr.id = 123;
             return new Note('Test').clean().addAttr(attr);
         })(),
         contextSpaceId: 1,
-        onRemove: () => {
-            console.log('Requested to remove NoteAttr');
+        tags: (() => {
+            const tag1 = new Tag('Tag1', space1.id);
+            tag1.id = 123;
+            tag1.space = space1;
+            const tag2 = new Tag('Tag2', space2.id);
+            tag2.id = 234;
+            tag2.space = space2;
+            return [tag1.clean(), tag2.clean()];
+        })(),
+        onRemove: noteAttr => {
+            console.log('Requested to remove NoteAttr', noteAttr);
+        }
+    }
+}
+
+export const DisplaysPreviouslySelectedTagCorrectly: Story = {
+    args: {
+        noteAttr: (() => {
+            const attr = new Attr('Test').in(space1).asNumber().clean();
+            attr.id = 123;
+            return new Note('Test').clean().addAttr(attr).onTag(234);
+        })(),
+        contextSpaceId: 1,
+        tags: (() => {
+            const tag1 = new Tag('Tag1', space1.id);
+            tag1.id = 123;
+            tag1.space = space1;
+            const tag2 = new Tag('Tag2', space2.id);
+            tag2.id = 234;
+            tag2.space = space2;
+            return [tag1.clean(), tag2.clean()];
+        })(),
+        onRemove: noteAttr => {
+            console.log('Requested to remove NoteAttr', noteAttr);
         }
     }
 }

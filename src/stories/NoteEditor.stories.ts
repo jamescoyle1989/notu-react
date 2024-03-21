@@ -52,7 +52,7 @@ export const Primary: Story = {
 };
 
 
-export const ThrowsErrorIfNoteDoesntSetSpace: Story = {
+export const ShowsErrorIfNoteDoesntSetSpace: Story = {
     args: {
         notuClient: notuClient as any,
         note: new Note('hello'),

@@ -28,7 +28,7 @@ export const NoteEditor = ({
     onConfirm
 }: NoteEditorProps) => {
     if (!note.space)
-        throw new Error('Note must define the space that it belongs to');
+        return (<p>Note must define the space that it belongs to</p>);
 
     const date = note.date.toISOString().split('T')[0];
     const time = note.date.toTimeString().split(' ')[0].substring(0, 5);
@@ -88,7 +88,7 @@ export const NoteEditor = ({
     }
 
     function attrsThatCanBeAdded(): Array<Attr> {
-        return attrs.filter(x => x.spaceId == note.spaceId && !attrIds.find(y => y == x.id));
+        return attrs.filter(x => x.spaceId == note.spaceId);
     }
 
     function removeAttr(attr: Attr): void {
@@ -171,7 +171,8 @@ export const NoteEditor = ({
         return (
             <div className="box">
                 {note.attrs.map(noteAttr => (
-                    <NoteAttrEditor key={noteAttr.attrId} noteAttr={noteAttr} contextSpaceId={note.spaceId} onRemove={() => removeAttr(noteAttr.attr)}/>
+                    <NoteAttrEditor key={noteAttr.attrId} noteAttr={noteAttr} contextSpaceId={note.spaceId} 
+                                    tags={tags} onRemove={() => removeAttr(noteAttr.attr)}/>
                 ))}
             </div>
         );

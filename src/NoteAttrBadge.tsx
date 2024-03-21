@@ -1,5 +1,5 @@
 import React from 'react';
-import { NoteAttr } from 'notu';
+import { NoteAttr, Tag } from 'notu';
 import 'bulma';
 
 interface NoteAttrBadgeProps {
@@ -15,12 +15,19 @@ export const NoteAttrBadge = ({
     onDelete
 }: NoteAttrBadgeProps) => {
 
-    function getAttrName(): string {
-        if (noteAttr.attr.spaceId == contextSpaceId)
-            return noteAttr.attr.name;
-        return `${noteAttr.attr.space.name}.${noteAttr.attr.name}`;
+    function getTagName(tag: Tag): string {
+        if (tag.spaceId == contextSpaceId)
+            return tag.name;
+        return `${tag.space.name}.${tag.name}`;
     }
 
+    function getAttrLabel() {
+        let output = noteAttr.attr.name;
+        if (!!noteAttr.tag)
+            output = getTagName(noteAttr.tag) + '.' + output;
+        return output;
+    }
+    
     function renderDeleteButton() {
         if (!onDelete)
             return;
@@ -29,7 +36,7 @@ export const NoteAttrBadge = ({
 
     return (
         <span className="tag is-small is-unselectable is-rounded">
-            {getAttrName()}: {noteAttr.value}
+            {getAttrLabel()}: {noteAttr.value}
             {renderDeleteButton()}
         </span>
     );
