@@ -7,6 +7,7 @@ import { NoteTagBadge } from './NoteTagBadge';
 import { SimpleNoteList } from './SimpleNoteList';
 import { SimpleNoteViewer } from './SimpleNoteViewer';
 import { SpaceEditor } from './SpaceEditor';
+import { useNotuCache } from './Hooks';
 
 export {
     AttrEditor,
@@ -17,5 +18,6 @@ export {
     NoteTagBadge,
     SimpleNoteList,
     SimpleNoteViewer,
-    SpaceEditor
+    SpaceEditor,
+    useNotuCache
 }
