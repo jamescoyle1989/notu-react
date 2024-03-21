@@ -1,5 +1,5 @@
 import React from 'react';
-import { Attr, Note, Tag } from 'notu';
+import { Attr, Note, NoteAttr, Tag } from 'notu';
 import { useState } from 'react';
 import { NoteTagBadge } from './NoteTagBadge';
 import 'bulma';
@@ -85,9 +85,9 @@ export const NoteEditor = ({
         return attrs.filter(x => x.spaceId == note.spaceId);
     }
 
-    function removeAttr(attr: Attr): void {
-        setAttrIds(attrIds.filter(x => x != attr.id));
-        note.removeAttr(attr);
+    function removeAttr(noteAttr: NoteAttr): void {
+        setAttrIds(attrIds.filter(x => x != noteAttr.attrId));
+        note.removeAttr(noteAttr.attr, noteAttr.tag);
     }
 
     function onAttrSelected(event): void {
@@ -99,6 +99,7 @@ export const NoteEditor = ({
         newAttrIds.push(attr.id);
         setAttrIds(newAttrIds);
         note.addAttr(attr);
+        event.target.value = null;
     }
 
     function renderErrorMessage() {
@@ -164,9 +165,9 @@ export const NoteEditor = ({
         
         return (
             <div className="box">
-                {note.attrs.map(noteAttr => (
-                    <NoteAttrEditor key={noteAttr.attrId} noteAttr={noteAttr} contextSpaceId={note.spaceId} 
-                                    tags={tags} onRemove={() => removeAttr(noteAttr.attr)}/>
+                {note.attrs.map((noteAttr, index) => (
+                    <NoteAttrEditor key={index} noteAttr={noteAttr} contextSpaceId={note.spaceId} 
+                                    tags={tagIds.map(id => tags.find(x => x.id == id))} onRemove={removeAttr}/>
                 ))}
             </div>
         );

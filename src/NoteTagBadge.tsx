@@ -18,7 +18,7 @@ export const NoteTagBadge = ({
     function renderDeleteButton() {
         if (!onDelete)
             return;
-        return (<button className="delete" onClick={onDelete}></button>);
+        return (<button type="button" className="delete" onClick={onDelete}></button>);
     }
 
     return (

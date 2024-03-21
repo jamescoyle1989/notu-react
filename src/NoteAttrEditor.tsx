@@ -51,7 +51,7 @@ export const NoteAttrEditor = ({
             <p className="control">
                 <a className="button is-static">
                     {noteAttr.attr.name}
-                    <button className="delete ml-2" onClick={() => onRemove(noteAttr)}></button>
+                    <button type="button" className="delete ml-2" onClick={() => onRemove(noteAttr)}></button>
                 </a>
             </p>
         );
