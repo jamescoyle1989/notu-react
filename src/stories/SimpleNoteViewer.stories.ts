@@ -2,14 +2,14 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { SimpleNoteViewer, SimpleNoteViewerAction } from '../SimpleNoteViewer';
 import { Note, Space, Tag } from 'notu';
 
-const meta = {
+const meta: Meta<typeof SimpleNoteViewer> = {
     title: 'SimpleNoteViewer',
     component: SimpleNoteViewer,
     parameters: {
         layout: 'padded'
     },
     tags: ['autodocs']
-} satisfies Meta<typeof SimpleNoteViewer>;
+};
 export default meta;
 
 type Story = StoryObj<typeof meta>;

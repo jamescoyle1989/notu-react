@@ -2,29 +2,37 @@ import React from 'react';
 import { Space } from 'notu';
 import { useState } from 'react';
 import 'bulma';
+import { NotuClient } from 'notu/dist/types/services/HttpClient';
 
 interface SpaceEditorProps {
+    /** Used for saving the space once changes have been confirmed */
+    notuClient: NotuClient,
+    /** The space to be edited */
     space: Space,
-    onConfirm: () => Promise<string>
+    /** Called when the confirm button is clicked. A false return value will prevent saving, so will a thrown error, which will also display on the space editor */
+    onConfirm: (space: Space) => Promise<boolean>
 }
 
 
 export const SpaceEditor = ({
+    notuClient,
     space,
     onConfirm
 }: SpaceEditorProps) => {
 
-    const [name, setName] = useState(space.name);
     const [error, setError] = useState(null);
 
-    function onNameChange(event): void {
-        setName(event.target.value);
-        space.name = event.target.value;
-    }
-
-    async function onConfirmClick() {
-        const errorMessage = await onConfirm();
-        setError(errorMessage ?? null);
+    async function submitSpace(evt): Promise<void> {
+        evt.preventDefault();
+        space.name = evt.target.elements.name.value;
+        try {
+            const confirmResult = await onConfirm(space);
+            if (!!confirmResult)
+                notuClient.saveSpace(space);
+        }
+        catch (err) {
+            setError(err.message);
+        }
     }
 
     function renderErrorMessage() {
@@ -38,20 +46,19 @@ export const SpaceEditor = ({
     }
 
     return (
-        <form>
+        <form onSubmit={submitSpace}>
             <fieldset>
                 {renderErrorMessage()}
 
                 <div className="field">
                     <label className="label">Name</label>
                     <div className="control">
-                        <input type="text" className="input" value={name} onChange={onNameChange}/>
+                        <input type="text" className="input" defaultValue={space.name}/>
                     </div>
                 </div>
 
                 <div className="field">
-                    <button type="button" onClick={onConfirmClick}
-                            className="button is-link">Confirm</button>
+                    <button type="submit" className="button is-link">Confirm</button>
                 </div>
             </fieldset>
         </form>

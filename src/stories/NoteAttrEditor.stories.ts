@@ -3,14 +3,14 @@ import { NoteAttrEditor } from '../NoteAttrEditor';
 import { Attr, Note, Space } from 'notu';
 import 'bulma';
 
-const meta = {
+const meta: Meta<typeof NoteAttrEditor> = {
     title: 'NoteAttrEditor',
     component: NoteAttrEditor,
     parameters: {
         layout: 'padded'
     },
     tags: ['autodocs']
-} satisfies Meta<typeof NoteAttrEditor>;
+};
 export default meta;
 
 type Story = StoryObj<typeof meta>;

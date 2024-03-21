@@ -2,14 +2,14 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { NoteSearch } from '../NoteSearch';
 import { Note, Space } from 'notu';
 
-const meta = {
+const meta: Meta<typeof NoteSearch> = {
     title: 'NoteSearch',
     component: NoteSearch,
     parameters: {
         layout: 'padded'
     },
     tags: ['autodocs']
-} satisfies Meta<typeof NoteSearch>;
+};
 export default meta;
 
 type Story = StoryObj<typeof meta>;

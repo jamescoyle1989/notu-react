@@ -1,13 +1,14 @@
 import React from 'react';
-import { Attr, HttpClient, Note, Tag } from 'notu';
+import { Attr, Note, Tag } from 'notu';
 import { useState } from 'react';
 import { NoteTagBadge } from './NoteTagBadge';
 import 'bulma';
 import { NoteAttrEditor } from './NoteAttrEditor';
+import { NotuClient } from 'notu/dist/types/services/HttpClient';
 
 interface NoteEditorProps {
     /** Used for saving the note once changes have been confirmed */
-    notuClient: HttpClient,
+    notuClient: NotuClient,
     /** The note to be edited */
     note: Note,
     /** The collection of tags that can be added to the note */

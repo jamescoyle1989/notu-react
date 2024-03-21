@@ -1,23 +1,27 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { SpaceEditor } from '../SpaceEditor';
 import { Space } from 'notu';
+import { MockHttpClient } from '../helpers/MockHttpClient';
 
-const meta = {
+const meta: Meta<typeof SpaceEditor> = {
     title: 'SpaceEditor',
     component: SpaceEditor,
     parameters: {
         layout: 'padded'
     },
     tags: ['autodocs']
-} satisfies Meta<typeof SpaceEditor>;
+};
 export default meta;
 
 type Story = StoryObj<typeof meta>;
 
 
+const notuClient = new MockHttpClient();
+
 
 export const Primary: Story = {
     args: {
+        notuClient: notuClient as any,
         space: new Space('Test'),
         onConfirm: () => {
             console.log('Confirm clicked');
@@ -29,10 +33,11 @@ export const Primary: Story = {
 
 export const ShowsErrorMessageOnConfirm: Story = {
     args: {
+        notuClient: notuClient as any,
         space: new Space(),
-        onConfirm: () => {
-            console.log('Confirm clicked');
-            return 'Name already exists';
+        onConfirm: space => {
+            console.log('Confirm clicked', space);
+            return Promise.resolve(true);
         }
     }
 };

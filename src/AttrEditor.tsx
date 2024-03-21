@@ -1,43 +1,41 @@
 import React from 'react';
-import { Attr, Space } from 'notu';
+import { Attr } from 'notu';
 import { useState } from 'react';
 import 'bulma';
+import { NotuClient } from 'notu/dist/types/services/HttpClient';
 
 interface AttrEditorProps {
+    /** Used for saving the attr once changes have been confirmed */
+    notuClient: NotuClient,
+    /** The attr to be edited */
     attr: Attr,
-    spaces: Array<Space>,
-    onConfirm: () => string
+    /** Called when the confirm button is clicked. A false return value will prevent saving, so will a thrown error, which will also display on the attr editor */
+    onConfirm: (attr: Attr) => Promise<boolean>
 }
 
 
 export const AttrEditor = ({
+    notuClient,
     attr,
-    spaces,
     onConfirm
 }: AttrEditorProps) => {
-    const [spaceId, setSpaceId] = useState(attr.spaceId);
-    const [name, setName] = useState(attr.name);
-    const [type, setType] = useState(attr.type);
+    if (!attr.space)
+        throw new Error('Attr must define the space that it belongs to prior to editing');
+
     const [error, setError] = useState(null);
 
-    function onSpaceIdChange(event): void {
-        setSpaceId(event.target.value);
-        attr.space = spaces.find(x => x.id == event.target.value);
-    }
-
-    function onNameChange(event): void {
-        setName(event.target.value);
-        attr.name = event.target.value;
-    }
-
-    function onTypeChange(event): void {
-        setType(event.target.value);
-        attr.type = event.target.value;
-    }
-
-    function onConfirmClick() {
-        const errorMessage = onConfirm();
-        setError(errorMessage ?? null);
+    async function submitAttr(evt): Promise<void> {
+        evt.preventDefault();
+        attr.name = evt.target.elements.name.value;
+        attr.type = evt.target.elements.type.value;
+        try {
+            const confirmResult = await onConfirm(attr);
+            if (!!confirmResult)
+                notuClient.saveAttr(attr);
+        }
+        catch (err) {
+            setError(err.message);
+        }
     }
 
     function renderErrorMessage() {
@@ -51,26 +49,14 @@ export const AttrEditor = ({
     }
 
     return (
-        <form>
+        <form onSubmit={submitAttr}>
             <fieldset>
                 {renderErrorMessage()}
 
                 <div className="field">
-                    <label className="label">Space</label>
-                    <div className="control">
-                        <div className="select">
-                            <select value={spaceId} onChange={onSpaceIdChange}>
-                                <option key="0" value={null}></option>
-                                {spaces.map(x => (<option key={x.id} value={x.id}>{x.name}</option>))}
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="field">
                     <label className="label">Name</label>
                     <div className="control">
-                        <input type="text" className="input" value={name} onChange={onNameChange}/>
+                        <input type="text" className="input" name="name" defaultValue={attr.name}/>
                     </div>
                 </div>
 
@@ -78,7 +64,7 @@ export const AttrEditor = ({
                     <label className="label">Type</label>
                     <div className="control">
                         <div className="select">
-                            <select value={type} onChange={onTypeChange}>
+                            <select name="type" defaultValue={attr.type}>
                                 <option value="TEXT">Text</option>
                                 <option value="NUMBER">Number</option>
                                 <option value="BOOLEAN">Boolean</option>
@@ -89,8 +75,7 @@ export const AttrEditor = ({
                 </div>
 
                 <div className="field">
-                    <button type="button" onClick={onConfirmClick}
-                            className="button is-link">Confirm</button>
+                    <button type="submit" className="button is-link">Confirm</button>
                 </div>
             </fieldset>
         </form>

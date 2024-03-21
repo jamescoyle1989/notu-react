@@ -2,14 +2,14 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { NoteAttrBadge } from '../NoteAttrBadge';
 import { Note, Space, Attr } from 'notu';
 
-const meta = {
+const meta: Meta<typeof NoteAttrBadge> = {
     title: 'NoteAttrBadge',
     component: NoteAttrBadge,
     parameters: {
         layout: 'centered'
     },
     tags: ['autodocs']
-} satisfies Meta<typeof NoteAttrBadge>;
+};
 export default meta;
 
 type Story = StoryObj<typeof meta>;

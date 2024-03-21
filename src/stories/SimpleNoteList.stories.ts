@@ -3,14 +3,14 @@ import { SimpleNoteList } from '../SimpleNoteList';
 import { Note, Space } from 'notu';
 import { SimpleNoteViewerAction } from '../SimpleNoteViewer';
 
-const meta = {
+const meta: Meta<typeof SimpleNoteList> = {
     title: 'SimpleNoteList',
     component: SimpleNoteList,
     parameters: {
         layout: 'padded'
     },
     tags: ['autodocs']
-} satisfies Meta<typeof SimpleNoteList>;
+};
 export default meta;
 
 type Story = StoryObj<typeof meta>;

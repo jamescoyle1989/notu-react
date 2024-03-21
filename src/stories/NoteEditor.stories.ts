@@ -3,14 +3,14 @@ import { NoteEditor } from '../NoteEditor';
 import { Attr, Note, Space, Tag } from 'notu';
 import { MockHttpClient } from '../helpers/MockHttpClient';
 
-const meta = {
+const meta: Meta<typeof NoteEditor> = {
     title: 'NoteEditor',
     component: NoteEditor,
     parameters: {
         layout: 'padded'
     },
     tags: ['autodocs']
-} satisfies Meta<typeof NoteEditor>;
+};
 export default meta;
 
 type Story = StoryObj<typeof meta>;
@@ -44,8 +44,8 @@ export const Primary: Story = {
             .at(new Date(1987, 6, 5, 4, 3, 2)),
         tags: [tag1, tag2],
         attrs: [attr1],
-        onConfirm: (note) => {
-            console.log('Confirm Clicked', notuClient);
+        onConfirm: note => {
+            console.log('Confirm Clicked', note);
             return Promise.resolve(true);
         }
     }
@@ -59,6 +59,7 @@ export const ThrowsErrorIfNoteDoesntSetSpace: Story = {
         tags: [tag1, tag2],
         attrs: [attr1],
         onConfirm: note => {
+            console.log('Confirm Clicked', note);
             return Promise.resolve(true);
         }
     }
@@ -73,8 +74,8 @@ export const DisplaysErrorMessageOnFailedConfirm: Story = {
             .at(new Date(1987, 6, 5, 4, 3, 2)),
         tags: [tag1, tag2],
         attrs: [attr1],
-        onConfirm: (note) => {
-            console.log(notuClient);
+        onConfirm: note => {
+            console.log('Confirm Clicked', note);
             throw new Error('This note is crap, try again!');
         }
     }
@@ -89,8 +90,8 @@ export const DoesntCallNotuClientIfOnConfirmReturnsFalse: Story = {
             .at(new Date(1987, 6, 5, 4, 3, 2)),
         tags: [tag1, tag2],
         attrs: [attr1],
-        onConfirm: (note) => {
-            console.log(notuClient);
+        onConfirm: note => {
+            console.log('Confirm Clicked', note);
             return Promise.resolve(false);
         }
     }
