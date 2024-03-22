@@ -29,7 +29,7 @@ export const NoteAttrBadge = ({
     }
 
     return (
-        <span className="tag is-small is-unselectable is-rounded">
+        <span className="tag is-small is-unselectable is-rounded has-background-grey-light">
             {getAttrLabel()}: {noteAttr.value}
             {renderDeleteButton()}
         </span>

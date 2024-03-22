@@ -3,6 +3,7 @@ import { Note, NoteTag } from 'notu';
 import { NoteTagBadge } from './NoteTagBadge';
 import 'bulma';
 import { useEffect, useState } from 'react';
+import { NoteAttrBadge } from './NoteAttrBadge';
 
 interface SimpleNoteViewerProps {
     note: Note,
@@ -86,6 +87,10 @@ export const SimpleNoteViewer = ({
 
                     {note.tags.map(nt => (
                         <NoteTagBadge key={nt.tagId} noteTag={nt} contextSpaceId={contextSpaceId}></NoteTagBadge>
+                    ))}
+
+                    {note.attrs.filter(x => !x.isDeleted && !x.tag).map(na => (
+                        <NoteAttrBadge key={na.attrId} noteAttr={na} contextSpaceId={contextSpaceId}></NoteAttrBadge>
                     ))}
                 </div>
             </div>
