@@ -5,6 +5,7 @@ export class MockHttpClient {
 
     login(username: string, password: string) {
         this.calls.push({name: 'login', username, password});
+        return Promise.resolve({success: true, error: null, token: '123.456.789'})
     }
 
     getSpaces(): Promise<Array<Space>> {
