@@ -18,6 +18,7 @@ export const LoginView = ({
 
     async function submitLogin(evt): Promise<void> {
         evt.preventDefault();
+        setError(null);
         const username = evt.target.elements.username.value;
         const password = evt.target.elements.password.value;
         try {
