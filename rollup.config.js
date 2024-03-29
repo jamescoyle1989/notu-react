@@ -11,7 +11,7 @@ export default [
         input: 'src/index.ts',
         output: [
             {
-                file: 'dist/cjs/notu-react.js',
+                file: 'dist/cjs/notu-react.cjs',
                 format: 'cjs',
                 sourcemap: false
             },
