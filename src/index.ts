@@ -6,7 +6,7 @@ import { NoteEditor } from './NoteEditor';
 import { NoteSearch } from './NoteSearch';
 import { NoteTagBadge } from './NoteTagBadge';
 import { SimpleNoteList } from './SimpleNoteList';
-import { SimpleNoteViewer } from './SimpleNoteViewer';
+import { SimpleNoteViewer, SimpleNoteViewerAction } from './SimpleNoteViewer';
 import { SpaceEditor } from './SpaceEditor';
 import { useNotuCache } from './Hooks';
 
@@ -19,7 +19,7 @@ export {
     NoteSearch,
     NoteTagBadge,
     SimpleNoteList,
-    SimpleNoteViewer,
+    SimpleNoteViewer, SimpleNoteViewerAction,
     SpaceEditor,
     useNotuCache
 }
