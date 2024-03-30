@@ -58,3 +58,15 @@ export const OnTag: Story = {
         onDelete: () => { console.log('Delete clicked'); }
     }
 }
+
+export const ForBooleanValue: Story = {
+    args: {
+        noteAttr: (() => {
+            const attr = new Attr('Attr').in(space1).asBoolean().clean();
+            attr.id = 234;
+            return new Note().addAttr(attr).withValue(false);
+        })(),
+        contextSpaceId: 1,
+        onDelete: () => { console.log('Delete clicked'); }
+    }
+}

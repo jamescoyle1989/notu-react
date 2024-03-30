@@ -21,6 +21,14 @@ export const NoteAttrBadge = ({
             output = noteAttr.tag.getQualifiedName(contextSpaceId) + '.' + output;
         return output;
     }
+
+    function getValueString() {
+        if (noteAttr.value === true)
+            return 'True';
+        else if (noteAttr.value === false)
+            return 'False';
+        return noteAttr.value;
+    }
     
     function renderDeleteButton() {
         if (!onDelete)
@@ -30,7 +38,7 @@ export const NoteAttrBadge = ({
 
     return (
         <span className="tag is-small is-unselectable is-rounded has-background-grey-light">
-            {getAttrLabel()}: {noteAttr.value}
+            {getAttrLabel()}: {getValueString()}
             {renderDeleteButton()}
         </span>
     );
