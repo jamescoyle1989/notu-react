@@ -70,3 +70,15 @@ export const ForBooleanValue: Story = {
         onDelete: () => { console.log('Delete clicked'); }
     }
 }
+
+export const ForDateValue: Story = {
+    args: {
+        noteAttr: (() => {
+            const attr = new Attr('Attr').in(space1).asDate().clean();
+            attr.id = 234;
+            return new Note().addAttr(attr).withValue(new Date(2024, 6, 5, 17, 23, 46));
+        })(),
+        contextSpaceId: 1,
+        onDelete: () => { console.log('Delete clicked'); }
+    }
+}
