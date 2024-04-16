@@ -1,6 +1,7 @@
 import React from 'react';
 import { NoteTag } from 'notu';
 import 'bulma';
+import { renderNoteAttrValue } from './helpers/NotuRender';
 
 interface NoteTagBadgeProps {
     noteTag: NoteTag,
@@ -25,7 +26,7 @@ export const NoteTagBadge = ({
         if (!noteTag.note)
             return;
         return noteTag.attrs.map(na => (
-            <span className="ml-1">{na.attr.name}: {na.value}</span>
+            <span className="ml-1">{na.attr.name}: {renderNoteAttrValue(na)}</span>
         ));
     }
 

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { NoteTagBadge } from '../NoteTagBadge';
-import { Note, Space, Tag } from 'notu';
+import { Attr, Note, Space, Tag } from 'notu';
 
 const meta: Meta<typeof NoteTagBadge> = {
     title: 'NoteTagBadge',

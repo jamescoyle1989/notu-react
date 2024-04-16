@@ -1,6 +1,7 @@
 import React from 'react';
 import { NoteAttr, Tag } from 'notu';
 import 'bulma';
+import { renderNoteAttrValue } from './helpers/NotuRender';
 
 interface NoteAttrBadgeProps {
     noteAttr: NoteAttr,
@@ -21,18 +22,6 @@ export const NoteAttrBadge = ({
             output = noteAttr.tag.getQualifiedName(contextSpaceId) + '.' + output;
         return output;
     }
-
-    function getValueString() {
-        if (noteAttr.value === true)
-            return 'True';
-        else if (noteAttr.value === false)
-            return 'False';
-        else if (noteAttr.value instanceof Date) {
-            const date = noteAttr.value as Date;
-            return `${date.toDateString()} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
-        }
-        return noteAttr.value;
-    }
     
     function renderDeleteButton() {
         if (!onDelete)
@@ -42,7 +31,7 @@ export const NoteAttrBadge = ({
 
     return (
         <span className="tag is-small is-unselectable is-rounded has-background-grey-light">
-            {getAttrLabel()}: {getValueString()}
+            {getAttrLabel()}: {renderNoteAttrValue(noteAttr)}
             {renderDeleteButton()}
         </span>
     );
