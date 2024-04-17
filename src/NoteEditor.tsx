@@ -148,7 +148,12 @@ export const NoteEditor = ({
         return (
             <div className="box">
                 <div>
-                    {note.tags.map(x => (<NoteTagBadge key={x.tag.id} noteTag={x} contextSpaceId={note.spaceId} onDelete={() => removeTag(x.tag)}/>))}
+                    {note.tags.map(x => (
+                        <NoteTagBadge key={x.tag.id} noteTag={x}
+                                      contextSpaceId={note.spaceId}
+                                      onDelete={() => removeTag(x.tag)}
+                                      showAttrs={false}/>
+                    ))}
                 </div>
             </div>
         );

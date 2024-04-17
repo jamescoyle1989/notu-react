@@ -6,14 +6,16 @@ import { renderNoteAttrValue } from './helpers/NotuRender';
 interface NoteTagBadgeProps {
     noteTag: NoteTag,
     contextSpaceId: number,
-    onDelete?: () => void
+    onDelete?: () => void,
+    showAttrs: boolean
 }
 
 
 export const NoteTagBadge = ({
     noteTag,
     contextSpaceId,
-    onDelete
+    onDelete,
+    showAttrs
 }: NoteTagBadgeProps) => {
 
     function renderDeleteButton() {
@@ -23,7 +25,7 @@ export const NoteTagBadge = ({
     }
 
     function renderTagAttributes() {
-        if (!noteTag.note)
+        if (!noteTag.note || !showAttrs)
             return;
         return noteTag.attrs.map(na => (
             <span key={`${noteTag.tagId}_${na.attrId}`} className="ml-1">{na.attr.name}: {renderNoteAttrValue(na)}</span>

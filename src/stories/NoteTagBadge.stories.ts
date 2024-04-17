@@ -30,7 +30,8 @@ export const Primary: Story = {
             return new Note().addTag(tag);
         })(),
         contextSpaceId: 1,
-        onDelete: null
+        onDelete: null,
+        showAttrs: true
     }
 };
 
@@ -42,7 +43,8 @@ export const WithDeleteButton: Story = {
             return new Note().addTag(tag);
         })(),
         contextSpaceId: 1,
-        onDelete: () => { console.log('Delete clicked'); }
+        onDelete: () => { console.log('Delete clicked'); },
+        showAttrs: true
     }
 };
 
@@ -54,7 +56,8 @@ export const ShowsSpaceNameIfRequired: Story = {
             return new Note().addTag(tag);
         })(),
         contextSpaceId: 1,
-        onDelete: null
+        onDelete: null,
+        showAttrs: true
     }
 }
 
@@ -67,7 +70,8 @@ export const RedBadge: Story = {
             return new Note().addTag(tag);
         })(),
         contextSpaceId: 1,
-        onDelete: null
+        onDelete: null,
+        showAttrs: true
     }
 }
 
@@ -80,6 +84,7 @@ export const GreenBadge: Story = {
             return new Note().addTag(tag);
         })(),
         contextSpaceId: 1,
-        onDelete: null
+        onDelete: null,
+        showAttrs: true
     }
 }
