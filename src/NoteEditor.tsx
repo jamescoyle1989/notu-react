@@ -81,7 +81,7 @@ export const NoteEditor = ({
     }
 
     function tagsThatCanBeAdded(): Array<Tag> {
-        return tags.filter(x => !note.tags.find(y => x.id == y.tagId));
+        return tags.filter(x => (x.isPublic || x.spaceId == note.spaceId) && !note.tags.find(y => x.id == y.tagId));
     }
 
     function removeTag(tag: Tag): void {
