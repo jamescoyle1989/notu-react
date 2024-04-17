@@ -47,7 +47,9 @@ export const Primary: Story = {
         onConfirm: note => {
             console.log('Confirm Clicked', note);
             return Promise.resolve(true);
-        }
+        },
+        onCancel: note => { console.log('Cancel Clicked'); },
+        onSave: note => { console.log('Note saved'); }
     }
 };
 
@@ -61,7 +63,9 @@ export const ShowsErrorIfNoteDoesntSetSpace: Story = {
         onConfirm: note => {
             console.log('Confirm Clicked', note);
             return Promise.resolve(true);
-        }
+        },
+        onCancel: note => { console.log('Cancel Clicked'); },
+        onSave: note => { console.log('Note saved'); }
     }
 }
 
@@ -77,7 +81,9 @@ export const DisplaysErrorMessageOnFailedConfirm: Story = {
         onConfirm: note => {
             console.log('Confirm Clicked', note);
             throw new Error('This note is crap, try again!');
-        }
+        },
+        onCancel: note => { console.log('Cancel Clicked'); },
+        onSave: note => { console.log('Note saved'); }
     }
 };
 
@@ -93,6 +99,8 @@ export const DoesntCallNotuClientIfOnConfirmReturnsFalse: Story = {
         onConfirm: note => {
             console.log('Confirm Clicked', note);
             return Promise.resolve(false);
-        }
+        },
+        onCancel: note => { console.log('Cancel Clicked'); },
+        onSave: note => { console.log('Note saved'); }
     }
 };

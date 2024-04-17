@@ -16,7 +16,11 @@ interface NoteEditorProps {
     /** The collection of attrs that can be added to the note */
     attrs: Array<Attr>,
     /** Called when the confirm button is clicked. A false return value will prevent saving, so will a thrown error, which will also display on the note editor */
-    onConfirm: (note: Note) => Promise<boolean>
+    onConfirm: (note: Note) => Promise<boolean>,
+    /** Called when the cancel button is clicked */
+    onCancel: (note: Note) => void,
+    /** Called when onConfirm has indicated that the NoteEditor should proceed with the save automatically, and the save has gone through successfully */
+    onSave: (note: Note) => void
 }
 
 
@@ -25,7 +29,9 @@ export const NoteEditor = ({
     note,
     tags,
     attrs,
-    onConfirm
+    onConfirm,
+    onCancel,
+    onSave
 }: NoteEditorProps) => {
     if (!note.space)
         return (<p>Note must define the space that it belongs to</p>);
@@ -44,8 +50,10 @@ export const NoteEditor = ({
         note.text = evt.target.elements.text.value;
         try {
             const confirmResult = await onConfirm(note);
-            if (!!confirmResult)
+            if (!!confirmResult) {
                 notuClient.saveNotes([note]);
+                try { onSave(note); } catch (err) { }
+            }
             setError(null);
         }
         catch (err) {
@@ -100,6 +108,10 @@ export const NoteEditor = ({
         setAttrIds(newAttrIds);
         note.addAttr(attr);
         event.target.value = null;
+    }
+
+    function onCancelClick() {
+        onCancel(note);
     }
 
     function renderErrorMessage() {
@@ -221,7 +233,8 @@ export const NoteEditor = ({
                 {renderAttrFields()}
 
                 <div className="field">
-                    <button type="submit" className="button is-link">Confirm</button>
+                    <button type="submit" className="button is-link mr-3">Confirm</button>
+                    <button type="button" className="button is-danger" onClick={onCancelClick}>Cancel</button>
                 </div>
             </fieldset>
         </form>
