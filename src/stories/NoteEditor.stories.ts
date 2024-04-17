@@ -30,8 +30,10 @@ tag2.id = 2;
 tag2.space = space2;
 tag2.clean();
 
-const attr1 = new Attr('Test Attr').in(space1).clean();
+const attr1 = new Attr('Text Attr').in(space1).asText().clean();
 attr1.id = 1;
+const attr2 = new Attr('Date Attr').in(space1).asDate().clean();
+attr2.id = 2;
 
 const notuClient = new MockHttpClient();
 
@@ -43,7 +45,7 @@ export const Primary: Story = {
             .in(space1)
             .at(new Date(1987, 6, 5, 4, 3, 2)),
         tags: [tag1, tag2],
-        attrs: [attr1],
+        attrs: [attr1, attr2],
         onConfirm: note => {
             console.log('Confirm Clicked', note);
             return Promise.resolve(true);
@@ -59,7 +61,7 @@ export const ShowsErrorIfNoteDoesntSetSpace: Story = {
         notuClient: notuClient as any,
         note: new Note('hello'),
         tags: [tag1, tag2],
-        attrs: [attr1],
+        attrs: [attr1, attr2],
         onConfirm: note => {
             console.log('Confirm Clicked', note);
             return Promise.resolve(true);
@@ -77,7 +79,7 @@ export const DisplaysErrorMessageOnFailedConfirm: Story = {
             .in(space1)
             .at(new Date(1987, 6, 5, 4, 3, 2)),
         tags: [tag1, tag2],
-        attrs: [attr1],
+        attrs: [attr1, attr2],
         onConfirm: note => {
             console.log('Confirm Clicked', note);
             throw new Error('This note is crap, try again!');
@@ -95,7 +97,7 @@ export const DoesntCallNotuClientIfOnConfirmReturnsFalse: Story = {
             .in(space1)
             .at(new Date(1987, 6, 5, 4, 3, 2)),
         tags: [tag1, tag2],
-        attrs: [attr1],
+        attrs: [attr1, attr2],
         onConfirm: note => {
             console.log('Confirm Clicked', note);
             return Promise.resolve(false);

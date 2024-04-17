@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { NoteAttr, Tag } from 'notu';
 import { useState } from 'react';
 
@@ -18,20 +18,21 @@ export const NoteAttrEditor = ({
 }: NoteAttrEditorProps) => {
     const [value, setValue] = useState(noteAttr.value);
     const [tagId, setTagId] = useState(noteAttr.tagId);
+    const dateRef = useRef();
+    const timeRef = useRef();
 
     function onValueChange(event): void {
         noteAttr.value = event.target.value;
         setValue(noteAttr.value);
     }
 
-    function onDateChange(event, time): void {
-        noteAttr.value = new Date(`${event.target.value} ${time}`);
-        setValue(noteAttr.value);
-    }
-
-    function onTimeChange(event, date): void {
-        noteAttr.value = new Date(`${date} ${event.target.value}`);
-        setValue(noteAttr.value);
+    function updateDateTimeValue(): void {
+        if (!!dateRef.current && !!timeRef.current) {
+            const newDate = (dateRef.current as any).value;
+            const newTime = (timeRef.current as any).value;
+            noteAttr.value = new Date(`${newDate} ${newTime}`);
+            setValue(noteAttr.value);
+        }
     }
 
     function onBooleanChange(): void {
@@ -93,10 +94,10 @@ export const NoteAttrEditor = ({
                     {renderLabelPortion()}
                     {renderTagDropdown()}
                     <p className="control">
-                        <input type="date" className="input" value={date} onChange={evt => onDateChange(evt, time)}></input>
+                        <input ref={dateRef} type="date" className="input" defaultValue={date} onBlur={updateDateTimeValue}></input>
                     </p>
                     <p className="control">
-                        <input type="time" className="input" value={time} onChange={evt => onTimeChange(evt, date)}></input>
+                        <input ref={timeRef} type="time" className="input" defaultValue={time} onBlur={updateDateTimeValue}></input>
                     </p>
                 </div>
             );
