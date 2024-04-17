@@ -51,7 +51,7 @@ export const NoteEditor = ({
         try {
             const confirmResult = await onConfirm(note);
             if (!!confirmResult) {
-                notuClient.saveNotes([note]);
+                await notuClient.saveNotes([note]);
                 try { onSave(note); } catch (err) { }
             }
             setError(null);
