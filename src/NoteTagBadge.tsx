@@ -26,7 +26,7 @@ export const NoteTagBadge = ({
         if (!noteTag.note)
             return;
         return noteTag.attrs.map(na => (
-            <span className="ml-1">{na.attr.name}: {renderNoteAttrValue(na)}</span>
+            <span key={`${noteTag.tagId}_${na.attrId}`} className="ml-1">{na.attr.name}: {renderNoteAttrValue(na)}</span>
         ));
     }
 
