@@ -37,6 +37,28 @@ export const Primary: Story = {
     args: {
         space: space1,
         notuClient: new FakeHttpClient() as any,
-        onFetch: (notes) => console.log(notes)
+        onFetched: (notes) => console.log(notes)
     }
 };
+
+
+export const DefaultValue: Story = {
+    args: {
+        space: space1,
+        notuClient: new FakeHttpClient() as any,
+        onFetched: (notes) => console.log(notes),
+        defaultValue: '#Tag AND @Attr.Exists'
+    }
+}
+
+export const CanManuallyProcessNoteFetching: Story = {
+    args: {
+        space: space1,
+        onFetchRequested: (query: string, space: Space) => {
+            return Promise.resolve([
+                new Note('I am a manually generated note.')
+            ]);
+        },
+        onFetched: (notes) => console.log(notes)
+    }
+}
