@@ -6,14 +6,16 @@ import { useState } from 'react';
 interface SimpleNoteListProps {
     notes: Array<Note>,
     contextSpaceId: number,
-    actionsGenerator: (note: Note) => Array<SimpleNoteViewerAction>
+    actionsGenerator: (note: Note) => Array<SimpleNoteViewerAction>,
+    postActionRefreshCallback: () => void
 }
 
 
 export const SimpleNoteList = ({
     notes,
     contextSpaceId,
-    actionsGenerator
+    actionsGenerator,
+    postActionRefreshCallback
 }: SimpleNoteListProps) => {
 
     const [selectedNote, setSelectedNote] = useState(null);
@@ -28,7 +30,8 @@ export const SimpleNoteList = ({
                 <div key={n.id} onClick={() => onNoteClick(n)}>
                     <SimpleNoteViewer key={n.id} note={n} contextSpaceId={contextSpaceId} 
                         actions={actionsGenerator(n)}
-                        isSelected={selectedNote === n}/>
+                        isSelected={selectedNote === n}
+                        postActionRefreshCallback={postActionRefreshCallback}/>
                 </div>
             ))}
         </div>

@@ -9,15 +9,17 @@ interface SimpleNoteViewerProps {
     note: Note,
     contextSpaceId: number,
     actions: Array<SimpleNoteViewerAction>,
-    isSelected: boolean
+    isSelected: boolean,
+    postActionRefreshCallback: () => void
 }
 
 
 export class SimpleNoteViewerAction {
     name: string;
-    action: (note: Note) => void;
+    /** The action to be performed on the note. Should return true if a refresh is required. */
+    action: (note: Note) => Promise<boolean | void>;
 
-    public constructor(name: string, action: (note: Note) => void) {
+    public constructor(name: string, action: (note: Note) => Promise<boolean | void>) {
         this.name = name;
         this.action = action;
     }
@@ -28,7 +30,8 @@ export const SimpleNoteViewer = ({
     note,
     contextSpaceId,
     actions,
-    isSelected
+    isSelected,
+    postActionRefreshCallback
 }: SimpleNoteViewerProps) => {
     const [showActions, setShowActions] = useState(false);
 
@@ -43,9 +46,11 @@ export const SimpleNoteViewer = ({
         setShowActions(!showActions);
     }
 
-    function callAction(action: (note: Note) => void) {
-        action(note);
+    async function callAction(action: (note: Note) => Promise<boolean | void>) {
         setShowActions(false);
+        const result = await action(note);
+        if (!!result)
+            postActionRefreshCallback();
     }
 
     function renderOwnTag() {

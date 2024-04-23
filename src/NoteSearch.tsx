@@ -8,6 +8,8 @@ interface NoteSearchProps {
     space: Space,
     /** The client used for fetching results from the server, only add this if you want notes to be auto-fetched for you */
     notuClient?: HttpClient,
+    /** Optional callback for handling changes to the query text */
+    onQueryChanged?: (query: string) => void,
     /** If notuClient has not been defined, then use this prop for handling the manual fetching of notes */
     onFetchRequested?: (query: string, space: Space) => Promise<Array<Note>>,
     /** Callback that gets fired when the search has been executed and notes returned */
@@ -20,6 +22,7 @@ interface NoteSearchProps {
 export const NoteSearch = ({
     space,
     notuClient = null,
+    onQueryChanged = null,
     onFetchRequested = null,
     onFetched = null,
     defaultValue = null
@@ -29,6 +32,8 @@ export const NoteSearch = ({
 
     function onSearchTextChange(event): void {
         setSearchText(event.target.value);
+        if (!!onQueryChanged)
+            onQueryChanged(event.target.value);
     }
 
     async function onSearchSubmit(): Promise<void> {

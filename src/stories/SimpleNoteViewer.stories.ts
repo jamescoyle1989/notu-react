@@ -43,8 +43,8 @@ export const Primary: Story = {
         })(),
         contextSpaceId: 1,
         actions: [
-            new SimpleNoteViewerAction('Say Hello', n => console.log('Hello')),
-            new SimpleNoteViewerAction('Say Goodbye', n => console.log('Goodbye'))
+            new SimpleNoteViewerAction('Say Hello', async n => console.log('Hello')),
+            new SimpleNoteViewerAction('Say Goodbye', async n => console.log('Goodbye'))
         ],
         isSelected: true
     }
@@ -67,5 +67,18 @@ export const NoActions: Story = {
         contextSpaceId: 1,
         actions: [],
         isSelected: true
+    }
+}
+
+
+export const BroadcastsRefreshRequired: Story = {
+    args: {
+        note: new Note('Test test').at(new Date(2023, 11, 18)),
+        contextSpaceId: 1,
+        actions: [
+            new SimpleNoteViewerAction('Force refresh', async n => Promise.resolve(true))
+        ],
+        isSelected: true,
+        postActionRefreshCallback: () => console.log('Refresh required')
     }
 }

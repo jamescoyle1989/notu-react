@@ -37,7 +37,8 @@ export const Primary: Story = {
     args: {
         space: space1,
         notuClient: new FakeHttpClient() as any,
-        onFetched: (notes) => console.log(notes)
+        onFetched: (notes) => console.log(notes),
+        onQueryChanged: query => console.log('Query changed: ' + query)
     }
 };
 
