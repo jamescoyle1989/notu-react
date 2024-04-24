@@ -62,7 +62,7 @@ export const SimpleFilteredNoteList = ({
     return (
         <div>
             <NoteSearch notuClient={notuClient as any} space={space}
-                        onFetched={setNotes} defaultValue={defaultFilter}
+                        onFetched={setNotes} defaultValue={currentFilter}
                         onFetchRequested={onFetchRequested}
                         onQueryChanged={setCurrentFilter}/>
 
