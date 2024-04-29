@@ -106,3 +106,25 @@ export const DoesntCallNotuClientIfOnConfirmReturnsFalse: Story = {
         onSave: note => { console.log('Note saved'); }
     }
 };
+
+
+export const AllowsRemovalOfAttrsFromSavedNote: Story = {
+    args: {
+        notuClient: notuClient as any,
+        note: (() => {
+            const output = new Note('Hello').in(space1);
+            output.id = 123;
+            output.addAttr(attr1).withValue('Woo woo').clean();
+            output.clean();
+            return output;
+        })(),
+        tags: [tag1, tag2],
+        attrs: [attr1, attr2],
+        onConfirm: note => {
+            console.log('Confirm Clicked', note);
+            return Promise.resolve(false);
+        },
+        onCancel: note => { console.log('Cancel Clicked'); },
+        onSave: note => { console.log('Note saved'); }
+    }
+}
