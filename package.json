@@ -25,7 +25,7 @@
     "bulma": "^0.9.4"
   },
   "peerDependencies": {
-    "notu": "^0.5.10",
+    "notu": "^0.6.0",
     "react": "^18.2.0"
   },
   "devDependencies": {

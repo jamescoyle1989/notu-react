@@ -34,9 +34,9 @@ export const Primary: Story = {
         contextSpaceId: 1,
         actionsGenerator: n => {
             const output = new Array<SimpleNoteViewerAction>();
-            output.push(new SimpleNoteViewerAction('Test', async n => {}));
+            output.push(new SimpleNoteViewerAction('Test', n => {}));
             if (n.text.endsWith('first note'))
-                output.push(new SimpleNoteViewerAction('Special First Note Action', async n => {}));
+                output.push(new SimpleNoteViewerAction('Special First Note Action', n => {}));
             return output;
         }
     }
