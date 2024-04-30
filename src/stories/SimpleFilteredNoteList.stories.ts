@@ -33,7 +33,7 @@ export const Primary: Story = {
             note2.id = 124;
             return Promise.resolve([note1, note2]);
         },
-        defaultFilter: '#Tag1 AND NOT #Tag2',
+        defaultQuery: '#Tag1 AND NOT #Tag2',
         noteActionsGenerator: note => [
             new SimpleNoteViewerAction('Do something', async n => Promise.resolve(true))
         ],

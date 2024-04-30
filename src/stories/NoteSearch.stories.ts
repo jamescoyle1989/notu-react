@@ -37,20 +37,32 @@ export const Primary: Story = {
     args: {
         space: space1,
         notuClient: new FakeHttpClient() as any,
-        onFetched: (notes) => console.log(notes),
+        onFetched: console.log,
         onQueryChanged: query => console.log('Query changed: ' + query)
     }
 };
 
 
-export const DefaultValue: Story = {
+export const TextBoxIsDisabledIfNoOnQueryChanged: Story = {
+    args: {
+        space: space1,
+        notuClient: new FakeHttpClient() as any,
+        onFetched: console.log,
+        query: '#Tag AND @Attr.Exists'
+    }
+}
+
+
+export const OnQueryChangedCallbackGetsCalled: Story = {
     args: {
         space: space1,
         notuClient: new FakeHttpClient() as any,
         onFetched: (notes) => console.log(notes),
-        defaultValue: '#Tag AND @Attr.Exists'
+        query: 'I like pies',
+        onQueryChanged: console.log
     }
 }
+
 
 export const CanManuallyProcessNoteFetching: Story = {
     args: {
@@ -60,6 +72,6 @@ export const CanManuallyProcessNoteFetching: Story = {
                 new Note('I am a manually generated note.')
             ]);
         },
-        onFetched: (notes) => console.log(notes)
+        onFetched: console.log
     }
 }
