@@ -13,10 +13,12 @@ interface SimpleFilteredNoteListProps {
     onFetchRequested?: (query: string, space: Space) => Promise<Array<Note>>,
     /** The optional default value for the search field to have. If not defined then defaults to empty */
     defaultQuery?: string,
+    /** Optional handler for when the query gets changed */
+    onQueryChanged?: (query: string) => void,
     /** The set of options which get generated for each note */
     noteActionsGenerator: (note: Note) => Array<SimpleNoteViewerAction>,
-    actionsPanel?: () => JSX.Element
-    isVisible?: boolean,
+    actionsPanel?: () => JSX.Element,
+    isVisible?: boolean
 }
 
 interface SimpleFilteredNoteListCommands {
@@ -31,6 +33,7 @@ export const SimpleFilteredNoteList = React.forwardRef((
         notuClient = null,
         onFetchRequested = null,
         defaultQuery = null,
+        onQueryChanged = null,
         noteActionsGenerator,
         actionsPanel = null,
         isVisible = true
@@ -44,7 +47,7 @@ export const SimpleFilteredNoteList = React.forwardRef((
 
     useImperativeHandle(ref, () => ({
         refresh: loadNotes,
-        setQuery: setCurrentQuery
+        setQuery: updateQuery
     }));
 
     useEffect(() => {
@@ -63,6 +66,12 @@ export const SimpleFilteredNoteList = React.forwardRef((
         setNotes(notes);
     }
 
+    function updateQuery(query: string) {
+        setCurrentQuery(query);
+        if (!!onQueryChanged)
+            onQueryChanged(query);
+    }
+
     if (!isVisible)
         return;
 
@@ -77,7 +86,7 @@ export const SimpleFilteredNoteList = React.forwardRef((
             <NoteSearch notuClient={notuClient as any} space={space}
                         onFetched={setNotes} query={currentQuery}
                         onFetchRequested={onFetchRequested}
-                        onQueryChanged={setCurrentQuery}/>
+                        onQueryChanged={updateQuery}/>
 
             {renderActionsPanel()}
 

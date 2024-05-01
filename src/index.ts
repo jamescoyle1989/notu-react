@@ -1,4 +1,5 @@
 import { AttrEditor } from './AttrEditor';
+import { GroupedFilteredNoteList } from './GroupedFilteredNoteList';
 import { LoginView } from './LoginView';
 import { NoteAttrBadge } from './NoteAttrBadge';
 import { NoteAttrEditor } from './NoteAttrEditor';
@@ -13,6 +14,7 @@ import { useNotuCache } from './Hooks';
 
 export {
     AttrEditor,
+    GroupedFilteredNoteList,
     LoginView,
     NoteAttrBadge,
     NoteAttrEditor,

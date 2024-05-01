@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { SimpleFilteredNoteList } from '../SimpleFilteredNoteList';
+import { GroupedFilteredNoteList } from '../GroupedFilteredNoteList';
 import { Note, Space } from 'notu';
 import { SimpleNoteViewerAction } from '../SimpleNoteViewer';
 
-const meta: Meta<typeof SimpleFilteredNoteList> = {
-    title: 'SimpleFilteredNoteList',
-    component: SimpleFilteredNoteList,
+const meta: Meta<typeof GroupedFilteredNoteList> = {
+    title: 'GroupedFilteredNoteList',
+    component: GroupedFilteredNoteList,
     parameters: {
         layout: 'padded'
     },
@@ -36,6 +36,12 @@ export const Primary: Story = {
         noteActionsGenerator: note => [
             new SimpleNoteViewerAction('Do something', async n => Promise.resolve(true))
         ],
-        isVisible: true
+        isVisible: true,
+        groupBy: n => n.date.getDay(),
+        groupHeader: (key, notes) => {
+            const day = Number(key);
+            return ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][day];
+        },
+        orderGroupsBy: (key, notes) => Number(key)
     }
 }
