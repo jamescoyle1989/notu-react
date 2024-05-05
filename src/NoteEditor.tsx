@@ -41,7 +41,7 @@ export const NoteEditor = ({
 
     const [ownTagName, setOwnTagName] = useState(note.ownTag?.name ?? '');
     const [tagIds, setTagIds] = useState(note.tags.map(x => x.tagId));
-    const [attrIds, setAttrIds] = useState(note.attrs.filter(x => x.tagId == null).map(x => x.attrId));
+    const [attrIds, setAttrIds] = useState(note.allAttrs.map(x => x.attrId));
     const [error, setError] = useState(null);
 
     async function submitNote(evt): Promise<void> {
@@ -177,12 +177,12 @@ export const NoteEditor = ({
     }
 
     function renderAttrFields() {
-        if (note.attrs.length == 0)
+        if (note.allAttrs.length == 0)
             return;
         
         return (
             <div className="box">
-                {note.attrs.map((noteAttr, index) => (
+                {note.allAttrs.map((noteAttr, index) => (
                     <NoteAttrEditor key={index} noteAttr={noteAttr} contextSpaceId={note.spaceId} 
                                     tags={tagIds.map(id => tags.find(x => x.id == id))} onRemove={removeAttr}/>
                 ))}

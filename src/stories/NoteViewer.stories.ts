@@ -37,8 +37,8 @@ export const Primary: Story = {
                 .setOwnTag('My Tag');
             output.ownTag.color = '#0000FF';
             output.addTag(tag1);
-            output.attrs.push(new NoteAttr(1, attr1, 12345));
-            output.attrs.push(new NoteAttr(1, attr1, 23456).onTag(tag1));
+            output['_attrs'].push(new NoteAttr(1, attr1, 12345));
+            output['_attrs'].push(new NoteAttr(1, attr1, 23456).onTag(tag1));
             return output;
         })(),
         contextSpaceId: 1,

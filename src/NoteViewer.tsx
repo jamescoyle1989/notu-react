@@ -96,7 +96,7 @@ export const NoteViewer = ({
                         <NoteTagBadge key={nt.tagId} noteTag={nt} contextSpaceId={contextSpaceId} showAttrs={true}></NoteTagBadge>
                     ))}
 
-                    {note.attrs.filter(x => !x.isDeleted && !x.tag).map(na => (
+                    {note.noteAttrs.map(na => (
                         <NoteAttrBadge key={na.attrId} noteAttr={na} contextSpaceId={contextSpaceId}></NoteAttrBadge>
                     ))}
                 </div>
