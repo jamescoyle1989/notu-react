@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { SimpleNoteViewer, SimpleNoteViewerAction } from '../SimpleNoteViewer';
+import { NoteViewer, NoteViewerAction } from '../NoteViewer';
 import { Attr, Note, NoteAttr, Space, Tag } from 'notu';
 
-const meta: Meta<typeof SimpleNoteViewer> = {
-    title: 'SimpleNoteViewer',
-    component: SimpleNoteViewer,
+const meta: Meta<typeof NoteViewer> = {
+    title: 'NoteViewer',
+    component: NoteViewer,
     parameters: {
         layout: 'padded'
     },
@@ -43,8 +43,8 @@ export const Primary: Story = {
         })(),
         contextSpaceId: 1,
         actions: [
-            new SimpleNoteViewerAction('Say Hello', n => console.log('Hello')),
-            new SimpleNoteViewerAction('Say Goodbye', n => console.log('Goodbye'))
+            new NoteViewerAction('Say Hello', n => console.log('Hello')),
+            new NoteViewerAction('Say Goodbye', n => console.log('Goodbye'))
         ],
         isSelected: true
     }

@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { SimpleNoteList } from '../SimpleNoteList';
+import { NoteList } from '../NoteList';
 import { Note, Space } from 'notu';
-import { SimpleNoteViewerAction } from '../SimpleNoteViewer';
+import { NoteViewerAction } from '../NoteViewer';
 
-const meta: Meta<typeof SimpleNoteList> = {
-    title: 'SimpleNoteList',
-    component: SimpleNoteList,
+const meta: Meta<typeof NoteList> = {
+    title: 'NoteList',
+    component: NoteList,
     parameters: {
         layout: 'padded'
     },
@@ -33,10 +33,10 @@ export const Primary: Story = {
         })(),
         contextSpaceId: 1,
         actionsGenerator: n => {
-            const output = new Array<SimpleNoteViewerAction>();
-            output.push(new SimpleNoteViewerAction('Test', n => {}));
+            const output = new Array<NoteViewerAction>();
+            output.push(new NoteViewerAction('Test', n => {}));
             if (n.text.endsWith('first note'))
-                output.push(new SimpleNoteViewerAction('Special First Note Action', n => {}));
+                output.push(new NoteViewerAction('Special First Note Action', n => {}));
             return output;
         }
     }

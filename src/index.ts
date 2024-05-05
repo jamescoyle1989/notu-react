@@ -1,29 +1,29 @@
 import { AttrEditor } from './AttrEditor';
-import { GroupedFilteredNoteList } from './GroupedFilteredNoteList';
+import { GroupedNoteList } from './GroupedNoteList';
 import { LoginView } from './LoginView';
 import { NoteAttrBadge } from './NoteAttrBadge';
 import { NoteAttrEditor } from './NoteAttrEditor';
 import { NoteEditor } from './NoteEditor';
 import { NoteSearch } from './NoteSearch';
 import { NoteTagBadge } from './NoteTagBadge';
-import { SimpleNoteList } from './SimpleNoteList';
-import { SimpleNoteViewer, SimpleNoteViewerAction } from './SimpleNoteViewer';
-import { SimpleFilteredNoteList } from './SimpleFilteredNoteList';
+import { NoteList } from './NoteList';
+import { NoteViewer, NoteViewerAction } from './NoteViewer';
+import { FilteredNoteList } from './FilteredNoteList';
 import { SpaceEditor } from './SpaceEditor';
 import { useNotuCache } from './Hooks';
 
 export {
     AttrEditor,
-    GroupedFilteredNoteList,
+    GroupedNoteList,
     LoginView,
     NoteAttrBadge,
     NoteAttrEditor,
     NoteEditor,
     NoteSearch,
     NoteTagBadge,
-    SimpleNoteList,
-    SimpleNoteViewer, SimpleNoteViewerAction,
-    SimpleFilteredNoteList,
+    NoteList,
+    NoteViewer, NoteViewerAction,
+    FilteredNoteList,
     SpaceEditor,
     useNotuCache
 }

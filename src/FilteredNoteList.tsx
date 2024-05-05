@@ -1,10 +1,10 @@
 import { CachedClient, Note, Space } from 'notu';
 import React, { useEffect, useState, useImperativeHandle } from 'react';
-import { SimpleNoteViewerAction } from './SimpleNoteViewer';
+import { NoteViewerAction } from './NoteViewer';
 import { NoteSearch } from './NoteSearch';
-import { SimpleNoteList } from './SimpleNoteList';
+import { NoteList } from './NoteList';
 
-interface SimpleFilteredNoteListProps {
+interface FilteredNoteListProps {
     /** The space which we're fetching notes from */
     space: Space
     /** The client used for fetching results from the server, only add this if you want notes to be auto-fetched for you */
@@ -16,23 +16,23 @@ interface SimpleFilteredNoteListProps {
     /** Optional handler for when the query gets changed */
     onQueryChanged?: (query: string) => void,
     /** The set of options which get generated for each note */
-    noteActionsGenerator: (note: Note) => Array<SimpleNoteViewerAction>,
+    noteActionsGenerator: (note: Note) => Array<NoteViewerAction>,
     actionsPanel?: () => JSX.Element,
     isVisible?: boolean,
     noteViewer?: (
         note: Note,
-        actions: Array<SimpleNoteViewerAction>,
+        actions: Array<NoteViewerAction>,
         isSelected: boolean
     ) => JSX.Element
 }
 
-interface SimpleFilteredNoteListCommands {
+interface FilteredNoteListCommands {
     refresh: () => Promise<void>,
     setQuery: (query: string) => void
 }
 
 
-export const SimpleFilteredNoteList = React.forwardRef((
+export const FilteredNoteList = React.forwardRef((
     {
         space,
         notuClient = null,
@@ -43,8 +43,8 @@ export const SimpleFilteredNoteList = React.forwardRef((
         actionsPanel = null,
         isVisible = true,
         noteViewer = null
-    }: SimpleFilteredNoteListProps,
-    ref: React.ForwardedRef<SimpleFilteredNoteListCommands>
+    }: FilteredNoteListProps,
+    ref: React.ForwardedRef<FilteredNoteListCommands>
 ) => {
 
     const [currentQuery, setCurrentQuery] = useState(defaultQuery ?? '');
@@ -96,7 +96,7 @@ export const SimpleFilteredNoteList = React.forwardRef((
 
             {renderActionsPanel()}
 
-            <SimpleNoteList notes={notes} contextSpaceId={space.id}
+            <NoteList notes={notes} contextSpaceId={space.id}
                             actionsGenerator={noteActionsGenerator}
                             noteViewer={noteViewer}/>
         </div>

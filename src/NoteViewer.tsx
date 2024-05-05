@@ -5,16 +5,16 @@ import 'bulma';
 import { useEffect, useState } from 'react';
 import { NoteAttrBadge } from './NoteAttrBadge';
 
-interface SimpleNoteViewerProps {
+interface NoteViewerProps {
     note: Note,
     contextSpaceId: number,
-    actions: Array<SimpleNoteViewerAction>,
+    actions: Array<NoteViewerAction>,
     isSelected: boolean,
     showDate?: boolean
 }
 
 
-export class SimpleNoteViewerAction {
+export class NoteViewerAction {
     name: string;
     action: (note: Note) => void;
 
@@ -25,13 +25,13 @@ export class SimpleNoteViewerAction {
 }
 
 
-export const SimpleNoteViewer = ({
+export const NoteViewer = ({
     note,
     contextSpaceId,
     actions,
     isSelected,
     showDate = true
-}: SimpleNoteViewerProps) => {
+}: NoteViewerProps) => {
     const [showActions, setShowActions] = useState(false);
 
     useEffect(() => {

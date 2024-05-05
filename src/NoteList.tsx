@@ -1,26 +1,26 @@
 import React from 'react';
 import { Note } from 'notu';
-import { SimpleNoteViewer, SimpleNoteViewerAction } from './SimpleNoteViewer';
+import { NoteViewer, NoteViewerAction } from './NoteViewer';
 import { useState } from 'react';
 
-interface SimpleNoteListProps {
+interface NoteListProps {
     notes: Array<Note>,
     contextSpaceId: number,
-    actionsGenerator: (note: Note) => Array<SimpleNoteViewerAction>,
+    actionsGenerator: (note: Note) => Array<NoteViewerAction>,
     noteViewer?: (
         note: Note,
-        actions: Array<SimpleNoteViewerAction>,
+        actions: Array<NoteViewerAction>,
         isSelected: boolean
     ) => JSX.Element
 }
 
 
-export const SimpleNoteList = ({
+export const NoteList = ({
     notes,
     contextSpaceId,
     actionsGenerator,
     noteViewer = null
-}: SimpleNoteListProps) => {
+}: NoteListProps) => {
 
     const [selectedNote, setSelectedNote] = useState(null);
 
@@ -31,7 +31,7 @@ export const SimpleNoteList = ({
     function renderNoteViewer(note: Note) {
         if (!noteViewer) {
             return (
-                <SimpleNoteViewer note={note}
+                <NoteViewer note={note}
                                   contextSpaceId={contextSpaceId}
                                   actions={actionsGenerator(note)}
                                   isSelected={selectedNote === note}/>

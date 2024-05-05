@@ -1,10 +1,9 @@
 import { CachedClient, Note, Space } from 'notu';
 import React, { useEffect, useState, useImperativeHandle } from 'react';
-import { SimpleNoteViewer, SimpleNoteViewerAction } from './SimpleNoteViewer';
+import { NoteViewer, NoteViewerAction } from './NoteViewer';
 import { NoteSearch } from './NoteSearch';
-import { SimpleNoteList } from './SimpleNoteList';
 
-interface GroupedFilteredNoteListProps {
+interface GroupedNoteListProps {
     /** The space which we're fetching notes from */
     space: Space
     /** The client used for fetching results from the server, only add this if you want notes to be auto-fetched for you */
@@ -16,7 +15,7 @@ interface GroupedFilteredNoteListProps {
     /** Optional handler for when the query gets changed */
     onQueryChanged?: (query: string) => void,
     /** The set of options which get generated for each note */
-    noteActionsGenerator: (note: Note) => Array<SimpleNoteViewerAction>,
+    noteActionsGenerator: (note: Note) => Array<NoteViewerAction>,
     actionsPanel?: () => JSX.Element,
     isVisible?: boolean,
     groupBy?: (note: Note) => any,
@@ -24,18 +23,18 @@ interface GroupedFilteredNoteListProps {
     orderGroupsBy?: (key: any, notes: Array<Note>) => number,
     noteViewer?: (
         note: Note,
-        actions: Array<SimpleNoteViewerAction>,
+        actions: Array<NoteViewerAction>,
         isSelected: boolean
     ) => JSX.Element
 }
 
-interface GroupedFilteredNoteListCommands {
+interface GroupedNoteListCommands {
     refresh: () => Promise<void>,
     setQuery: (query: string) => void
 }
 
 
-export const GroupedFilteredNoteList = React.forwardRef((
+export const GroupedNoteList = React.forwardRef((
     {
         space,
         notuClient = null,
@@ -49,8 +48,8 @@ export const GroupedFilteredNoteList = React.forwardRef((
         groupHeader = null,
         orderGroupsBy = null,
         noteViewer = null
-    }: GroupedFilteredNoteListProps,
-    ref: React.ForwardedRef<GroupedFilteredNoteListCommands>
+    }: GroupedNoteListProps,
+    ref: React.ForwardedRef<GroupedNoteListCommands>
 ) => {
 
     const [currentQuery, setCurrentQuery] = useState(defaultQuery ?? '');
@@ -146,7 +145,7 @@ export const GroupedFilteredNoteList = React.forwardRef((
     function renderNoteViewer(note: Note) {
         if (!noteViewer) {
             return (
-                <SimpleNoteViewer note={note}
+                <NoteViewer note={note}
                                   contextSpaceId={space.id}
                                   actions={noteActionsGenerator(note)}
                                   isSelected={selectedNote === note}/>

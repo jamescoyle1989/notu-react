@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { GroupedFilteredNoteList } from '../GroupedFilteredNoteList';
+import { GroupedNoteList } from '../GroupedNoteList';
 import { Note, Space } from 'notu';
-import { SimpleNoteViewerAction, SimpleNoteViewer } from '../SimpleNoteViewer';
-import { simpleNoteViewerWithoutDate } from './ReactSnippets';
+import { NoteViewerAction, NoteViewer } from '../NoteViewer';
+import { noteViewerWithoutDate } from './ReactSnippets';
 
-const meta: Meta<typeof GroupedFilteredNoteList> = {
-    title: 'GroupedFilteredNoteList',
-    component: GroupedFilteredNoteList,
+const meta: Meta<typeof GroupedNoteList> = {
+    title: 'GroupedNoteList',
+    component: GroupedNoteList,
     parameters: {
         layout: 'padded'
     },
@@ -35,7 +35,7 @@ export const Primary: Story = {
         },
         defaultQuery: '#Tag1 AND NOT #Tag2',
         noteActionsGenerator: note => [
-            new SimpleNoteViewerAction('Do something', async n => Promise.resolve(true))
+            new NoteViewerAction('Do something', async n => Promise.resolve(true))
         ],
         isVisible: true,
         groupBy: n => n.date.getDay(),
@@ -62,7 +62,7 @@ export const CanShowNotesWithoutDates: Story = {
         },
         defaultQuery: '#Tag1 AND NOT #Tag2',
         noteActionsGenerator: note => [
-            new SimpleNoteViewerAction('Do something', async n => Promise.resolve(true))
+            new NoteViewerAction('Do something', async n => Promise.resolve(true))
         ],
         isVisible: true,
         groupBy: n => n.date.getDay(),
@@ -71,6 +71,6 @@ export const CanShowNotesWithoutDates: Story = {
             return ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][day];
         },
         orderGroupsBy: (key, notes) => Number(key),
-        noteViewer: (note, actions, isSelected) => simpleNoteViewerWithoutDate(note, actions, isSelected, space1.id)
+        noteViewer: (note, actions, isSelected) => noteViewerWithoutDate(note, actions, isSelected, space1.id)
     }
 }

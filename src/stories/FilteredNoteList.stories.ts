@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { SimpleFilteredNoteList } from '../SimpleFilteredNoteList';
+import { FilteredNoteList } from '../FilteredNoteList';
 import { Note, Space } from 'notu';
-import { SimpleNoteViewerAction } from '../SimpleNoteViewer';
+import { NoteViewerAction } from '../NoteViewer';
 
-const meta: Meta<typeof SimpleFilteredNoteList> = {
-    title: 'SimpleFilteredNoteList',
-    component: SimpleFilteredNoteList,
+const meta: Meta<typeof FilteredNoteList> = {
+    title: 'FilteredNoteList',
+    component: FilteredNoteList,
     parameters: {
         layout: 'padded'
     },
@@ -34,7 +34,7 @@ export const Primary: Story = {
         },
         defaultQuery: '#Tag1 AND NOT #Tag2',
         noteActionsGenerator: note => [
-            new SimpleNoteViewerAction('Do something', async n => Promise.resolve(true))
+            new NoteViewerAction('Do something', async n => Promise.resolve(true))
         ],
         isVisible: true
     }
