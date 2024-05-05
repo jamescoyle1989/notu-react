@@ -1,0 +1,1 @@
+function r(e){if(e.value===!0)return"True";if(e.value===!1)return"False";if(e.value instanceof Date){const a=e.value;return`${a.toDateString()} ${a.getHours().toString().padStart(2,"0")}:${a.getMinutes().toString().padStart(2,"0")}`}return e.value}export{r};
