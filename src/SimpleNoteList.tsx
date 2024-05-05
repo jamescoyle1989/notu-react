@@ -6,14 +6,20 @@ import { useState } from 'react';
 interface SimpleNoteListProps {
     notes: Array<Note>,
     contextSpaceId: number,
-    actionsGenerator: (note: Note) => Array<SimpleNoteViewerAction>
+    actionsGenerator: (note: Note) => Array<SimpleNoteViewerAction>,
+    noteViewer?: (
+        note: Note,
+        actions: Array<SimpleNoteViewerAction>,
+        isSelected: boolean
+    ) => JSX.Element
 }
 
 
 export const SimpleNoteList = ({
     notes,
     contextSpaceId,
-    actionsGenerator
+    actionsGenerator,
+    noteViewer = null
 }: SimpleNoteListProps) => {
 
     const [selectedNote, setSelectedNote] = useState(null);
@@ -22,13 +28,24 @@ export const SimpleNoteList = ({
         setSelectedNote(note);
     }
 
+    function renderNoteViewer(note: Note) {
+        if (!noteViewer) {
+            return (
+                <SimpleNoteViewer note={note}
+                                  contextSpaceId={contextSpaceId}
+                                  actions={actionsGenerator(note)}
+                                  isSelected={selectedNote === note}/>
+            )
+        }
+
+        return noteViewer(note, actionsGenerator(note), selectedNote === note);
+    }
+
     return (
         <div>
             {notes.map(n => (
                 <div key={n.id} onClick={() => onNoteClick(n)}>
-                    <SimpleNoteViewer key={n.id} note={n} contextSpaceId={contextSpaceId} 
-                        actions={actionsGenerator(n)}
-                        isSelected={selectedNote === n}/>
+                    {renderNoteViewer(n)}
                 </div>
             ))}
         </div>

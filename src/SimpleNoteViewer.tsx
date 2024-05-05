@@ -9,7 +9,8 @@ interface SimpleNoteViewerProps {
     note: Note,
     contextSpaceId: number,
     actions: Array<SimpleNoteViewerAction>,
-    isSelected: boolean
+    isSelected: boolean,
+    showDate?: boolean
 }
 
 
@@ -28,7 +29,8 @@ export const SimpleNoteViewer = ({
     note,
     contextSpaceId,
     actions,
-    isSelected
+    isSelected,
+    showDate = true
 }: SimpleNoteViewerProps) => {
     const [showActions, setShowActions] = useState(false);
 
@@ -46,6 +48,11 @@ export const SimpleNoteViewer = ({
     function callAction(action: (note: Note) => void) {
         action(note);
         setShowActions(false);
+    }
+
+    function renderDate() {
+        if (showDate)
+            return (<p className="is-italic has-text-grey">{dateTimeString}</p>);
     }
 
     function renderOwnTag() {
@@ -78,7 +85,7 @@ export const SimpleNoteViewer = ({
     return (
         <div className={`is-flex is-align-items-center ${isSelected ? 'has-background-light' : 'has-background-white'}`}>
             <div className="is-flex-grow-1">
-                <p className="is-italic has-text-grey">{dateTimeString}</p>
+                {renderDate()}
 
                 <p>{note.text}</p>
 

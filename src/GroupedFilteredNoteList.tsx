@@ -21,7 +21,12 @@ interface GroupedFilteredNoteListProps {
     isVisible?: boolean,
     groupBy?: (note: Note) => any,
     groupHeader?: (key: any, notes: Array<Note>) => string,
-    orderGroupsBy?: (key: any, notes: Array<Note>) => number
+    orderGroupsBy?: (key: any, notes: Array<Note>) => number,
+    noteViewer?: (
+        note: Note,
+        actions: Array<SimpleNoteViewerAction>,
+        isSelected: boolean
+    ) => JSX.Element
 }
 
 interface GroupedFilteredNoteListCommands {
@@ -42,7 +47,8 @@ export const GroupedFilteredNoteList = React.forwardRef((
         isVisible = true,
         groupBy = null,
         groupHeader = null,
-        orderGroupsBy = null
+        orderGroupsBy = null,
+        noteViewer = null
     }: GroupedFilteredNoteListProps,
     ref: React.ForwardedRef<GroupedFilteredNoteListCommands>
 ) => {
@@ -137,14 +143,25 @@ export const GroupedFilteredNoteList = React.forwardRef((
         return (<h2 className="title is-4 is-underlined mb-1 mt-3">{groupHeader(key, notes)}</h2>);
     }
 
+    function renderNoteViewer(note: Note) {
+        if (!noteViewer) {
+            return (
+                <SimpleNoteViewer note={note}
+                                  contextSpaceId={space.id}
+                                  actions={noteActionsGenerator(note)}
+                                  isSelected={selectedNote === note}/>
+            )
+        }
+
+        return noteViewer(note, noteActionsGenerator(note), selectedNote === note);
+    }
+
     function renderGroupNotes(notes: Array<Note>) {
         return (
             <div>
                 {notes.map(n => (
                     <div key={n.id} onClick={() => setSelectedNote(n)}>
-                        <SimpleNoteViewer key={n.id} note={n} contextSpaceId={space.id} 
-                            actions={noteActionsGenerator(n)}
-                            isSelected={selectedNote === n}/>
+                        {renderNoteViewer(n)}
                     </div>
                 ))}
             </div>

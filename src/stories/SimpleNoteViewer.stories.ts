@@ -69,3 +69,24 @@ export const NoActions: Story = {
         isSelected: true
     }
 }
+
+
+export const CanHideDate: Story = {
+    args: {
+        note: (() => {
+            const output = new Note('Test test')
+                .at(new Date(2023, 11, 18))
+                .setOwnTag('My Tag');
+            output.ownTag.color = '#0000FF';
+            const tag1 = new Tag('Tag 1').in(space1).clean();
+            tag1.id = 1;
+            tag1.color = '#FF0000';
+            output.addTag(tag1);
+            return output;
+        })(),
+        contextSpaceId: 1,
+        actions: [],
+        isSelected: true,
+        showDate: false
+    }
+}

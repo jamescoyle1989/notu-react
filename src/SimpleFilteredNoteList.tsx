@@ -18,7 +18,12 @@ interface SimpleFilteredNoteListProps {
     /** The set of options which get generated for each note */
     noteActionsGenerator: (note: Note) => Array<SimpleNoteViewerAction>,
     actionsPanel?: () => JSX.Element,
-    isVisible?: boolean
+    isVisible?: boolean,
+    noteViewer?: (
+        note: Note,
+        actions: Array<SimpleNoteViewerAction>,
+        isSelected: boolean
+    ) => JSX.Element
 }
 
 interface SimpleFilteredNoteListCommands {
@@ -36,7 +41,8 @@ export const SimpleFilteredNoteList = React.forwardRef((
         onQueryChanged = null,
         noteActionsGenerator,
         actionsPanel = null,
-        isVisible = true
+        isVisible = true,
+        noteViewer = null
     }: SimpleFilteredNoteListProps,
     ref: React.ForwardedRef<SimpleFilteredNoteListCommands>
 ) => {
@@ -91,7 +97,8 @@ export const SimpleFilteredNoteList = React.forwardRef((
             {renderActionsPanel()}
 
             <SimpleNoteList notes={notes} contextSpaceId={space.id}
-                            actionsGenerator={noteActionsGenerator}/>
+                            actionsGenerator={noteActionsGenerator}
+                            noteViewer={noteViewer}/>
         </div>
     );
 });
