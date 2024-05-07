@@ -10,7 +10,7 @@ import { NoteList } from './NoteList';
 import { NoteViewer, NoteViewerAction } from './NoteViewer';
 import { FilteredNoteList } from './FilteredNoteList';
 import { SpaceEditor } from './SpaceEditor';
-import { useNotuCache } from './Hooks';
+import { useNotu } from './Hooks';
 
 export {
     AttrEditor,
@@ -25,5 +25,5 @@ export {
     NoteViewer, NoteViewerAction,
     FilteredNoteList,
     SpaceEditor,
-    useNotuCache
+    useNotu
 }
