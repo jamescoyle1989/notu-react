@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { NoteTagBadge } from '../NoteTagBadge';
 import { Attr, Note, Space, Tag } from 'notu';
+import { newSpace, newTag } from './StoryHelpers';
 
 const meta: Meta<typeof NoteTagBadge> = {
     title: 'NoteTagBadge',
@@ -15,18 +16,15 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 
-const space1 = new Space('Space').clean();
-space1.id = 1;
-const space2 = new Space('Space 2').clean();
-space2.id = 2;
+const space1 = newSpace('Space', 1).clean();
+const space2 = newSpace('Space 2', 2).clean();
 
 
 
 export const Primary: Story = {
     args: {
         noteTag: (() => {
-            const tag = new Tag('Test').in(space1).clean();
-            tag.id = 123;
+            const tag = newTag('Test', 123).in(space1).clean();
             return new Note().addTag(tag);
         })(),
         contextSpaceId: 1,
@@ -38,8 +36,7 @@ export const Primary: Story = {
 export const WithDeleteButton: Story = {
     args: {
         noteTag: (() => {
-            const tag = new Tag('Test').in(space1).clean();
-            tag.id = 123;
+            const tag = newTag('Test', 123).in(space1).clean();
             return new Note().addTag(tag);
         })(),
         contextSpaceId: 1,
@@ -51,8 +48,7 @@ export const WithDeleteButton: Story = {
 export const ShowsSpaceNameIfRequired: Story = {
     args: {
         noteTag: (() => {
-            const tag = new Tag('Test').in(space2).clean();
-            tag.id = 123;
+            const tag = newTag('Test', 123).in(space2).clean();
             return new Note().addTag(tag);
         })(),
         contextSpaceId: 1,
@@ -64,9 +60,8 @@ export const ShowsSpaceNameIfRequired: Story = {
 export const RedBadge: Story = {
     args: {
         noteTag: (() => {
-            const tag = new Tag('Test').in(space1).clean();
+            const tag = newTag('Test', 123).in(space1).clean();
             tag.color = '#FF0000';
-            tag.id = 123;
             return new Note().addTag(tag);
         })(),
         contextSpaceId: 1,
@@ -78,9 +73,8 @@ export const RedBadge: Story = {
 export const GreenBadge: Story = {
     args: {
         noteTag: (() => {
-            const tag = new Tag('Test').in(space1).clean();
+            const tag = newTag('Test', 123).in(space1).clean();
             tag.color = '#00FF00';
-            tag.id = 123;
             return new Note().addTag(tag);
         })(),
         contextSpaceId: 1,

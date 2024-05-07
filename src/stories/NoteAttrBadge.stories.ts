@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { NoteAttrBadge } from '../NoteAttrBadge';
 import { Note, Space, Attr, Tag } from 'notu';
+import { newAttr, newSpace, newTag } from './StoryHelpers';
 
 const meta: Meta<typeof NoteAttrBadge> = {
     title: 'NoteAttrBadge',
@@ -15,10 +16,13 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 
-const space1 = new Space('Space 1').clean();
-space1.id = 1;
-const space2 = new Space('Space 2').clean();
-space2.id = 2;
+const space1 = newSpace('Space 1', 1).clean();
+
+const numAttr = newAttr('Num', 1).in(space1).asNumber().clean();
+const boolAttr = newAttr('Bool', 2).in(space1).asBoolean().clean();
+const dateAttr = newAttr('Date', 3).in(space1).asDate().clean();
+
+const tag = newTag('Tag', 1).in(space1).clean();
 
 
 export const Primary: Story = {
@@ -26,7 +30,8 @@ export const Primary: Story = {
         noteAttr: (() => {
             const attr = new Attr('Test').in(space1).asNumber().clean();
             attr.id = 123;
-            return new Note().addAttr(attr).withValue(15);
+            const note = new Note().addAttr(attr, 15);
+            return note.getAttr(attr);
         })(),
         contextSpaceId: 1,
         onDelete: null
@@ -38,7 +43,8 @@ export const WithDeleteButton: Story = {
         noteAttr: (() => {
             const attr = new Attr('Test').in(space1).asNumber().clean();
             attr.id = 123;
-            return new Note().addAttr(attr).withValue(15);
+            const note = new Note().addAttr(attr, 15);
+            return note.getAttr(attr);
         })(),
         contextSpaceId: 1,
         onDelete: () => { console.log('Delete clicked'); }
@@ -48,11 +54,8 @@ export const WithDeleteButton: Story = {
 export const OnTag: Story = {
     args: {
         noteAttr: (() => {
-            const attr = new Attr('Attr').in(space1).asNumber().clean();
-            attr.id = 123;
-            const tag = new Tag('Tag').in(space2).clean();
-            tag.id = 234;
-            return new Note().addAttr(attr).onTag(tag).withValue(15);
+            const nt = new Note().addTag(tag).addAttr(numAttr, 15);
+            return nt.getAttr(numAttr);
         })(),
         contextSpaceId: 1,
         onDelete: () => { console.log('Delete clicked'); }
@@ -62,9 +65,8 @@ export const OnTag: Story = {
 export const ForBooleanValue: Story = {
     args: {
         noteAttr: (() => {
-            const attr = new Attr('Attr').in(space1).asBoolean().clean();
-            attr.id = 234;
-            return new Note().addAttr(attr).withValue(false);
+            const note = new Note().addAttr(boolAttr, false);
+            return note.getAttr(boolAttr);
         })(),
         contextSpaceId: 1,
         onDelete: () => { console.log('Delete clicked'); }
@@ -74,9 +76,8 @@ export const ForBooleanValue: Story = {
 export const ForDateValue: Story = {
     args: {
         noteAttr: (() => {
-            const attr = new Attr('Attr').in(space1).asDate().clean();
-            attr.id = 234;
-            return new Note().addAttr(attr).withValue(new Date(2024, 6, 5, 17, 23, 46));
+            const note = new Note().addAttr(dateAttr, new Date(2024, 6, 5, 17, 23, 46));
+            return note.getAttr(dateAttr);
         })(),
         contextSpaceId: 1,
         onDelete: () => { console.log('Delete clicked'); }

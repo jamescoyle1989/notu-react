@@ -17,7 +17,7 @@ export const NoteAttrEditor = ({
     onRemove
 }: NoteAttrEditorProps) => {
     const [value, setValue] = useState(noteAttr.value);
-    const [tagId, setTagId] = useState(noteAttr.tagId);
+    const [tagId, setTagId] = useState(noteAttr.tag?.id);
     const dateRef = useRef();
     const timeRef = useRef();
 
@@ -43,7 +43,7 @@ export const NoteAttrEditor = ({
     function onTagSelected(evt): void {
         const newTagId = Number(evt.target.value);
         const newTag = tags.find(x => x.id == newTagId);
-        noteAttr.tag = newTag;
+        //noteAttr.tag = newTag;
         setTagId(newTagId);
     }
 
@@ -64,7 +64,7 @@ export const NoteAttrEditor = ({
         return (
             <div className="control">
                 <div className="select">
-                    <select value={noteAttr.tagId ?? 0} onChange={onTagSelected}>
+                    <select value={noteAttr.tag?.id ?? 0} onChange={onTagSelected}>
                         <option key="0" value={0}></option>
                         {tags.map(x => (<option key={x.id} value={x.id}>{x.getQualifiedName(contextSpaceId)}</option>))}
                     </select>

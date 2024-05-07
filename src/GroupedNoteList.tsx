@@ -1,4 +1,4 @@
-import { CachedClient, Note, Space } from 'notu';
+import { Notu, Note, Space } from 'notu';
 import React, { useEffect, useState, useImperativeHandle } from 'react';
 import { NoteViewer, NoteViewerAction } from './NoteViewer';
 import { NoteSearch } from './NoteSearch';
@@ -7,7 +7,7 @@ interface GroupedNoteListProps {
     /** The space which we're fetching notes from */
     space: Space
     /** The client used for fetching results from the server, only add this if you want notes to be auto-fetched for you */
-    notuClient?: CachedClient,
+    notuClient?: Notu,
     /** If notuClient has not been defined, then use this prop for handling the manual fetching of notes */
     onFetchRequested?: (query: string, space: Space) => Promise<Array<Note>>,
     /** The optional default value for the search field to have. If not defined then defaults to empty */

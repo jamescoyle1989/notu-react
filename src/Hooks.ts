@@ -1,27 +1,27 @@
-import { CachedClient, HttpClient } from 'notu';
+import { Notu, NotuCache, NotuHttpCacheFetcher, NotuHttpClient } from 'notu';
 import { useState, useEffect } from 'react';
 
 
-export function useNotuCache(
-    notuClient: HttpClient,
-    spaceId: number = 0,
-    callback: ((cache: CachedClient) => void) = null
-): CachedClient {
-    if (!notuClient)
-        throw new Error('Cannot pass in a null reference for notuClient');
+export function useNotu(
+    apiUrl: string,
+    token: string,
+    callback: ((notu: Notu) => void) = null
+): Notu {
 
-    const [cache, setCache] = useState<CachedClient>(null);
+    const [notu, setNotu] = useState<Notu>(null);
 
     useEffect(() => {
         async function loadCache() {
-            const client = new CachedClient(notuClient);
-            await client.cacheAll(spaceId);
-            setCache(client);
+            const client = new NotuHttpClient(apiUrl);
+            client.token = token;
+            const output = new Notu(client, new NotuCache(new NotuHttpCacheFetcher(apiUrl, token)));
+            await output.cache.populate();
+            setNotu(output);
             if (!!callback)
-                callback(client);
+                callback(output);
         }
         loadCache();
     }, []);
 
-    return cache;
+    return notu;
 }

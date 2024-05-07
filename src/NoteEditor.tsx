@@ -40,8 +40,8 @@ export const NoteEditor = ({
     const time = note.date.toTimeString().split(' ')[0].substring(0, 5);
 
     const [ownTagName, setOwnTagName] = useState(note.ownTag?.name ?? '');
-    const [tagIds, setTagIds] = useState(note.tags.map(x => x.tagId));
-    const [attrIds, setAttrIds] = useState(note.allAttrs.map(x => x.attrId));
+    const [tagIds, setTagIds] = useState(note.tags.map(x => x.tag.id));
+    const [attrIds, setAttrIds] = useState(note.attrs.map(x => x.attr.id));
     const [error, setError] = useState(null);
 
     async function submitNote(evt): Promise<void> {
@@ -81,7 +81,7 @@ export const NoteEditor = ({
     }
 
     function tagsThatCanBeAdded(): Array<Tag> {
-        return tags.filter(x => (x.isPublic || x.spaceId == note.spaceId) && !note.tags.find(y => x.id == y.tagId));
+        return tags.filter(x => (x.isPublic || x.space.id == note.space.id) && !note.tags.find(y => x.id == y.tag.id));
     }
 
     function removeTag(tag: Tag): void {
@@ -90,12 +90,12 @@ export const NoteEditor = ({
     }
 
     function attrsThatCanBeAdded(): Array<Attr> {
-        return attrs.filter(x => x.spaceId == note.spaceId);
+        return attrs.filter(x => x.space.id == note.space.id);
     }
 
     function removeAttr(noteAttr: NoteAttr): void {
-        setAttrIds(attrIds.filter(x => x != noteAttr.attrId));
-        note.removeAttr(noteAttr.attr, noteAttr.tag);
+        setAttrIds(attrIds.filter(x => x != noteAttr.attr.id));
+        note.removeAttr(noteAttr.attr);
     }
 
     function onAttrSelected(event): void {
@@ -134,7 +134,7 @@ export const NoteEditor = ({
                     <select onChange={onTagSelected}>
                         <option key="0" value={null}></option>
                         {tagsThatCanBeAdded()
-                            .map(x => (<option key={x.id} value={x.id}>{x.getQualifiedName(note.spaceId)}</option>))}
+                            .map(x => (<option key={x.id} value={x.id}>{x.getQualifiedName(note.space.id)}</option>))}
                     </select>
                 </div>
             </div>
@@ -150,7 +150,7 @@ export const NoteEditor = ({
                 <div>
                     {note.tags.map(x => (
                         <NoteTagBadge key={x.tag.id} noteTag={x}
-                                      contextSpaceId={note.spaceId}
+                                      contextSpaceId={note.space.id}
                                       onDelete={() => removeTag(x.tag)}
                                       showAttrs={false}/>
                     ))}
@@ -177,13 +177,13 @@ export const NoteEditor = ({
     }
 
     function renderAttrFields() {
-        if (note.allAttrs.length == 0)
+        if (note.attrs.length == 0)
             return;
         
         return (
             <div className="box">
-                {note.allAttrs.map((noteAttr, index) => (
-                    <NoteAttrEditor key={index} noteAttr={noteAttr} contextSpaceId={note.spaceId} 
+                {note.attrs.map((noteAttr, index) => (
+                    <NoteAttrEditor key={index} noteAttr={noteAttr} contextSpaceId={note.space.id} 
                                     tags={tagIds.map(id => tags.find(x => x.id == id))} onRemove={removeAttr}/>
                 ))}
             </div>

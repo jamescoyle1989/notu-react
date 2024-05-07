@@ -1,5 +1,5 @@
 import React from 'react';
-import { HttpClient, Note, Space } from 'notu';
+import { NotuHttpClient, Note, Space } from 'notu';
 import { useState } from 'react';
 import 'bulma';
 
@@ -7,7 +7,7 @@ interface NoteSearchProps {
     /** The space which we're fetching notes from */
     space: Space,
     /** The client used for fetching results from the server, only add this if you want notes to be auto-fetched for you */
-    notuClient?: HttpClient,
+    notuClient?: NotuHttpClient,
     /** The query string which the search field will display and use for querying */
     query?: string,
     /** Optional callback for handling changes to the query text */

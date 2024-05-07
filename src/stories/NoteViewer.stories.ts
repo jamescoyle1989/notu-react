@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { NoteViewer, NoteViewerAction } from '../NoteViewer';
 import { Attr, Note, NoteAttr, Space, Tag } from 'notu';
+import { newAttr, newSpace, newTag } from './StoryHelpers';
 
 const meta: Meta<typeof NoteViewer> = {
     title: 'NoteViewer',
@@ -15,30 +16,25 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 
-const space1 = new Space('Space 1').clean();
-space1.id = 1;
-const space2 = new Space('Space 2').clean();
-space2.id = 2;
+const space1 = newSpace('Space 1', 1).clean();
 
-const tag1 = new Tag('Tag 1').in(space1).clean();
+const tag1 = newTag('Tag 1', 1).in(space1);
 tag1.color = '#FF0000';
-tag1.id = 1;
 tag1.clean();
 
-const attr1 = new Attr('Attr 1').in(space1).asNumber().clean();
-attr1.id = 1;
+const attr1 = newAttr('Attr 1', 1).in(space1).asNumber().clean();
 
 
 export const Primary: Story = {
     args: {
         note: (() => {
             const output = new Note('Test test')
+                .in(space1)
                 .at(new Date(2023, 11, 18))
                 .setOwnTag('My Tag');
             output.ownTag.color = '#0000FF';
-            output.addTag(tag1);
-            output['_attrs'].push(new NoteAttr(1, attr1, 12345));
-            output['_attrs'].push(new NoteAttr(1, attr1, 23456).onTag(tag1));
+            output.addAttr(attr1, 12345);
+            output.addTag(tag1).addAttr(attr1, 23456);
             return output;
         })(),
         contextSpaceId: 1,
@@ -55,12 +51,10 @@ export const NoActions: Story = {
     args: {
         note: (() => {
             const output = new Note('Test test')
+                .in(space1)
                 .at(new Date(2023, 11, 18))
                 .setOwnTag('My Tag');
             output.ownTag.color = '#0000FF';
-            const tag1 = new Tag('Tag 1').in(space1).clean();
-            tag1.id = 1;
-            tag1.color = '#FF0000';
             output.addTag(tag1);
             return output;
         })(),
@@ -75,12 +69,10 @@ export const CanHideDate: Story = {
     args: {
         note: (() => {
             const output = new Note('Test test')
+                .in(space1)
                 .at(new Date(2023, 11, 18))
                 .setOwnTag('My Tag');
             output.ownTag.color = '#0000FF';
-            const tag1 = new Tag('Tag 1').in(space1).clean();
-            tag1.id = 1;
-            tag1.color = '#FF0000';
             output.addTag(tag1);
             return output;
         })(),

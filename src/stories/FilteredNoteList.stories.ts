@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { FilteredNoteList } from '../FilteredNoteList';
 import { Note, Space } from 'notu';
 import { NoteViewerAction } from '../NoteViewer';
+import { newSpace } from './StoryHelpers';
 
 const meta: Meta<typeof FilteredNoteList> = {
     title: 'FilteredNoteList',
@@ -16,8 +17,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 
-const space1 = new Space('Space 1');
-space1.id = 1;
+const space1 = newSpace('Space 1', 1).clean();
 
 
 export const Primary: Story = {

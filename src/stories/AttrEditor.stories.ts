@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { AttrEditor } from '../AttrEditor';
 import { Attr, Space } from 'notu';
 import { MockHttpClient } from '../helpers/MockHttpClient';
+import { newSpace } from './StoryHelpers';
 
 const meta: Meta<typeof AttrEditor> = {
     title: 'AttrEditor',
@@ -16,8 +17,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 
-const space1 = new Space('Space 1').clean();
-space1.id = 1;
+const space1 = newSpace('Space 1', 1).clean();
 
 const notuClient = new MockHttpClient();
 

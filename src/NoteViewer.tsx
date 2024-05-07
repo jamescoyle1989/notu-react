@@ -57,8 +57,8 @@ export const NoteViewer = ({
 
     function renderOwnTag() {
         if (!!note.ownTag) {
-            const noteTag = new NoteTag(null, note.ownTag);
-            return (<NoteTagBadge noteTag={noteTag} contextSpaceId={note.spaceId} showAttrs={true}></NoteTagBadge>)
+            const noteTag = new NoteTag(note.ownTag.duplicate().clean());
+            return (<NoteTagBadge noteTag={noteTag} contextSpaceId={note.space.id} showAttrs={true}></NoteTagBadge>)
         }
     }
 
@@ -93,11 +93,11 @@ export const NoteViewer = ({
                     {renderOwnTag()}
 
                     {note.tags.map(nt => (
-                        <NoteTagBadge key={nt.tagId} noteTag={nt} contextSpaceId={contextSpaceId} showAttrs={true}></NoteTagBadge>
+                        <NoteTagBadge key={nt.tag.id} noteTag={nt} contextSpaceId={contextSpaceId} showAttrs={true}></NoteTagBadge>
                     ))}
 
-                    {note.noteAttrs.map(na => (
-                        <NoteAttrBadge key={na.attrId} noteAttr={na} contextSpaceId={contextSpaceId}></NoteAttrBadge>
+                    {note.attrs.map(na => (
+                        <NoteAttrBadge key={na.attr.id} noteAttr={na} contextSpaceId={contextSpaceId}></NoteAttrBadge>
                     ))}
                 </div>
             </div>

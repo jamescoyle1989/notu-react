@@ -3,6 +3,7 @@ import { GroupedNoteList } from '../GroupedNoteList';
 import { Note, Space } from 'notu';
 import { NoteViewerAction, NoteViewer } from '../NoteViewer';
 import { noteViewerWithoutDate } from './ReactSnippets';
+import { newSpace } from './StoryHelpers';
 
 const meta: Meta<typeof GroupedNoteList> = {
     title: 'GroupedNoteList',
@@ -17,8 +18,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 
-const space1 = new Space('Space 1');
-space1.id = 1;
+const space1 = newSpace('Space 1', 1).clean();
 
 
 export const Primary: Story = {

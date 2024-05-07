@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { NoteSearch } from '../NoteSearch';
 import { Note, Space } from 'notu';
+import { newSpace } from './StoryHelpers';
 
 const meta: Meta<typeof NoteSearch> = {
     title: 'NoteSearch',
@@ -27,10 +28,7 @@ class FakeHttpClient {
 }
 
 
-const space1 = new Space('Test1');
-space1.id = 1;
-const space2 = new Space('Test2');
-space2.id = 2;
+const space1 = newSpace('Test1', 1);
 
 
 export const Primary: Story = {
