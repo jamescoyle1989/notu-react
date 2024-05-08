@@ -12,7 +12,7 @@ interface LoginViewProps {
 export const LoginView = ({
     notuClient,
     onLogin
-}) => {
+}: LoginViewProps) => {
 
     const [error, setError] = useState(null);
 
@@ -23,7 +23,7 @@ export const LoginView = ({
         const password = evt.target.elements.password.value;
         try {
             const loginResult = await notuClient.login(username, password);
-            if (!loginResult.success)
+            if (!!loginResult.error)
                 setError(loginResult.error);
             else
                 onLogin();
