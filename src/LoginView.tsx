@@ -5,7 +5,7 @@ import 'bulma';
 interface LoginViewProps {
     /** Used for saving the space once changes have been confirmed */
     notuClient: NotuClient,
-    onLogin: () => void
+    onLogin: () => Promise<void>
 }
 
 
@@ -26,7 +26,7 @@ export const LoginView = ({
             if (!!loginResult.error)
                 setError(loginResult.error);
             else
-                onLogin();
+                await onLogin();
         }
         catch(err) {
             setError(err.message);

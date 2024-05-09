@@ -5,6 +5,7 @@ import { NoteTagBadge } from './NoteTagBadge';
 import 'bulma';
 import { NoteAttrEditor } from './NoteAttrEditor';
 import { NotuClient } from 'notu/dist/types/services/HttpClient';
+import { useManualRefresh } from './Hooks';
 
 interface NoteEditorProps {
     /** Used for saving the note once changes have been confirmed */
@@ -40,9 +41,9 @@ export const NoteEditor = ({
     const time = note.date.toTimeString().split(' ')[0].substring(0, 5);
 
     const [ownTagName, setOwnTagName] = useState(note.ownTag?.name ?? '');
-    const [tagIds, setTagIds] = useState(note.tags.map(x => x.tag.id));
-    const [attrIds, setAttrIds] = useState(note.attrs.map(x => x.attr.id));
+    const [showAttrsForTag, setShowAttrsForTag] = useState<Tag>(null);
     const [error, setError] = useState(null);
+    const manualRefresh = useManualRefresh();
 
     async function submitNote(evt): Promise<void> {
         evt.preventDefault();
@@ -74,10 +75,20 @@ export const NoteEditor = ({
         const tag = tagsThatCanBeAdded().find(x => x.id == tagId);
         if (!tag)
             return;
-        const newTagIds = tagIds.slice();
-        newTagIds.push(tag.id);
-        setTagIds(newTagIds);
         note.addTag(tag);
+        manualRefresh();
+    }
+
+    function onTagToShowAttrsForSelected(event): void {
+        const tagId = event.target.value;
+        const tag = note.tags.find(x => x.tag.id == tagId)?.tag;
+        setShowAttrsForTag(tag);
+    }
+
+    function noteAttrsToDisplay(): Array<NoteAttr> {
+        if (!!showAttrsForTag)
+            return note.getTag(showAttrsForTag).attrs;
+        return note.attrs;
     }
 
     function tagsThatCanBeAdded(): Array<Tag> {
@@ -85,17 +96,26 @@ export const NoteEditor = ({
     }
 
     function removeTag(tag: Tag): void {
-        setTagIds(tagIds.filter(x => x != tag.id));
         note.removeTag(tag);
+        if (tag == showAttrsForTag)
+            setShowAttrsForTag(null);
+        manualRefresh();
     }
 
     function attrsThatCanBeAdded(): Array<Attr> {
-        return attrs.filter(x => x.space.id == note.space.id);
+        let result = attrs.filter(x => x.space.id == note.space.id);
+        if (!!showAttrsForTag) {
+            const nt = note.getTag(showAttrsForTag);
+            result = result.filter(x => !nt.getAttr(x));
+        }
+        else
+            result = result.filter(x => !note.getAttr(x));
+        return result;
     }
 
     function removeAttr(noteAttr: NoteAttr): void {
-        setAttrIds(attrIds.filter(x => x != noteAttr.attr.id));
         note.removeAttr(noteAttr.attr);
+        manualRefresh();
     }
 
     function onAttrSelected(event): void {
@@ -103,11 +123,12 @@ export const NoteEditor = ({
         const attr = attrsThatCanBeAdded().find(x => x.id == attrId);
         if (!attr)
             return;
-        const newAttrIds = attrIds.slice();
-        newAttrIds.push(attr.id);
-        setAttrIds(newAttrIds);
-        note.addAttr(attr);
+        if (!!showAttrsForTag)
+            note.getTag(showAttrsForTag)?.addAttr(attr);
+        else
+            note.addAttr(attr);
         event.target.value = null;
+        manualRefresh();
     }
 
     function onCancelClick() {
@@ -124,16 +145,16 @@ export const NoteEditor = ({
         )
     }
 
-    function renderTagsDropdown() {
-        if (tagsThatCanBeAdded().length == 0)
+    function renderTagsDropdown(tagSource: Array<Tag>, onChangeCallback: (any) => void) {
+        if (tagSource.length == 0)
             return;
 
         return (
-            <div className="control">
+            <div className="control is-inline-block">
                 <div className="select">
-                    <select onChange={onTagSelected}>
+                    <select onChange={onChangeCallback}>
                         <option key="0" value={null}></option>
-                        {tagsThatCanBeAdded()
+                        {tagSource
                             .map(x => (<option key={x.id} value={x.id}>{x.getQualifiedName(note.space.id)}</option>))}
                     </select>
                 </div>
@@ -152,7 +173,7 @@ export const NoteEditor = ({
                         <NoteTagBadge key={x.tag.id} noteTag={x}
                                       contextSpaceId={note.space.id}
                                       onDelete={() => removeTag(x.tag)}
-                                      showAttrs={false}/>
+                                      showAttrs={true}/>
                     ))}
                 </div>
             </div>
@@ -160,31 +181,31 @@ export const NoteEditor = ({
     }
 
     function renderAttrsDropdown() {
-        if (attrsThatCanBeAdded().length == 0)
-            return;
-
         return (
-            <div className="control">
-                <div className="select">
-                    <select onChange={onAttrSelected}>
-                        <option key="0" value={null}></option>
-                        {attrsThatCanBeAdded()
-                            .map(x => (<option key={x.id} value={x.id}>{x.name}</option>))}
-                    </select>
+            <div className="field has-addons">
+                {renderTagsDropdown(note.tags.map(x => x.tag), onTagToShowAttrsForSelected)}
+                <div className="control">
+                    <div className="select">
+                        <select onChange={onAttrSelected}>
+                            <option key="0" value={null}></option>
+                            {attrsThatCanBeAdded()
+                                .map(x => (<option key={x.id} value={x.id}>{x.name}</option>))}
+                        </select>
+                    </div>
                 </div>
             </div>
         );
     }
 
     function renderAttrFields() {
-        if (note.attrs.length == 0)
+        let noteAttrs = noteAttrsToDisplay();
+        if (noteAttrs.length == 0)
             return;
         
         return (
             <div className="box">
-                {note.attrs.map((noteAttr, index) => (
-                    <NoteAttrEditor key={index} noteAttr={noteAttr} contextSpaceId={note.space.id} 
-                                    tags={tagIds.map(id => tags.find(x => x.id == id))} onRemove={removeAttr}/>
+                {noteAttrs.map((noteAttr, index) => (
+                    <NoteAttrEditor key={index} noteAttr={noteAttr} onRemove={removeAttr} onChanged={manualRefresh}/>
                 ))}
             </div>
         );
@@ -225,7 +246,7 @@ export const NoteEditor = ({
                 
                 <div className="field">
                     <label className="label">Tags</label>
-                    {renderTagsDropdown()}
+                    {renderTagsDropdown(tagsThatCanBeAdded(), onTagSelected)}
                 </div>
 
                 {renderTags()}
