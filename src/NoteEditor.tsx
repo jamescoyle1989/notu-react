@@ -135,6 +135,17 @@ export const NoteEditor = ({
         onCancel(note);
     }
 
+    function onOwnTagColorChange(event): void {
+        const newColor = event.target.value as string;
+        note.ownTag.color = newColor;
+        manualRefresh();
+    }
+
+    function toggleOwnTagPublic(): void {
+        note.ownTag.isPublic = !note.ownTag.isPublic;
+        manualRefresh();
+    }
+
     function renderErrorMessage() {
         if (!error)
             return;
@@ -211,6 +222,20 @@ export const NoteEditor = ({
         );
     }
 
+    function renderOwnTagFields() {
+        if (!note.ownTag)
+            return;
+
+        return [
+            (<div className="control" key="1" style={{minWidth:'70px'}}>
+                <input type="color" className="input" value={note.ownTag.color ?? '#969DA3'} onChange={onOwnTagColorChange}/>
+            </div>),
+            (<div className="control" key="2">
+                <button type="button" className="button" onClick={toggleOwnTagPublic}>{note.ownTag.isPublic ? 'Public' : 'Private'}</button>
+            </div>)
+        ];
+    }
+
     return (
         <form onSubmit={submitNote}>
             <fieldset>
@@ -230,11 +255,12 @@ export const NoteEditor = ({
                     </div>
                 </div>
 
-                <div className="field">
-                    <label className="label">Own Tag</label>
-                    <div className="control">
+                <label className="label">Own Tag</label>
+                <div className={`field ${!!note.ownTag ? 'has-addons' : ''}`}>
+                    <div className="control is-expanded">
                         <input type="text" className="input" value={ownTagName} onChange={onOwnTagNameChange}></input>
                     </div>
+                    {renderOwnTagFields()}
                 </div>
 
                 <div className="field">
