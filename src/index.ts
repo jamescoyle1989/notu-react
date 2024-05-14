@@ -9,7 +9,6 @@ import { NoteTagBadge } from './NoteTagBadge';
 import { NoteList } from './NoteList';
 import { NoteViewer, NoteViewerAction } from './NoteViewer';
 import { FilteredNoteList } from './FilteredNoteList';
-import { SpaceEditor } from './SpaceEditor';
 import { useNotu } from './Hooks';
 
 export {
@@ -24,6 +23,5 @@ export {
     NoteList,
     NoteViewer, NoteViewerAction,
     FilteredNoteList,
-    SpaceEditor,
     useNotu
 }

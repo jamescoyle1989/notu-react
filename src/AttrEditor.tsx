@@ -27,6 +27,7 @@ export const AttrEditor = ({
     async function submitAttr(evt): Promise<void> {
         evt.preventDefault();
         attr.name = evt.target.elements.name.value;
+        attr.description = evt.target.elements.description.value;
         attr.type = evt.target.elements.type.value;
         try {
             const confirmResult = await onConfirm(attr);
@@ -57,6 +58,13 @@ export const AttrEditor = ({
                     <label className="label">Name</label>
                     <div className="control">
                         <input type="text" className="input" name="name" defaultValue={attr.name}/>
+                    </div>
+                </div>
+
+                <div className="field">
+                    <label className="label">Description</label>
+                    <div className="control">
+                        <textarea defaultValue={attr.description} name="description" className="textarea"/>
                     </div>
                 </div>
 
