@@ -19,6 +19,7 @@ interface GroupedNoteListProps {
     actionsPanel?: () => JSX.Element,
     isVisible?: boolean,
     groupBy?: (note: Note) => any,
+    groups?: (notes: Array<Note>) => Array<number>,
     groupHeader?: (key: any, notes: Array<Note>) => string,
     orderGroupsBy?: (key: any, notes: Array<Note>) => number,
     noteViewer?: (
@@ -45,6 +46,7 @@ export const GroupedNoteList = React.forwardRef((
         actionsPanel = null,
         isVisible = true,
         groupBy = null,
+        groups = null,
         groupHeader = null,
         orderGroupsBy = null,
         noteViewer = null
@@ -53,7 +55,7 @@ export const GroupedNoteList = React.forwardRef((
 ) => {
 
     const [currentQuery, setCurrentQuery] = useState(defaultQuery ?? '');
-    const [groups, setGroups] = useState<Map<any, Array<Note>>>(new Map<any, Array<Note>>());
+    const [groupsMap, setGroupsMap] = useState<Map<any, Array<Note>>>(new Map<any, Array<Note>>());
     const [hasLoaded, setHasLoaded] = useState(false);
     const [selectedNote, setSelectedNote] = useState(null);
 
@@ -70,7 +72,7 @@ export const GroupedNoteList = React.forwardRef((
     }, [isVisible]);
 
     async function loadGroups(): Promise<void> {
-        setGroups(groupNotes(await fetchNotes()));
+        setGroupsMap(groupNotes(await fetchNotes()));
     }
 
     async function fetchNotes(): Promise<Array<Note>> {
@@ -83,29 +85,35 @@ export const GroupedNoteList = React.forwardRef((
     }
 
     function groupNotes(notes: Array<Note>): Map<any, Array<Note>> {
-        const groups = new Map<any, Array<Note>>();
+        const tmpGroups = new Map<any, Array<Note>>();
         if (!groupBy)
-            groups.set(null, notes);
+            tmpGroups.set(null, notes);
         else {
+            if (!!groups) {
+                for (const key of groups(notes))
+                    tmpGroups.set(key, []);
+            }
+            else {
+                for (const note of notes)
+                    tmpGroups.set(groupBy(note), []);
+            }
+
             for (const note of notes) {
                 const key = groupBy(note);
-                let arr = groups.get(key);
-                if (arr == undefined) {
-                    arr = [];
-                    groups.set(key, arr);
-                }
-                arr.push(note);
+                let arr = tmpGroups.get(key);
+                if (arr != undefined)
+                    arr.push(note);
             }
         }
-        return groups;
+        return tmpGroups;
     }
 
     function getOrderedGroups(): Array<any> {
         if (!groupBy || !orderGroupsBy)
-            return Array.from(groups.keys());
+            return Array.from(groupsMap.keys());
 
-        return Array.from(groups.keys())
-            .map(key => ({ key, order: orderGroupsBy(key, groups.get(key)) }))
+        return Array.from(groupsMap.keys())
+            .map(key => ({ key, order: orderGroupsBy(key, groupsMap.get(key)) }))
             .sort((a, b) => a.order - b.order)
             .map(x => x.key);
     }
@@ -126,7 +134,7 @@ export const GroupedNoteList = React.forwardRef((
     }
 
     function renderGroup(key: any) {
-        const notes = groups.get(key);
+        const notes = groupsMap.get(key);
 
         return (
             <div key={key}>
@@ -170,7 +178,7 @@ export const GroupedNoteList = React.forwardRef((
     return (
         <div>
             <NoteSearch notuClient={notuClient as any} space={space}
-                        onFetched={notes => setGroups(groupNotes(notes))}
+                        onFetched={notes => setGroupsMap(groupNotes(notes))}
                         query={currentQuery}
                         onFetchRequested={onFetchRequested}
                         onQueryChanged={updateQuery}/>
