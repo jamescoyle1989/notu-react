@@ -154,9 +154,9 @@ export const GroupedNoteList = React.forwardRef((
         if (!noteViewer) {
             return (
                 <NoteViewer note={note}
-                                  contextSpaceId={space.id}
-                                  actions={noteActionsGenerator(note)}
-                                  isSelected={selectedNote === note}/>
+                            contextSpaceId={space.id}
+                            actions={noteActionsGenerator(note)}
+                            isSelected={selectedNote === note}/>
             )
         }
 

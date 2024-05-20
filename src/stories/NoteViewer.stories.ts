@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { NoteViewer, NoteViewerAction } from '../NoteViewer';
-import { Attr, Note, NoteAttr, Space, Tag } from 'notu';
+import { Note } from 'notu';
 import { newAttr, newSpace, newTag } from './StoryHelpers';
 
 const meta: Meta<typeof NoteViewer> = {

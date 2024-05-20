@@ -1,6 +1,7 @@
 import { AttrEditor } from './AttrEditor';
 import { GroupedNoteList } from './GroupedNoteList';
 import { LoginView } from './LoginView';
+import { MultiSpaceNoteList } from './MultiSpaceNoteList';
 import { NoteAttrBadge } from './NoteAttrBadge';
 import { NoteAttrEditor } from './NoteAttrEditor';
 import { NoteEditor } from './NoteEditor';
@@ -15,6 +16,7 @@ export {
     AttrEditor,
     GroupedNoteList,
     LoginView,
+    MultiSpaceNoteList,
     NoteAttrBadge,
     NoteAttrEditor,
     NoteEditor,
