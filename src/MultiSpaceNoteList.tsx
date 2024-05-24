@@ -20,9 +20,9 @@ interface MultiSpaceNoteListProps {
 export const MultiSpaceNoteList = ({
     notes,
     actionsGenerator,
-    actionsPanel,
-    isVisible,
-    noteViewer
+    actionsPanel = null,
+    isVisible = true,
+    noteViewer = null
 }) => {
 
     const [selectedNote, setSelectedNote] = useState(null);
