@@ -31,7 +31,6 @@ export const Primary: Story = {
             note2.id = 124;
             return [note1, note2];
         })(),
-        contextSpaceId: 1,
         actionsGenerator: n => {
             const output = new Array<NoteViewerAction>();
             output.push(new NoteViewerAction('Test', n => {}));

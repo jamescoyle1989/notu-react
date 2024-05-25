@@ -37,7 +37,6 @@ export const Primary: Story = {
             output.addTag(tag1).addAttr(attr1, 23456);
             return output;
         })(),
-        contextSpaceId: 1,
         actions: [
             new NoteViewerAction('Say Hello', n => console.log('Hello')),
             new NoteViewerAction('Say Goodbye', n => console.log('Goodbye'))
@@ -58,7 +57,6 @@ export const NoActions: Story = {
             output.addTag(tag1);
             return output;
         })(),
-        contextSpaceId: 1,
         actions: [],
         isSelected: true
     }
@@ -76,7 +74,6 @@ export const CanHideDate: Story = {
             output.addTag(tag1);
             return output;
         })(),
-        contextSpaceId: 1,
         actions: [],
         isSelected: true,
         showDate: false

@@ -96,9 +96,9 @@ export const FilteredNoteList = React.forwardRef((
 
             {renderActionsPanel()}
 
-            <NoteList notes={notes} contextSpaceId={space.id}
-                            actionsGenerator={noteActionsGenerator}
-                            noteViewer={noteViewer}/>
+            <NoteList notes={notes}
+                      actionsGenerator={noteActionsGenerator}
+                      noteViewer={noteViewer}/>
         </div>
     );
 });

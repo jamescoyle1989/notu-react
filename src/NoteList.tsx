@@ -5,7 +5,6 @@ import { useState } from 'react';
 
 interface NoteListProps {
     notes: Array<Note>,
-    contextSpaceId: number,
     actionsGenerator: (note: Note) => Array<NoteViewerAction>,
     noteViewer?: (
         note: Note,
@@ -17,7 +16,6 @@ interface NoteListProps {
 
 export const NoteList = ({
     notes,
-    contextSpaceId,
     actionsGenerator,
     noteViewer = null
 }: NoteListProps) => {
@@ -32,9 +30,8 @@ export const NoteList = ({
         if (!noteViewer) {
             return (
                 <NoteViewer note={note}
-                                  contextSpaceId={contextSpaceId}
-                                  actions={actionsGenerator(note)}
-                                  isSelected={selectedNote === note}/>
+                            actions={actionsGenerator(note)}
+                            isSelected={selectedNote === note}/>
             )
         }
 

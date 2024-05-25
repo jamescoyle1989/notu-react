@@ -7,7 +7,6 @@ import { NoteAttrBadge } from './NoteAttrBadge';
 
 interface NoteViewerProps {
     note: Note,
-    contextSpaceId: number,
     actions: Array<NoteViewerAction>,
     isSelected: boolean,
     showDate?: boolean
@@ -27,7 +26,6 @@ export class NoteViewerAction {
 
 export const NoteViewer = ({
     note,
-    contextSpaceId,
     actions,
     isSelected,
     showDate = true
@@ -93,11 +91,11 @@ export const NoteViewer = ({
                     {renderOwnTag()}
 
                     {note.tags.map(nt => (
-                        <NoteTagBadge key={nt.tag.id} noteTag={nt} contextSpaceId={contextSpaceId} showAttrs={true}></NoteTagBadge>
+                        <NoteTagBadge key={nt.tag.id} noteTag={nt} contextSpaceId={note.space.id} showAttrs={true}></NoteTagBadge>
                     ))}
 
                     {note.attrs.map(na => (
-                        <NoteAttrBadge key={na.attr.id} noteAttr={na} contextSpaceId={contextSpaceId}></NoteAttrBadge>
+                        <NoteAttrBadge key={na.attr.id} noteAttr={na} contextSpaceId={note.space.id}></NoteAttrBadge>
                     ))}
                 </div>
             </div>

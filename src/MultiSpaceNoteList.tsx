@@ -73,7 +73,6 @@ export const MultiSpaceNoteList = ({
         if (!noteViewer) {
             return (
                 <NoteViewer note={note}
-                            contextSpaceId={space.id}
                             actions={actionsGenerator(note)}
                             isSelected={selectedNote === note}/>
             )
