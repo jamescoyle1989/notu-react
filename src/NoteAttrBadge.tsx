@@ -16,6 +16,8 @@ export const NoteAttrBadge = ({
     onDelete
 }: NoteAttrBadgeProps) => {
 
+    const defaultColor = '#969DA3';
+
     function getAttrLabel() {
         let output = noteAttr.attr.name;
         if (!!noteAttr.tag)
@@ -30,7 +32,8 @@ export const NoteAttrBadge = ({
     }
 
     return (
-        <span className="tag is-small is-unselectable is-rounded has-background-grey-light">
+        <span className="tag is-small is-unselectable is-rounded mr-1"
+            style={{backgroundColor: noteAttr.attr.color ?? defaultColor}}>
             {getAttrLabel()}: {renderNoteAttrValue(noteAttr)}
             {renderDeleteButton()}
         </span>

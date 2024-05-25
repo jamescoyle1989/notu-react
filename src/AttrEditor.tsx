@@ -23,12 +23,15 @@ export const AttrEditor = ({
         throw new Error('Attr must define the space that it belongs to prior to editing');
 
     const [error, setError] = useState(null);
+    const defaultColor = '#969DA3';
 
     async function submitAttr(evt): Promise<void> {
         evt.preventDefault();
         attr.name = evt.target.elements.name.value;
         attr.description = evt.target.elements.description.value;
         attr.type = evt.target.elements.type.value;
+        const color = (evt.target.elements.color.value as string).toUpperCase();
+        attr.color = (color == defaultColor) ? null : color;
         try {
             const confirmResult = await onConfirm(attr);
             if (!!confirmResult)
@@ -58,6 +61,13 @@ export const AttrEditor = ({
                     <label className="label">Name</label>
                     <div className="control">
                         <input type="text" className="input" name="name" defaultValue={attr.name}/>
+                    </div>
+                </div>
+
+                <div className="field">
+                    <label className="label">Color</label>
+                    <div className="control">
+                        <input name="color" type="color" className="input" defaultValue={attr.color ?? defaultColor}/>
                     </div>
                 </div>
 
