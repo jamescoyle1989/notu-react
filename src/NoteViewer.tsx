@@ -50,7 +50,7 @@ export const NoteViewer = ({
 
     function renderDate() {
         if (showDate)
-            return (<p className="is-italic has-text-grey">{dateTimeString}</p>);
+            return (<p className="is-italic has-text-grey is-inline">{dateTimeString}</p>);
     }
 
     function renderOwnTag() {
@@ -63,7 +63,7 @@ export const NoteViewer = ({
     function renderActions() {
         if (actions?.length ?? 0 > 0) {
             return (
-                <div className={`dropdown is-right ${showActions ? 'is-active' : ''}`}>
+                <div className={`dropdown is-left mr-2 ${showActions ? 'is-active' : ''}`}>
                     <div className="dropdown-trigger">
                         <button className="button" aria-haspopup="true" aria-controls="dropdown-menu"
                                 onClick={toggleShowActions}>•••</button>
@@ -82,14 +82,14 @@ export const NoteViewer = ({
 
     return (
         <div className={`is-flex is-align-items-center ${isSelected ? 'has-background-light' : 'has-background-white'}`}>
+            {renderActions()}
+            
             <div className="is-flex-grow-1">
-                {renderDate()}
+                {renderOwnTag()} {renderDate()}
 
                 <p>{note.text}</p>
 
                 <div>
-                    {renderOwnTag()}
-
                     {note.tags.map(nt => (
                         <NoteTagBadge key={nt.tag.id} noteTag={nt} contextSpaceId={note.space.id} showAttrs={true}></NoteTagBadge>
                     ))}
@@ -99,8 +99,6 @@ export const NoteViewer = ({
                     ))}
                 </div>
             </div>
-
-            {renderActions()}
         </div>
     );
 }
