@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { NoteList } from '../NoteList';
-import { Note, Space } from 'notu';
+import { Note } from 'notu';
 import { NoteViewerAction } from '../NoteViewer';
 import { newSpace } from './StoryHelpers';
 

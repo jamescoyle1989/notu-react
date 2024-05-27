@@ -1,27 +1,14 @@
-import { Notu, Note, Space } from 'notu';
-import React, { useEffect, useState, useImperativeHandle } from 'react';
+import { Note } from 'notu';
+import React, { useState } from 'react';
 import { NoteViewer, NoteViewerAction } from './NoteViewer';
-import { NoteSearch } from './NoteSearch';
+import { NotesPanelDisplay } from './NotesPanel';
 
 interface GroupedNoteListProps {
-    /** The space which we're fetching notes from */
-    space: Space
-    /** The client used for fetching results from the server, only add this if you want notes to be auto-fetched for you */
-    notuClient?: Notu,
-    /** If notuClient has not been defined, then use this prop for handling the manual fetching of notes */
-    onFetchRequested?: (query: string, space: Space) => Promise<Array<Note>>,
-    /** The optional default value for the search field to have. If not defined then defaults to empty */
-    defaultQuery?: string,
-    /** Optional handler for when the query gets changed */
-    onQueryChanged?: (query: string) => void,
-    /** The set of options which get generated for each note */
-    noteActionsGenerator: (note: Note) => Array<NoteViewerAction>,
-    actionsPanel?: () => JSX.Element,
-    isVisible?: boolean,
-    groupBy?: (note: Note) => any,
+    notes: Array<Note>,
+    actionsGenerator: (note: Note) => Array<NoteViewerAction>,
+    groupBy?: (note: Note) => number,
     groups?: (notes: Array<Note>) => Array<number>,
-    groupHeader?: (key: any, notes: Array<Note>) => string,
-    orderGroupsBy?: (key: any, notes: Array<Note>) => number,
+    groupHeader?: (key: number, notes: Array<Note>) => string,
     noteViewer?: (
         note: Note,
         actions: Array<NoteViewerAction>,
@@ -37,55 +24,20 @@ interface GroupedNoteListCommands {
 
 export const GroupedNoteList = React.forwardRef((
     {
-        space,
-        notuClient = null,
-        onFetchRequested = null,
-        defaultQuery = null,
-        onQueryChanged = null,
-        noteActionsGenerator,
-        actionsPanel = null,
-        isVisible = true,
+        notes,
+        actionsGenerator,
         groupBy = null,
         groups = null,
         groupHeader = null,
-        orderGroupsBy = null,
         noteViewer = null
     }: GroupedNoteListProps,
     ref: React.ForwardedRef<GroupedNoteListCommands>
 ) => {
 
-    const [currentQuery, setCurrentQuery] = useState(defaultQuery ?? '');
-    const [groupsMap, setGroupsMap] = useState<Map<any, Array<Note>>>(new Map<any, Array<Note>>());
-    const [hasLoaded, setHasLoaded] = useState(false);
     const [selectedNote, setSelectedNote] = useState(null);
 
-    useImperativeHandle(ref, () => ({
-        refresh: loadGroups,
-        setQuery: updateQuery
-    }));
-
-    useEffect(() => {
-        if (isVisible && !hasLoaded) {
-            setHasLoaded(true);
-            loadGroups();
-        }
-    }, [isVisible]);
-
-    async function loadGroups(): Promise<void> {
-        setGroupsMap(groupNotes(await fetchNotes()));
-    }
-
-    async function fetchNotes(): Promise<Array<Note>> {
-        let notes: Array<Note>;
-        if (!!notuClient)
-            notes = await notuClient.getNotes(currentQuery, space.id);
-        else
-            notes = await onFetchRequested(currentQuery, space);
-        return notes;
-    }
-
-    function groupNotes(notes: Array<Note>): Map<any, Array<Note>> {
-        const tmpGroups = new Map<any, Array<Note>>();
+    function groupNotes(notes: Array<Note>): Map<number, Array<Note>> {
+        const tmpGroups = new Map<number, Array<Note>>();
         if (!groupBy)
             tmpGroups.set(null, notes);
         else {
@@ -108,34 +60,14 @@ export const GroupedNoteList = React.forwardRef((
         return tmpGroups;
     }
 
-    function getOrderedGroups(): Array<any> {
-        if (!groupBy || !orderGroupsBy)
+    function getOrderedGroups(groupsMap: Map<number, Array<Note>>): Array<number> {
+        if (!groupBy)
             return Array.from(groupsMap.keys());
 
-        return Array.from(groupsMap.keys())
-            .map(key => ({ key, order: orderGroupsBy(key, groupsMap.get(key)) }))
-            .sort((a, b) => a.order - b.order)
-            .map(x => x.key);
+        return Array.from(groupsMap.keys()).sort((a, b) => a - b);
     }
 
-    function updateQuery(query: string) {
-        setCurrentQuery(query);
-        if (!!onQueryChanged)
-            onQueryChanged(query);
-    }
-
-    if (!isVisible)
-        return;
-
-    function renderActionsPanel() {
-        if (!actionsPanel)
-            return;
-        return actionsPanel();
-    }
-
-    function renderGroup(key: any) {
-        const notes = groupsMap.get(key);
-
+    function renderGroup(key: any, notes: Array<Note>) {
         return (
             <div key={key}>
                 {renderGroupHeader(key, notes)}
@@ -154,12 +86,12 @@ export const GroupedNoteList = React.forwardRef((
         if (!noteViewer) {
             return (
                 <NoteViewer note={note}
-                            actions={noteActionsGenerator(note)}
+                            actions={actionsGenerator(note)}
                             isSelected={selectedNote === note}/>
             )
         }
 
-        return noteViewer(note, noteActionsGenerator(note), selectedNote === note);
+        return noteViewer(note, actionsGenerator(note), selectedNote === note);
     }
 
     function renderGroupNotes(notes: Array<Note>) {
@@ -174,17 +106,60 @@ export const GroupedNoteList = React.forwardRef((
         );
     }
 
+    const groupsMap = groupNotes(notes);
+
     return (
         <div>
-            <NoteSearch notuClient={notuClient as any} space={space}
-                        onFetched={notes => setGroupsMap(groupNotes(notes))}
-                        query={currentQuery}
-                        onFetchRequested={onFetchRequested}
-                        onQueryChanged={updateQuery}/>
-
-            {renderActionsPanel()}
-
-            {getOrderedGroups().map(key => renderGroup(key))}
+            {getOrderedGroups(groupsMap).map(key => renderGroup(key, groupsMap.get(key)))}
         </div>
     );
 });
+
+
+export class PanelGroupedNoteList implements NotesPanelDisplay {
+
+    private _actionsGenerator: (note: Note) => Array<NoteViewerAction>;
+    private _noteViewer: (
+        note: Note,
+        actions: Array<NoteViewerAction>,
+        isSelected: boolean
+    ) => JSX.Element = null;
+
+    private _groupBy: (note: Note) => number;
+    private _groups: (notes: Array<Note>) => Array<number>;
+    private _groupHeader: (key: number, notes: Array<Note>) => string;
+
+    constructor(
+        actionsGenerator: (note: Note) => Array<NoteViewerAction>,
+        groupBy: (note: Note) => number
+    ) {
+        this._actionsGenerator = actionsGenerator;
+        this._groupBy = groupBy;
+    }
+
+    withNoteViewer(
+        func: (note: Note, actions: Array<NoteViewerAction>, isSelected: boolean) => JSX.Element
+    ): PanelGroupedNoteList {
+        this._noteViewer = func;
+        return this;
+    }
+
+    withExplicitGroups(groups: (notes: Array<Note>) => Array<number>): PanelGroupedNoteList {
+        this._groups = groups;
+        return this;
+    }
+
+    withHeaders(func: (key: number, notes: Array<Note>) => string): PanelGroupedNoteList {
+        this._groupHeader = func;
+        return this;
+    }
+
+    render(notes: Array<Note>) {
+        return (<GroupedNoteList notes={notes} 
+                                 actionsGenerator={this._actionsGenerator}
+                                 noteViewer={this._noteViewer}
+                                 groupBy={this._groupBy}
+                                 groups={this._groups}
+                                 groupHeader={this._groupHeader}/>);
+    }
+}

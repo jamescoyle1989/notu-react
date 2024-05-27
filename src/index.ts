@@ -5,11 +5,11 @@ import { MultiSpaceNoteList } from './MultiSpaceNoteList';
 import { NoteAttrBadge } from './NoteAttrBadge';
 import { NoteAttrEditor } from './NoteAttrEditor';
 import { NoteEditor } from './NoteEditor';
-import { NoteSearch } from './NoteSearch';
+import { NotesPanel } from './NotesPanel';
+import { NoteSearch, PanelNoteSearch } from './NoteSearch';
 import { NoteTagBadge } from './NoteTagBadge';
-import { NoteList } from './NoteList';
+import { NoteList, PanelNoteList } from './NoteList';
 import { NoteViewer, NoteViewerAction } from './NoteViewer';
-import { FilteredNoteList } from './FilteredNoteList';
 import { useNotu } from './Hooks';
 
 export {
@@ -20,10 +20,10 @@ export {
     NoteAttrBadge,
     NoteAttrEditor,
     NoteEditor,
-    NoteSearch,
+    NotesPanel,
+    NoteSearch, PanelNoteSearch,
     NoteTagBadge,
-    NoteList,
+    NoteList, PanelNoteList,
     NoteViewer, NoteViewerAction,
-    FilteredNoteList,
     useNotu
 }

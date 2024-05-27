@@ -2,6 +2,7 @@ import React from 'react';
 import { Note } from 'notu';
 import { NoteViewer, NoteViewerAction } from './NoteViewer';
 import { useState } from 'react';
+import { NotesPanelDisplay } from './NotesPanel';
 
 interface NoteListProps {
     notes: Array<Note>,
@@ -47,4 +48,34 @@ export const NoteList = ({
             ))}
         </div>
     );
+}
+
+
+export class PanelNoteList implements NotesPanelDisplay {
+
+    private _actionsGenerator: (note: Note) => Array<NoteViewerAction>;
+    private _noteViewer: (
+        note: Note,
+        actions: Array<NoteViewerAction>,
+        isSelected: boolean
+    ) => JSX.Element = null;
+
+    constructor(
+        actionsGenerator: (note: Note) => Array<NoteViewerAction>
+    ) {
+        this._actionsGenerator = actionsGenerator;
+    }
+
+    withNoteViewer(
+        func: (note: Note, actions: Array<NoteViewerAction>, isSelected: boolean) => JSX.Element
+    ): PanelNoteList {
+        this._noteViewer = func;
+        return this;
+    }
+
+    render(notes: Array<Note>) {
+        return (<NoteList notes={notes} 
+                          actionsGenerator={this._actionsGenerator}
+                          noteViewer={this._noteViewer}/>);
+    }
 }

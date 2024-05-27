@@ -1,13 +1,14 @@
 import React from 'react';
-import { NotuHttpClient, Note, Space } from 'notu';
+import { Note, Space, Notu } from 'notu';
 import { useState } from 'react';
 import 'bulma';
+import { NotesPanelSelector } from './NotesPanel';
 
 interface NoteSearchProps {
     /** The space which we're fetching notes from */
     space: Space,
     /** The client used for fetching results from the server, only add this if you want notes to be auto-fetched for you */
-    notuClient?: NotuHttpClient,
+    notu?: Notu,
     /** The query string which the search field will display and use for querying */
     query?: string,
     /** Optional callback for handling changes to the query text */
@@ -21,7 +22,7 @@ interface NoteSearchProps {
 
 export const NoteSearch = ({
     space,
-    notuClient = null,
+    notu = null,
     query = '',
     onQueryChanged = null,
     onFetchRequested = null,
@@ -35,8 +36,8 @@ export const NoteSearch = ({
 
     async function onSearchSubmit(): Promise<void> {
         let searchResults: Array<Note>;
-        if (!!notuClient)
-            searchResults = await notuClient.getNotes(query, space.id);
+        if (!!notu)
+            searchResults = await notu.getNotes(query, space.id);
         else
             searchResults = await onFetchRequested(query, space);
         onFetched(searchResults);
@@ -53,4 +54,42 @@ export const NoteSearch = ({
             </div>
         </div>
     );
+}
+
+
+export class PanelNoteSearch implements NotesPanelSelector {
+
+    private _notu: Notu;
+    private _space: Space;
+    private _query: string;
+
+    private _updatedQuery: string;
+
+    onNotesRetrieved: (notes: Array<Note>) => void;
+
+    constructor(notu: Notu, space: Space, query: string) {
+        this._notu = notu;
+        this._space = space;
+        this._query = query;
+    }
+
+    async requestNotes(): Promise<void> {
+        const notes = await this._notu.getNotes(this._updatedQuery, this._space.id);
+        this.onNotesRetrieved(notes);
+    }
+
+    handleFetchRequestFromNoteSearch(): Promise<Array<Note>> {
+        this.requestNotes();
+        return Promise.resolve([]);
+    }
+
+    render() {
+        const [updatedQuery, setUpdatedQuery] = useState(this._query);
+        this._updatedQuery = updatedQuery;
+
+        return (<NoteSearch space={this._space}
+                            query={updatedQuery}
+                            onQueryChanged={query => setUpdatedQuery(query)}
+                            onFetchRequested={() => this.handleFetchRequestFromNoteSearch()}/>)
+    }
 }
