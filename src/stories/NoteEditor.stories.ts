@@ -47,22 +47,6 @@ export const Primary: Story = {
 };
 
 
-export const ShowsErrorIfNoteDoesntSetSpace: Story = {
-    args: {
-        notuClient: notuClient as any,
-        note: new Note('hello'),
-        tags: [tag1, tag2],
-        attrs: [attr1, attr2],
-        onConfirm: note => {
-            console.log('Confirm Clicked', note);
-            return Promise.resolve(true);
-        },
-        onCancel: note => { console.log('Cancel Clicked'); },
-        onSave: note => { console.log('Note saved'); }
-    }
-}
-
-
 export const DisplaysErrorMessageOnFailedConfirm: Story = {
     args: {
         notuClient: notuClient as any,

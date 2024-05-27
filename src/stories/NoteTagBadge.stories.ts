@@ -25,7 +25,7 @@ export const Primary: Story = {
     args: {
         noteTag: (() => {
             const tag = newTag('Test', 123).in(space1).clean();
-            return new Note().addTag(tag);
+            return new Note().in(space1).addTag(tag);
         })(),
         contextSpaceId: 1,
         onDelete: null,
@@ -37,7 +37,7 @@ export const WithDeleteButton: Story = {
     args: {
         noteTag: (() => {
             const tag = newTag('Test', 123).in(space1).clean();
-            return new Note().addTag(tag);
+            return new Note().in(space1).addTag(tag);
         })(),
         contextSpaceId: 1,
         onDelete: () => { console.log('Delete clicked'); },
@@ -48,8 +48,8 @@ export const WithDeleteButton: Story = {
 export const ShowsSpaceNameIfRequired: Story = {
     args: {
         noteTag: (() => {
-            const tag = newTag('Test', 123).in(space2).clean();
-            return new Note().addTag(tag);
+            const tag = newTag('Test', 123).in(space2).asPublic().clean();
+            return new Note().in(space1).addTag(tag);
         })(),
         contextSpaceId: 1,
         onDelete: null,
@@ -62,7 +62,7 @@ export const RedBadge: Story = {
         noteTag: (() => {
             const tag = newTag('Test', 123).in(space1).clean();
             tag.color = '#FF0000';
-            return new Note().addTag(tag);
+            return new Note().in(space1).addTag(tag);
         })(),
         contextSpaceId: 1,
         onDelete: null,
@@ -75,7 +75,7 @@ export const GreenBadge: Story = {
         noteTag: (() => {
             const tag = newTag('Test', 123).in(space1).clean();
             tag.color = '#00FF00';
-            return new Note().addTag(tag);
+            return new Note().in(space1).addTag(tag);
         })(),
         contextSpaceId: 1,
         onDelete: null,
