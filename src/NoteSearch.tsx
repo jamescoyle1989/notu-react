@@ -13,7 +13,7 @@ interface NoteSearchProps {
     query?: string,
     /** Optional callback for handling changes to the query text */
     onQueryChanged?: (query: string) => void,
-    /** If notuClient has not been defined, then use this prop for handling the manual fetching of notes */
+    /** If notu param has not been defined, then use this prop for handling the manual fetching of notes */
     onFetchRequested?: (query: string, space: Space) => Promise<Array<Note>>,
     /** Callback that gets fired when the search has been executed and notes returned */
     onFetched?: (notes: Array<Note>) => void
@@ -40,7 +40,8 @@ export const NoteSearch = ({
             searchResults = await notu.getNotes(query, space.id);
         else
             searchResults = await onFetchRequested(query, space);
-        onFetched(searchResults);
+        if (!!onFetched)
+            onFetched(searchResults);
     }
 
     return (
@@ -63,8 +64,6 @@ export class PanelNoteSearch implements NotesPanelSelector {
     private _space: Space;
     private _query: string;
 
-    private _updatedQuery: string;
-
     onNotesRetrieved: (notes: Array<Note>) => void;
 
     constructor(notu: Notu, space: Space, query: string) {
@@ -74,7 +73,7 @@ export class PanelNoteSearch implements NotesPanelSelector {
     }
 
     async requestNotes(): Promise<void> {
-        const notes = await this._notu.getNotes(this._updatedQuery, this._space.id);
+        const notes = await this._notu.getNotes(this._query, this._space.id);
         this.onNotesRetrieved(notes);
     }
 
@@ -85,11 +84,11 @@ export class PanelNoteSearch implements NotesPanelSelector {
 
     render() {
         const [updatedQuery, setUpdatedQuery] = useState(this._query);
-        this._updatedQuery = updatedQuery;
+        this._query = updatedQuery;
 
         return (<NoteSearch space={this._space}
                             query={updatedQuery}
                             onQueryChanged={query => setUpdatedQuery(query)}
-                            onFetchRequested={() => this.handleFetchRequestFromNoteSearch()}/>)
+                            onFetchRequested={() => this.handleFetchRequestFromNoteSearch()}/>);
     }
 }

@@ -34,7 +34,7 @@ const space1 = newSpace('Test1', 1);
 export const Primary: Story = {
     args: {
         space: space1,
-        notuClient: new FakeHttpClient() as any,
+        notu: new FakeHttpClient() as any,
         onFetched: console.log,
         onQueryChanged: query => console.log('Query changed: ' + query)
     }
@@ -44,7 +44,7 @@ export const Primary: Story = {
 export const TextBoxIsDisabledIfNoOnQueryChanged: Story = {
     args: {
         space: space1,
-        notuClient: new FakeHttpClient() as any,
+        notu: new FakeHttpClient() as any,
         onFetched: console.log,
         query: '#Tag AND @Attr.Exists'
     }
@@ -54,7 +54,7 @@ export const TextBoxIsDisabledIfNoOnQueryChanged: Story = {
 export const OnQueryChangedCallbackGetsCalled: Story = {
     args: {
         space: space1,
-        notuClient: new FakeHttpClient() as any,
+        notu: new FakeHttpClient() as any,
         onFetched: (notes) => console.log(notes),
         query: 'I like pies',
         onQueryChanged: console.log

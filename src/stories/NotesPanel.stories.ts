@@ -6,6 +6,7 @@ import { Notu } from 'notu';
 import { PanelNoteList } from '../NoteList';
 import { NoteViewerAction } from '../NoteViewer';
 import { PanelGroupedNoteList } from '../GroupedNoteList';
+import { PanelRelatedTagSelector } from '../RelatedTagSelector';
 
 const meta: Meta<typeof NotesPanel> = {
     title: 'NotesPanel',
@@ -39,5 +40,12 @@ export const Grouped: Story = {
             n => [new NoteViewerAction('Do something', n => console.log('Something done'))],
             n => n.text.length
         ).withHeaders((key, notes) => `Text length: ${key}`)
+    }
+}
+
+export const FetchRelatedTags: Story = {
+    args: {
+        selector: new PanelRelatedTagSelector(notu as any, null, null),
+        display: new PanelNoteList(n => [new NoteViewerAction('Do something', n => console.log('Something done'))])
     }
 }
