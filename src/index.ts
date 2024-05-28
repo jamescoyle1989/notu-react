@@ -1,5 +1,5 @@
 import { AttrEditor } from './AttrEditor';
-import { GroupedNoteList } from './GroupedNoteList';
+import { GroupedNoteList, PanelGroupedNoteList } from './GroupedNoteList';
 import { LoginView } from './LoginView';
 import { NoteAttrBadge } from './NoteAttrBadge';
 import { NoteAttrEditor } from './NoteAttrEditor';
@@ -14,7 +14,7 @@ import { useNotu } from './Hooks';
 
 export {
     AttrEditor,
-    GroupedNoteList,
+    GroupedNoteList, PanelGroupedNoteList,
     LoginView,
     NoteAttrBadge,
     NoteAttrEditor,
