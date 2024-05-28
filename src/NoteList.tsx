@@ -73,6 +73,9 @@ export class PanelNoteList implements NotesPanelDisplay {
         return this;
     }
 
+    renderHooks(): void {
+    }
+
     render(notes: Array<Note>) {
         return (<NoteList notes={notes} 
                           actionsGenerator={this._actionsGenerator}

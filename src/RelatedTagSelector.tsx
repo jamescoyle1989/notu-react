@@ -77,7 +77,9 @@ export class PanelRelatedTagSelector implements NotesPanelSelector {
 
     private _notu: Notu;
     private _tags: Array<Tag>;
+
     private _selectedTag: Tag;
+    private _setSelectedTag: React.Dispatch<React.SetStateAction<Tag>>
 
     onNotesRetrieved: (notes: Array<Note>) => void;
 
@@ -99,13 +101,14 @@ export class PanelRelatedTagSelector implements NotesPanelSelector {
         return Promise.resolve([]);
     }
 
-    render() {
-        const [updatedSelectedTag, setUpdatedSelectedTag] = useState(this._selectedTag);
-        this._selectedTag = updatedSelectedTag;
+    renderHooks(): void {
+        [this._selectedTag, this._setSelectedTag] = useState(this._selectedTag);
+    }
 
+    render() {
         return (<RelatedTagSelector tags={this._tags ?? this._notu.getTags()}
                                     selectedTag={this._selectedTag}
-                                    onTagChanged={tag => setUpdatedSelectedTag(tag)}
+                                    onTagChanged={tag => this._setSelectedTag(tag)}
                                     onFetchRequested={() => this.handleFetchRequestFromNoteSearch()}/>);
     }
 }

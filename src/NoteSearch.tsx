@@ -62,7 +62,11 @@ export class PanelNoteSearch implements NotesPanelSelector {
 
     private _notu: Notu;
     private _space: Space;
+
     private _query: string;
+    private _setQuery: React.Dispatch<React.SetStateAction<string>>;
+
+    private _customQueryHandling: (query: string, spaceId: number) => Promise<Array<Note>>;
 
     onNotesRetrieved: (notes: Array<Note>) => void;
 
@@ -72,8 +76,15 @@ export class PanelNoteSearch implements NotesPanelSelector {
         this._query = query;
     }
 
+    withCustomQueryHandling(handler: (query: string, spaceId: number) => Promise<Array<Note>>): PanelNoteSearch {
+        this._customQueryHandling = handler;
+        return this;
+    }
+
     async requestNotes(): Promise<void> {
-        const notes = await this._notu.getNotes(this._query, this._space.id);
+        const notes = (!!this._customQueryHandling)
+            ? await this._customQueryHandling(this._query, this._space.id)
+            : await this._notu.getNotes(this._query, this._space.id);
         this.onNotesRetrieved(notes);
     }
 
@@ -82,13 +93,14 @@ export class PanelNoteSearch implements NotesPanelSelector {
         return Promise.resolve([]);
     }
 
-    render() {
-        const [updatedQuery, setUpdatedQuery] = useState(this._query);
-        this._query = updatedQuery;
+    renderHooks(): void {
+        [this._query, this._setQuery] = useState(this._query);
+    }
 
+    render() {
         return (<NoteSearch space={this._space}
-                            query={updatedQuery}
-                            onQueryChanged={query => setUpdatedQuery(query)}
+                            query={this._query}
+                            onQueryChanged={query => this._setQuery(query)}
                             onFetchRequested={() => this.handleFetchRequestFromNoteSearch()}/>);
     }
 }

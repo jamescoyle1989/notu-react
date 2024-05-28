@@ -154,6 +154,9 @@ export class PanelGroupedNoteList implements NotesPanelDisplay {
         return this;
     }
 
+    renderHooks(): void {
+    }
+
     render(notes: Array<Note>) {
         return (<GroupedNoteList notes={notes} 
                                  actionsGenerator={this._actionsGenerator}

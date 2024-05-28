@@ -16,10 +16,16 @@ interface NotesPanelCommands {
 export interface NotesPanelSelector {
     requestNotes(): void;
     onNotesRetrieved: (notes: Array<Note>) => void;
+    //This will always happen each time an update happens. Use this to make sure the same hooks are consistently called on each update cycle.
+    renderHooks(): void;
+    //This will only happen if the NotesPanel is actually set to visible
     render(): JSX.Element;
 }
 
 export interface NotesPanelDisplay {
+    //This will always happen each time an update happens. Use this to make sure the same hooks are consistently called on each update cycle.
+    renderHooks(): void;
+    //This will only happen if the NotesPanel is actually set to visible
     render(notes: Array<Note>): JSX.Element
 }
 
@@ -44,6 +50,9 @@ export const NotesPanel = React.forwardRef((
     async function loadNotes(): Promise<void> {
         selector.requestNotes();
     }
+
+    selector.renderHooks();
+    display.renderHooks();
 
     if (!isVisible)
         return;
