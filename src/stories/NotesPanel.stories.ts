@@ -49,3 +49,11 @@ export const FetchRelatedTags: Story = {
         display: new PanelNoteList(n => [new NoteViewerAction('Do something', n => console.log('Something done'))])
     }
 }
+
+export const AutoRefresh: Story = {
+    args: {
+        selector: new PanelNoteSearch(notu as any, space1, 'Test'),
+        display: new PanelNoteList(n => [new NoteViewerAction('Do something', n => console.log('Something done'))]),
+        autoRefresh: true
+    }
+}
