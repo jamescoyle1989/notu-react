@@ -52,7 +52,7 @@ export const NotesPanel = React.forwardRef((
     }, [isVisible, autoRefresh])
 
     useImperativeHandle(ref, () => ({
-        refresh: selector.requestNotes
+        refresh: () => selector.requestNotes()
     }));
 
     selector.renderHooks();
