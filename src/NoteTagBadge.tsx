@@ -36,8 +36,10 @@ export const NoteTagBadge = ({
     }
 
     function getTextColor() {
-        const bgLum = chroma(getBackgroundColor()).luminance();
-        return (bgLum < 0.5) ? 'has-text-white' : 'has-text-black';
+        const bgColor = getBackgroundColor();
+        const whiteContrast = chroma.contrast(bgColor, '#FFF');
+        const blackContrast = chroma.contrast(bgColor, '#000');
+        return (whiteContrast > blackContrast) ? 'has-text-white' : 'has-text-black';
     }
 
     function renderTagAttributes() {

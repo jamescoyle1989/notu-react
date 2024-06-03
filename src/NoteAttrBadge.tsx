@@ -2,6 +2,7 @@ import React from 'react';
 import { NoteAttr, Tag } from 'notu';
 import 'bulma';
 import { renderNoteAttrValue } from './helpers/NotuRender';
+import chroma from 'chroma-js';
 
 interface NoteAttrBadgeProps {
     noteAttr: NoteAttr,
@@ -24,6 +25,17 @@ export const NoteAttrBadge = ({
             output = noteAttr.tag.getQualifiedName(contextSpaceId) + '.' + output;
         return output;
     }
+
+    function getBackgroundColor(): string {
+        return noteAttr.attr.color ?? defaultColor;
+    }
+
+    function getTextColor(): string {
+        const bgColor = getBackgroundColor();
+        const whiteContrast = chroma.contrast(bgColor, '#FFF');
+        const blackContrast = chroma.contrast(bgColor, '#000');
+        return (whiteContrast > blackContrast) ? 'has-text-white' : 'has-text-black';
+    }
     
     function renderDeleteButton() {
         if (!onDelete)
@@ -32,8 +44,8 @@ export const NoteAttrBadge = ({
     }
 
     return (
-        <span className="tag is-small is-unselectable is-rounded mr-1"
-            style={{backgroundColor: noteAttr.attr.color ?? defaultColor}}>
+        <span className={`tag is-small is-unselectable is-rounded mr-1 ${getTextColor()}`}
+            style={{backgroundColor: getBackgroundColor()}}>
             {getAttrLabel()}: {renderNoteAttrValue(noteAttr)}
             {renderDeleteButton()}
         </span>

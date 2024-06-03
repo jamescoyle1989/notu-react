@@ -21,6 +21,7 @@ const space1 = newSpace('Space 1', 1).clean();
 const numAttr = newAttr('Num', 1).in(space1).asNumber().clean();
 numAttr.color = '#FF8800';
 const boolAttr = newAttr('Bool', 2).in(space1).asBoolean().clean();
+boolAttr.color = '#AABBCC';
 const dateAttr = newAttr('Date', 3).in(space1).asDate().clean();
 
 const tag = newTag('Tag', 1).in(space1).clean();
