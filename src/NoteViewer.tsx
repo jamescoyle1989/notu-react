@@ -56,8 +56,14 @@ export const NoteViewer = ({
     function renderOwnTag() {
         if (!!note.ownTag) {
             const noteTag = new NoteTag(note.ownTag.duplicate().clean());
-            return (<NoteTagBadge noteTag={noteTag} contextSpaceId={note.space.id} showAttrs={true}></NoteTagBadge>)
+            return (<NoteTagBadge noteTag={noteTag} contextSpaceId={note.space.id} showAttrs={false} bold={true}></NoteTagBadge>)
         }
+    }
+
+    function renderOwnTagDivider() {
+        if (!!note.ownTag && (note.tags.length > 0 || note.attrs.length > 0))
+            return (<div style={{borderLeft: '2px solid #888', height: '100%'}}
+                         className='is-inline mr-2'/>);
     }
 
     function renderActions() {
@@ -85,11 +91,13 @@ export const NoteViewer = ({
             {renderActions()}
             
             <div className="is-flex-grow-1">
-                {renderOwnTag()} {renderDate()}
+                {renderDate()}
 
                 <p>{note.text}</p>
 
                 <div>
+                    {renderOwnTag()} {renderOwnTagDivider()}
+
                     {note.tags.map(nt => (
                         <NoteTagBadge key={nt.tag.id} noteTag={nt} contextSpaceId={note.space.id} showAttrs={true}></NoteTagBadge>
                     ))}
