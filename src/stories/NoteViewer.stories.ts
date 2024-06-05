@@ -79,3 +79,17 @@ export const CanHideDate: Story = {
         showDate: false
     }
 }
+
+
+export const DisplaysNewLinesCorrectly: Story = {
+    args: {
+        note: (() => {
+            const output = new Note('Test test \n\n and another test test')
+                .in(space1)
+            return output;
+        })(),
+        actions: [],
+        isSelected: true,
+        showDate: true
+    }
+}

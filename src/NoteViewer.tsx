@@ -93,7 +93,7 @@ export const NoteViewer = ({
             <div className="is-flex-grow-1">
                 {renderDate()}
 
-                <p>{note.text}</p>
+                <p style={{whiteSpace: 'pre-line'}}>{note.text}</p>
 
                 <div>
                     {renderOwnTag()} {renderOwnTagDivider()}
