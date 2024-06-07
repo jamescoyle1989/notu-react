@@ -1,9 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { GroupedNoteList } from '../GroupedNoteList';
-import { Note, Space } from 'notu';
-import { NoteViewerAction, NoteViewer } from '../NoteViewer';
+import { Note } from 'notu';
+import { NoteViewerAction } from '../NoteViewer';
 import { noteViewerWithoutDate } from './ReactSnippets';
 import { newSpace } from './StoryHelpers';
+import { noteTextSplitter } from '../helpers/NoteComponentHelpers';
 
 const meta: Meta<typeof GroupedNoteList> = {
     title: 'GroupedNoteList',
@@ -35,6 +36,7 @@ export const Primary: Story = {
         actionsGenerator: note => [
             new NoteViewerAction('Do something', async n => Promise.resolve(true))
         ],
+        noteTextSplitter: noteTextSplitter,
         groupBy: n => n.date.getDay(),
         groupHeader: (key, notes) => {
             const day = Number(key);
@@ -58,12 +60,13 @@ export const CanShowNotesWithoutDates: Story = {
         actionsGenerator: note => [
             new NoteViewerAction('Do something', async n => Promise.resolve(true))
         ],
+        noteTextSplitter: noteTextSplitter,
         groupBy: n => n.date.getDay(),
         groupHeader: (key, notes) => {
             const day = Number(key);
             return ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][day];
         },
-        noteViewer: (note, actions, isSelected) => noteViewerWithoutDate(note, actions, isSelected)
+        noteViewer: (note, actions, isSelected, splitter) => noteViewerWithoutDate(note, actions, isSelected, splitter)
     }
 }
 
@@ -82,12 +85,13 @@ export const CanAddGroupsThatNoNoteSatisfies: Story = {
         actionsGenerator: note => [
             new NoteViewerAction('Do something', async n => Promise.resolve(true))
         ],
+        noteTextSplitter: noteTextSplitter,
         groupBy: n => n.date.getDay(),
         groupHeader: (key, notes) => {
             const day = Number(key);
             return ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][day];
         },
         groups: notes => [0,1,2,3,4,5,6],
-        noteViewer: (note, actions, isSelected) => noteViewerWithoutDate(note, actions, isSelected)
+        noteViewer: (note, actions, isSelected, splitter) => noteViewerWithoutDate(note, actions, isSelected, splitter)
     }
 }

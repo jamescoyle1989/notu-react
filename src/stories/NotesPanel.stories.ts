@@ -7,6 +7,7 @@ import { PanelNoteList } from '../NoteList';
 import { NoteViewerAction } from '../NoteViewer';
 import { PanelGroupedNoteList } from '../GroupedNoteList';
 import { PanelRelatedTagSelector } from '../RelatedTagSelector';
+import { noteTextSplitter } from '../helpers/NoteComponentHelpers';
 
 const meta: Meta<typeof NotesPanel> = {
     title: 'NotesPanel',
@@ -29,7 +30,7 @@ const notu = new MockNotu();
 export const Primary: Story = {
     args: {
         selector: new PanelNoteSearch(notu as any, space1, 'Test'),
-        display: new PanelNoteList(n => [new NoteViewerAction('Do something', n => console.log('Something done'))])
+        display: new PanelNoteList(n => [new NoteViewerAction('Do something', n => console.log('Something done'))], noteTextSplitter)
     }
 }
 
@@ -38,6 +39,7 @@ export const Grouped: Story = {
         selector: new PanelNoteSearch(notu as any, space1, 'Test'),
         display: new PanelGroupedNoteList(
             n => [new NoteViewerAction('Do something', n => console.log('Something done'))],
+            noteTextSplitter,
             n => n.text.length
         ).withHeaders((key, notes) => `Text length: ${key}`)
     }
@@ -46,14 +48,14 @@ export const Grouped: Story = {
 export const FetchRelatedTags: Story = {
     args: {
         selector: new PanelRelatedTagSelector(notu as any, null, null),
-        display: new PanelNoteList(n => [new NoteViewerAction('Do something', n => console.log('Something done'))])
+        display: new PanelNoteList(n => [new NoteViewerAction('Do something', n => console.log('Something done'))], noteTextSplitter)
     }
 }
 
 export const AutoRefresh: Story = {
     args: {
         selector: new PanelNoteSearch(notu as any, space1, 'Test'),
-        display: new PanelNoteList(n => [new NoteViewerAction('Do something', n => console.log('Something done'))]),
+        display: new PanelNoteList(n => [new NoteViewerAction('Do something', n => console.log('Something done'))], noteTextSplitter),
         autoRefresh: true
     }
 }

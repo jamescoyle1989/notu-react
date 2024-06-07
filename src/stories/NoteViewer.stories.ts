@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { NoteViewer, NoteViewerAction } from '../NoteViewer';
 import { Note } from 'notu';
 import { newAttr, newSpace, newTag } from './StoryHelpers';
+import { noteTextSplitter } from '../helpers/NoteComponentHelpers';
 
 const meta: Meta<typeof NoteViewer> = {
     title: 'NoteViewer',
@@ -41,7 +42,8 @@ export const Primary: Story = {
             new NoteViewerAction('Say Hello', n => console.log('Hello')),
             new NoteViewerAction('Say Goodbye', n => console.log('Goodbye'))
         ],
-        isSelected: true
+        isSelected: true,
+        noteTextSplitter: noteTextSplitter
     }
 };
 
@@ -58,7 +60,8 @@ export const NoActions: Story = {
             return output;
         })(),
         actions: [],
-        isSelected: true
+        isSelected: true,
+        noteTextSplitter: noteTextSplitter
     }
 }
 
@@ -76,7 +79,8 @@ export const CanHideDate: Story = {
         })(),
         actions: [],
         isSelected: true,
-        showDate: false
+        showDate: false,
+        noteTextSplitter: noteTextSplitter
     }
 }
 
@@ -90,6 +94,22 @@ export const DisplaysNewLinesCorrectly: Story = {
         })(),
         actions: [],
         isSelected: true,
-        showDate: true
+        showDate: true,
+        noteTextSplitter: noteTextSplitter
+    }
+}
+
+
+export const DisplaysChecklistsCorrectly: Story = {
+    args: {
+        note: (() => {
+            const output = new Note('Test test \n\n<Checklist>\n✔ Swim\nFight bear\n</Checklist>')
+                .in(space1)
+            return output;
+        })(),
+        actions: [],
+        isSelected: true,
+        showDate: true,
+        noteTextSplitter: noteTextSplitter
     }
 }

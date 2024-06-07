@@ -1,15 +1,17 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Note, NoteTag } from 'notu';
 import { NoteTagBadge } from './NoteTagBadge';
 import 'bulma';
 import { useEffect, useState } from 'react';
 import { NoteAttrBadge } from './NoteAttrBadge';
+import { NoteComponent } from './notecomponents/NoteComponent';
 
 interface NoteViewerProps {
     note: Note,
     actions: Array<NoteViewerAction>,
     isSelected: boolean,
-    showDate?: boolean
+    showDate?: boolean,
+    noteTextSplitter: (note: Note) => Array<NoteComponent>
 }
 
 
@@ -28,9 +30,11 @@ export const NoteViewer = ({
     note,
     actions,
     isSelected,
-    showDate = true
+    showDate = true,
+    noteTextSplitter
 }: NoteViewerProps) => {
     const [showActions, setShowActions] = useState(false);
+    const textComponents = useMemo(() => noteTextSplitter(note), []);
 
     useEffect(() => {
         if (!isSelected)
@@ -93,7 +97,7 @@ export const NoteViewer = ({
             <div className="is-flex-grow-1">
                 {renderDate()}
 
-                <p style={{whiteSpace: 'pre-line'}}>{note.text}</p>
+                {textComponents.map((x, index) => (<div key={index}>{x.render()}</div>))}
 
                 <div>
                     {renderOwnTag()} {renderOwnTagDivider()}

@@ -3,14 +3,17 @@ import { Note } from 'notu';
 import { NoteViewer, NoteViewerAction } from './NoteViewer';
 import { useState } from 'react';
 import { NotesPanelDisplay } from './NotesPanel';
+import { NoteComponent } from './notecomponents/NoteComponent';
 
 interface NoteListProps {
     notes: Array<Note>,
     actionsGenerator: (note: Note) => Array<NoteViewerAction>,
+    noteTextSplitter: (note: Note) => Array<NoteComponent>,
     noteViewer?: (
         note: Note,
         actions: Array<NoteViewerAction>,
-        isSelected: boolean
+        isSelected: boolean,
+        noteTextSplitter: (note: Note) => Array<NoteComponent>
     ) => JSX.Element
 }
 
@@ -18,7 +21,8 @@ interface NoteListProps {
 export const NoteList = ({
     notes,
     actionsGenerator,
-    noteViewer = null
+    noteViewer = null,
+    noteTextSplitter
 }: NoteListProps) => {
 
     const [selectedNote, setSelectedNote] = useState(null);
@@ -32,11 +36,12 @@ export const NoteList = ({
             return (
                 <NoteViewer note={note}
                             actions={actionsGenerator(note)}
-                            isSelected={selectedNote === note}/>
+                            isSelected={selectedNote === note}
+                            noteTextSplitter={noteTextSplitter}/>
             )
         }
 
-        return noteViewer(note, actionsGenerator(note), selectedNote === note);
+        return noteViewer(note, actionsGenerator(note), selectedNote === note, noteTextSplitter);
     }
 
     return (
@@ -54,16 +59,20 @@ export const NoteList = ({
 export class PanelNoteList implements NotesPanelDisplay {
 
     private _actionsGenerator: (note: Note) => Array<NoteViewerAction>;
+    private _noteTextSplitter: (note: Note) => Array<NoteComponent>;
     private _noteViewer: (
         note: Note,
         actions: Array<NoteViewerAction>,
-        isSelected: boolean
+        isSelected: boolean,
+        noteTextSplitter: (note: Note) => Array<NoteComponent>
     ) => JSX.Element = null;
 
     constructor(
-        actionsGenerator: (note: Note) => Array<NoteViewerAction>
+        actionsGenerator: (note: Note) => Array<NoteViewerAction>,
+        noteTextSplitter: (note: Note) => Array<NoteComponent>
     ) {
         this._actionsGenerator = actionsGenerator;
+        this._noteTextSplitter = noteTextSplitter;
     }
 
     withNoteViewer(
@@ -79,6 +88,7 @@ export class PanelNoteList implements NotesPanelDisplay {
     render(notes: Array<Note>) {
         return (<NoteList notes={notes} 
                           actionsGenerator={this._actionsGenerator}
-                          noteViewer={this._noteViewer}/>);
+                          noteViewer={this._noteViewer}
+                          noteTextSplitter={this._noteTextSplitter}/>);
     }
 }
