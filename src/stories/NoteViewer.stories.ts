@@ -103,7 +103,22 @@ export const DisplaysNewLinesCorrectly: Story = {
 export const DisplaysChecklistsCorrectly: Story = {
     args: {
         note: (() => {
-            const output = new Note('Test test \n\n<Checklist>\n✔ Swim\nFight bear\n</Checklist>')
+            const output = new Note('Test test\n\n<Checklist>\n✔ Swim\nFight bear\n</Checklist>')
+                .in(space1)
+            return output;
+        })(),
+        actions: [],
+        isSelected: true,
+        showDate: true,
+        noteTextSplitter: noteTextSplitter
+    }
+}
+
+
+export const DisplaysImagesCorrectly: Story = {
+    args: {
+        note: (() => {
+            const output = new Note('Ive embedded an image into this note\n\n<Image>\n./src/stories/assets/docs.png\n</Image>')
                 .in(space1)
             return output;
         })(),

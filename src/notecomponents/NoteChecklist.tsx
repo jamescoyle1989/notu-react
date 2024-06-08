@@ -36,14 +36,18 @@ export class NoteChecklist implements NoteComponent {
 
         return (
             <div>
-                {this._lines.map((line, index) => (
-                    <div key={index} className="control">
-                        <label className="checkbox">
-                            <input type="checkbox" className="mr-2" checked={line.startsWith('✔')} onChange={evt => onCheckboxChange(evt, index)}/>
-                            {getLineRenderText(line)}
-                        </label>
-                    </div>
-                ))}
+                {this._lines.map((line, index) => {
+                    const isChecked = line.startsWith('✔');
+                    return (
+                        <div key={index} className="control">
+                            <label className={`checkbox ${isChecked ? 'has-text-grey-light' : ''}`}
+                                    style={{textDecoration: isChecked ? 'line-through' : 'none'}}>
+                                <input type="checkbox" className="mr-2" checked={isChecked} onChange={evt => onCheckboxChange(evt, index)}/>
+                                {getLineRenderText(line)}
+                            </label>
+                        </div>
+                    );
+                })}
             </div>
         );
     }
