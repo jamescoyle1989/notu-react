@@ -15,6 +15,9 @@ export class NoteText implements NoteComponent {
     }
 
     render() {
+        if (this._displayText.length == 0)
+            return;
+
         return (
             <p style={{whiteSpace: 'pre-line'}}>{this._displayText}</p>
         )

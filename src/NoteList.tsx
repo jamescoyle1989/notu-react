@@ -63,8 +63,7 @@ export class PanelNoteList implements NotesPanelDisplay {
     private _noteViewer: (
         note: Note,
         actions: Array<NoteViewerAction>,
-        isSelected: boolean,
-        noteTextSplitter: (note: Note) => Array<NoteComponent>
+        isSelected: boolean
     ) => JSX.Element = null;
 
     constructor(

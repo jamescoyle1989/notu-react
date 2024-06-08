@@ -46,7 +46,7 @@ export function splitNoteTextIntoComponents(
 
     const components: Array<NoteComponent> = [];
     async function save(): Promise<void> {
-        note.text = components.map(x => x.getText()).join('\n\n');
+        note.text = components.map(x => x.getText()).join('');
         await notu.saveNotes([note]);
     }
 
