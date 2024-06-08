@@ -3,21 +3,25 @@ import { NoteComponent, NoteComponentInfo, NoteComponentProcessor } from './Note
 import React from 'react';
 
 export class NoteText implements NoteComponent {
-    private _text: string;
-    get text(): string { return this._text; }
+    private _displayText: string;
+    get displayText(): string { return this._displayText; }
 
-    constructor(text: string) {
-        this._text = text;
+    private _originalText: string;
+    get originalText(): string { return this._originalText; }
+
+    constructor(displayText: string, originalText: string) {
+        this._displayText = displayText;
+        this._originalText = originalText;
     }
 
     render() {
         return (
-            <p style={{whiteSpace: 'pre-line'}}>{this._text}</p>
+            <p style={{whiteSpace: 'pre-line'}}>{this._displayText}</p>
         )
     }
 
     getText(): string {
-        return this._text;
+        return this._originalText;
     }
 }
 
@@ -38,8 +42,15 @@ export class NoteTextProcessor implements NoteComponentProcessor {
         return new NoteComponentInfo(componentText, start, this);
     }
 
-    create(text: string, note: Note, save: () => Promise<void>): NoteComponent {
-        return new NoteText(text);
+    create(text: string, note: Note, save: () => Promise<void>, previous: NoteComponentInfo, next: NoteComponentInfo): NoteComponent {
+        let displayText = text.replace('<Text>', '').replace('</Text>', '');
+        const firstLineBreakIndex = displayText.indexOf('\n');
+        if (firstLineBreakIndex >= 0 && displayText.substring(0, firstLineBreakIndex).trim() == '')
+            displayText = displayText.substring(firstLineBreakIndex + 1);
+        const lastLineBreakIndex = displayText.lastIndexOf('\n');
+        if (lastLineBreakIndex >= 0 && displayText.substring(lastLineBreakIndex).trim() == '')
+            displayText = displayText.substring(0, lastLineBreakIndex);
+        return new NoteText(displayText, text);
     }
 }
 
@@ -50,7 +61,14 @@ export class DefaultTextProcessor implements NoteComponentProcessor {
         return new NoteComponentInfo(text, 0, this);
     }
 
-    create(text: string, note: Note, save: () => Promise<void>): NoteComponent {
-        return new NoteText(text);
+    create(text: string, note: Note, save: () => Promise<void>, previous: NoteComponentInfo, next: NoteComponentInfo): NoteComponent {
+        let displayText = text;
+        const firstLineBreakIndex = displayText.indexOf('\n');
+        if (firstLineBreakIndex >= 0 && !!previous && displayText.substring(0, firstLineBreakIndex).trim() == '')
+            displayText = displayText.substring(firstLineBreakIndex + 1);
+        const lastLineBreakIndex = displayText.lastIndexOf('\n');
+        if (lastLineBreakIndex >= 0 && !!next && displayText.substring(lastLineBreakIndex).trim() == '')
+            displayText = displayText.substring(0, lastLineBreakIndex);
+        return new NoteText(displayText, text);
     }
 }

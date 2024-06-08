@@ -31,7 +31,7 @@ export interface NoteComponentProcessor {
 
     identify(text: string): NoteComponentInfo;
 
-    create(text: string, note: Note, save: () => Promise<void>): NoteComponent;
+    create(text: string, note: Note, save: () => Promise<void>, previous: NoteComponentInfo, next: NoteComponentInfo): NoteComponent;
 }
 
 
@@ -50,8 +50,14 @@ export function splitNoteTextIntoComponents(
         await notu.saveNotes([note]);
     }
 
-    for (const componentInfo of componentInfos) {
-        components.push(componentInfo.processor.create(componentInfo.text, note, save));
+    let previous: NoteComponentInfo = null;
+    let current: NoteComponentInfo = componentInfos[0] ?? null;
+    let next: NoteComponentInfo = componentInfos[1] ?? null;
+    for (let i = 0; i < componentInfos.length; i++) {
+        components.push(current.processor.create(current.text, note, save, previous, next));
+        previous = current;
+        current = next;
+        next = componentInfos[i + 2] ?? null;
     }
 
     return components;

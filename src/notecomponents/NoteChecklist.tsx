@@ -70,7 +70,7 @@ export class NoteChecklistProcessor implements NoteComponentProcessor {
         return new NoteComponentInfo(componentText, start, this);
     }
 
-    create(text: string, note: Note, save: () => Promise<void>): NoteComponent {
+    create(text: string, note: Note, save: () => Promise<void>, previous: NoteComponentInfo, next: NoteComponentInfo): NoteComponent {
         const lines = text
             .replace('<Checklist>', '')
             .replace('</Checklist>', '')
