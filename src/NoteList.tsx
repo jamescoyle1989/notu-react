@@ -45,7 +45,7 @@ export const NoteList = ({
     }
 
     return (
-        <div>
+        <div onBlur={() => setSelectedNote(null)}>
             {notes.map(n => (
                 <div key={n.id} onClick={() => onNoteClick(n)}>
                     {renderNoteViewer(n)}

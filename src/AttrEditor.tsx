@@ -23,7 +23,7 @@ export const AttrEditor = ({
         throw new Error('Attr must define the space that it belongs to prior to editing');
 
     const [error, setError] = useState(null);
-    const defaultColor = '#969DA3';
+    const defaultColor = '#AABBCC';
 
     async function submitAttr(evt): Promise<void> {
         evt.preventDefault();

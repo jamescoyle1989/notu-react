@@ -9,7 +9,7 @@ interface NoteTagBadgeProps {
     contextSpaceId: number,
     onDelete?: () => void,
     showAttrs: boolean,
-    bold?: boolean
+    isOwnTag?: boolean
 }
 
 
@@ -18,7 +18,7 @@ export const NoteTagBadge = ({
     contextSpaceId,
     onDelete = null,
     showAttrs,
-    bold = false
+    isOwnTag = false
 }: NoteTagBadgeProps) => {
 
     function renderDeleteButton() {
@@ -28,11 +28,11 @@ export const NoteTagBadge = ({
     }
 
     function getTextWeight() {
-        return bold ? 'has-text-weight-bold' : 'has-text-weight-normal';
+        return isOwnTag ? 'has-text-weight-bold' : 'has-text-weight-normal';
     }
 
     function getBackgroundColor() {
-        return noteTag.tag.color ?? '#969DA3';
+        return noteTag.tag.color ?? '#AABBCC';
     }
 
     function getTextColor() {
@@ -50,12 +50,18 @@ export const NoteTagBadge = ({
         ));
     }
 
+    function renderOwnTagPublicity() {
+        if (isOwnTag)
+            return (<span className="has-text-weight-light ml-1">({noteTag.tag.isPublic ? 'Public' : 'Private'})</span>)
+    }
+
     return (
         <span className={`tag is-small is-unselectable is-rounded mr-1 ${getTextWeight()} ${getTextColor()}`}
             style={{backgroundColor: getBackgroundColor()}}>
             {noteTag.tag.getQualifiedName(contextSpaceId)}
             {renderTagAttributes()}
             {renderDeleteButton()}
+            {renderOwnTagPublicity()}
         </span>
     );
 };

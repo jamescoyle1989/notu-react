@@ -160,6 +160,16 @@ export const NoteEditor = ({
         if (tagSource.length == 0)
             return;
 
+        tagSource = tagSource.sort((a, b) => {
+            if (a.space == note.space && b.space != note.space)
+                return -1;
+            if (b.space == note.space && a.space != note.space)
+                return 1;
+            if (a.space == b.space)
+                return a.name.localeCompare(b.name);
+            return a.space.name.localeCompare(b.space.name);
+        });
+
         return (
             <div className="control is-inline-block">
                 <div className="select">
@@ -192,6 +202,8 @@ export const NoteEditor = ({
     }
 
     function renderAttrsDropdown() {
+        const attrs = attrsThatCanBeAdded().sort((a, b) => a.name.localeCompare(b.name));
+
         return (
             <div className="field has-addons">
                 {renderTagsDropdown(note.tags.map(x => x.tag), onTagToShowAttrsForSelected)}
@@ -199,8 +211,7 @@ export const NoteEditor = ({
                     <div className="select">
                         <select onChange={onAttrSelected}>
                             <option key="0" value={null}></option>
-                            {attrsThatCanBeAdded()
-                                .map(x => (<option key={x.id} value={x.id}>{x.name}</option>))}
+                            {attrs.map(x => (<option key={x.id} value={x.id}>{x.name}</option>))}
                         </select>
                     </div>
                 </div>

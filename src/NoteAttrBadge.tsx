@@ -17,7 +17,7 @@ export const NoteAttrBadge = ({
     onDelete
 }: NoteAttrBadgeProps) => {
 
-    const defaultColor = '#969DA3';
+    const defaultColor = '#AABBCC';
 
     function getAttrLabel() {
         let output = noteAttr.attr.name;

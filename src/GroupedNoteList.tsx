@@ -114,7 +114,7 @@ export const GroupedNoteList = React.forwardRef((
     const groupsMap = groupNotes(notes);
 
     return (
-        <div>
+        <div onBlur={() => setSelectedNote(null)}>
             {getOrderedGroups(groupsMap).map(key => renderGroup(key, groupsMap.get(key)))}
         </div>
     );

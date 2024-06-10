@@ -21,7 +21,7 @@ const space1 = newSpace('Space 1', 1).clean();
 const space2 = newSpace('Space 2', 2).clean();
 
 const tag1 = newTag('Tag 1', 1).in(space1).clean();
-const tag2 = newTag('Tag 2', 2).in(space2).clean();
+const tag2 = newTag('Tag 2', 2).in(space2).asPublic().clean();
 
 const attr1 = newAttr('Text Attr', 1).in(space1).asText().clean();
 const attr2 = newAttr('Date Attr', 2).in(space1).asDate().clean();
@@ -35,7 +35,7 @@ export const Primary: Story = {
         note: new Note('hello')
             .in(space1)
             .at(new Date(1987, 6, 5, 4, 3, 2)),
-        tags: [tag1, tag2],
+        tags: [tag2, tag1],
         attrs: [attr1, attr2],
         onConfirm: note => {
             console.log('Confirm Clicked', note);

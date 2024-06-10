@@ -60,7 +60,7 @@ export const NoteViewer = ({
     function renderOwnTag() {
         if (!!note.ownTag) {
             const noteTag = new NoteTag(note.ownTag.duplicate().clean());
-            return (<NoteTagBadge noteTag={noteTag} contextSpaceId={note.space.id} showAttrs={false} bold={true}></NoteTagBadge>)
+            return (<NoteTagBadge noteTag={noteTag} contextSpaceId={note.space.id} showAttrs={false} isOwnTag={true}></NoteTagBadge>)
         }
     }
 
@@ -94,7 +94,7 @@ export const NoteViewer = ({
         <div className={`is-flex is-align-items-center ${isSelected ? 'has-background-light' : 'has-background-white'}`}>
             {renderActions()}
             
-            <div className="is-flex-grow-1">
+            <div className="is-flex-grow-1" onClick={() => setShowActions(false)}>
                 {renderDate()}
 
                 {textComponents.map((x, index) => (<div key={index}>{x.render()}</div>))}
