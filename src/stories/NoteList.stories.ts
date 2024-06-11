@@ -34,9 +34,9 @@ export const Primary: Story = {
         })(),
         actionsGenerator: n => {
             const output = new Array<NoteViewerAction>();
-            output.push(new NoteViewerAction('Test', n => {}));
-            if (n.text.endsWith('first note'))
-                output.push(new NoteViewerAction('Special First Note Action', n => {}));
+            output.push(new NoteViewerAction('Test', n => { console.log('Test'); }));
+            if (n.text.includes('first note'))
+                output.push(new NoteViewerAction('Special First Note Action', n => { console.log('Other test'); }));
             return output;
         },
         noteTextSplitter: noteTextSplitter

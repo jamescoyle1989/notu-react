@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Note } from 'notu';
 import { NoteViewer, NoteViewerAction } from './NoteViewer';
 import { useState } from 'react';
@@ -26,6 +26,19 @@ export const NoteList = ({
 }: NoteListProps) => {
 
     const [selectedNote, setSelectedNote] = useState(null);
+    const mainDivRef = useRef();
+    useEffect(() => {
+        console.log('effect', mainDivRef);
+        if (!mainDivRef.current)
+            return;
+        document.addEventListener('click', onDocumentClick);
+        return () => document.removeEventListener('click', onDocumentClick);
+    }, [mainDivRef]);
+
+    function onDocumentClick(evt) {
+        if (!(mainDivRef.current as any).contains(evt.target))
+            setSelectedNote(null);
+    }
 
     function onNoteClick(note: Note) {
         setSelectedNote(note);
@@ -45,7 +58,7 @@ export const NoteList = ({
     }
 
     return (
-        <div onBlur={() => setSelectedNote(null)}>
+        <div ref={mainDivRef}>
             {notes.map(n => (
                 <div key={n.id} onClick={() => onNoteClick(n)}>
                     {renderNoteViewer(n)}

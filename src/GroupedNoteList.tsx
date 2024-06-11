@@ -1,5 +1,5 @@
 import { Note } from 'notu';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { NoteViewer, NoteViewerAction } from './NoteViewer';
 import { NotesPanelDisplay } from './NotesPanel';
 import { NoteComponent } from './notecomponents/NoteComponent';
@@ -39,6 +39,19 @@ export const GroupedNoteList = React.forwardRef((
 ) => {
 
     const [selectedNote, setSelectedNote] = useState(null);
+    const mainDivRef = useRef();
+    useEffect(() => {
+        console.log('effect', mainDivRef);
+        if (!mainDivRef.current)
+            return;
+        document.addEventListener('click', onDocumentClick);
+        return () => document.removeEventListener('click', onDocumentClick);
+    }, [mainDivRef]);
+
+    function onDocumentClick(evt) {
+        if (!(mainDivRef.current as any).contains(evt.target))
+            setSelectedNote(null);
+    }
 
     function groupNotes(notes: Array<Note>): Map<number, Array<Note>> {
         const tmpGroups = new Map<number, Array<Note>>();
@@ -114,7 +127,7 @@ export const GroupedNoteList = React.forwardRef((
     const groupsMap = groupNotes(notes);
 
     return (
-        <div onBlur={() => setSelectedNote(null)}>
+        <div ref={mainDivRef}>
             {getOrderedGroups(groupsMap).map(key => renderGroup(key, groupsMap.get(key)))}
         </div>
     );
