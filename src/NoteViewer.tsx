@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useRef } from 'react';
 import { Note, NoteTag } from 'notu';
 import { NoteTagBadge } from './NoteTagBadge';
 import 'bulma';
@@ -39,7 +39,20 @@ export const NoteViewer = ({
     useEffect(() => {
         if (!isSelected)
             setShowActions(false);
-    }, [isSelected])
+    }, [isSelected]);
+    const menuDivRef = useRef();
+    useEffect(() => {
+        if (!menuDivRef.current)
+            document.removeEventListener('click', onDocumentClick);
+        else
+            document.addEventListener('click', onDocumentClick);
+        return () => document.removeEventListener('click', onDocumentClick);
+    }, [menuDivRef]);
+
+    function onDocumentClick(evt) {
+        if (!(menuDivRef.current as any).contains(evt.target))
+            setShowActions(false);
+    }
 
     const dateTimeString = `${note.date.toDateString()} ${note.date.getHours().toString().padStart(2, '0')}:${note.date.getMinutes().toString().padStart(2, '0')}`;
 
@@ -73,7 +86,7 @@ export const NoteViewer = ({
     function renderActions() {
         if (actions?.length ?? 0 > 0) {
             return (
-                <div className={`dropdown is-left mr-2 ${showActions ? 'is-active' : ''}`}>
+                <div className={`dropdown is-left mr-2 ${showActions ? 'is-active' : ''}`} ref={menuDivRef}>
                     <div className="dropdown-trigger">
                         <button className="button" aria-haspopup="true" aria-controls="dropdown-menu"
                                 onClick={toggleShowActions}>•••</button>

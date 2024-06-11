@@ -39,19 +39,6 @@ export const GroupedNoteList = React.forwardRef((
 ) => {
 
     const [selectedNote, setSelectedNote] = useState(null);
-    const mainDivRef = useRef();
-    useEffect(() => {
-        console.log('effect', mainDivRef);
-        if (!mainDivRef.current)
-            return;
-        document.addEventListener('click', onDocumentClick);
-        return () => document.removeEventListener('click', onDocumentClick);
-    }, [mainDivRef]);
-
-    function onDocumentClick(evt) {
-        if (!(mainDivRef.current as any).contains(evt.target))
-            setSelectedNote(null);
-    }
 
     function groupNotes(notes: Array<Note>): Map<number, Array<Note>> {
         const tmpGroups = new Map<number, Array<Note>>();
@@ -127,7 +114,7 @@ export const GroupedNoteList = React.forwardRef((
     const groupsMap = groupNotes(notes);
 
     return (
-        <div ref={mainDivRef}>
+        <div>
             {getOrderedGroups(groupsMap).map(key => renderGroup(key, groupsMap.get(key)))}
         </div>
     );

@@ -26,19 +26,6 @@ export const NoteList = ({
 }: NoteListProps) => {
 
     const [selectedNote, setSelectedNote] = useState(null);
-    const mainDivRef = useRef();
-    useEffect(() => {
-        console.log('effect', mainDivRef);
-        if (!mainDivRef.current)
-            return;
-        document.addEventListener('click', onDocumentClick);
-        return () => document.removeEventListener('click', onDocumentClick);
-    }, [mainDivRef]);
-
-    function onDocumentClick(evt) {
-        if (!(mainDivRef.current as any).contains(evt.target))
-            setSelectedNote(null);
-    }
 
     function onNoteClick(note: Note) {
         setSelectedNote(note);
@@ -58,7 +45,7 @@ export const NoteList = ({
     }
 
     return (
-        <div ref={mainDivRef}>
+        <div>
             {notes.map(n => (
                 <div key={n.id} onClick={() => onNoteClick(n)}>
                     {renderNoteViewer(n)}
