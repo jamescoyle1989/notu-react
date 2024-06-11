@@ -3,9 +3,9 @@ import { Attr, Note, Space } from "notu";
 export class MockHttpClient {
     calls: Array<any> = [];
 
-    login(username: string, password: string) {
+    login(username: string, password: string): Promise<string> {
         this.calls.push({name: 'login', username, password});
-        return Promise.resolve({error: null, token: '123.456.789'})
+        return Promise.resolve('123.456.789');
     }
 
     getSpaces(): Promise<Array<Space>> {
