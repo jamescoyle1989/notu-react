@@ -29,19 +29,40 @@ export const NoteSearch = ({
     onFetched = null
 }: NoteSearchProps) => {
 
+    const [error, setError] = useState<string>(null);
+
     function onSearchTextChange(event): void {
+        setError(null);
         if (!!onQueryChanged)
             onQueryChanged(event.target.value);
     }
 
     async function onSearchSubmit(): Promise<void> {
-        let searchResults: Array<Note>;
-        if (!!notu)
-            searchResults = await notu.getNotes(query, space.id);
-        else
-            searchResults = await onFetchRequested(query, space);
-        if (!!onFetched)
-            onFetched(searchResults);
+        try {
+            let searchResults: Array<Note>;
+            if (!!notu)
+                searchResults = await notu.getNotes(query, space.id);
+            else
+                searchResults = await onFetchRequested(query, space);
+            if (!!onFetched)
+                onFetched(searchResults);
+        }
+        catch (err) {
+            setError(err.message);
+        }
+    }
+
+    function renderButton() {
+        if (!!error) {
+            return (
+                <button className="button is-danger" disabled title={error}>Error!</button>
+            );
+        }
+        else {
+            return (
+                <button className="button" onClick={onSearchSubmit}>Search</button>
+            );
+        }
     }
 
     return (
@@ -51,7 +72,7 @@ export const NoteSearch = ({
                     value={query} onChange={onSearchTextChange}></input>
             </div>
             <div className="control">
-                <button className="button" onClick={onSearchSubmit}>Search</button>
+                {renderButton()}
             </div>
         </div>
     );

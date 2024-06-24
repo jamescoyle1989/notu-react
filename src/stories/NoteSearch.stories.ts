@@ -73,3 +73,13 @@ export const CanManuallyProcessNoteFetching: Story = {
         onFetched: console.log
     }
 }
+
+export const HandlesErrorReturnedFromFetch: Story = {
+    args: {
+        space: space1,
+        onFetchRequested: (query: string, space: Space) => {
+            throw new Error('Something went wrong!');
+        },
+        onFetched: console.log
+    }
+}
