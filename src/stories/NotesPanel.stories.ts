@@ -59,3 +59,10 @@ export const AutoRefresh: Story = {
         autoRefresh: true
     }
 }
+
+export const ErrorOnFetch: Story = {
+    args: {
+        selector: new PanelNoteSearch(notu as any, space1, 'Test').withCustomQueryHandling((query, spaceId) => { throw Error('Boo hoo! Its broken')}),
+        display: new PanelNoteList(n => [new NoteViewerAction('Do something', n => console.log('Something done'))], noteTextSplitter)
+    }
+}

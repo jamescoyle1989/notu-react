@@ -109,8 +109,8 @@ export class PanelNoteSearch implements NotesPanelSelector {
         this.onNotesRetrieved(notes);
     }
 
-    handleFetchRequestFromNoteSearch(): Promise<Array<Note>> {
-        this.requestNotes();
+    async handleFetchRequestFromNoteSearch(): Promise<Array<Note>> {
+        await this.requestNotes();
         return Promise.resolve([]);
     }
 
@@ -122,6 +122,6 @@ export class PanelNoteSearch implements NotesPanelSelector {
         return (<NoteSearch space={this._space}
                             query={this._query}
                             onQueryChanged={query => this._setQuery(query)}
-                            onFetchRequested={() => this.handleFetchRequestFromNoteSearch()}/>);
+                            onFetchRequested={async () => await this.handleFetchRequestFromNoteSearch()}/>);
     }
 }
