@@ -13,8 +13,8 @@ export class NoteImage implements NoteComponent {
     render() {
         return (
             <div>
-                {this._paths.map(x => (
-                    <img src={x} alt={x}/>
+                {this._paths.map((x, index) => (
+                    <img key={index} src={x} alt={x}/>
                 ))}
             </div>
         );

@@ -34,7 +34,7 @@ export const NoteViewer = ({
     noteTextSplitter
 }: NoteViewerProps) => {
     const [showActions, setShowActions] = useState(false);
-    const textComponents = useMemo(() => noteTextSplitter(note), []);
+    const textComponents = useMemo(() => noteTextSplitter(note), [note.text]);
 
     useEffect(() => {
         if (!isSelected)
