@@ -66,3 +66,11 @@ export const ErrorOnFetch: Story = {
         display: new PanelNoteList(n => [new NoteViewerAction('Do something', n => console.log('Something done'))], noteTextSplitter)
     }
 }
+
+export const WorksProperlyWithChecklists: Story = {
+    args: {
+        selector: new PanelNoteSearch(notu as any, space1, 'Test'),
+        display: new PanelNoteList(n => [new NoteViewerAction('Do something', n => console.log(n))], noteTextSplitter),
+        autoRefresh: true
+    }
+}

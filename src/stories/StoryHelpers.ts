@@ -36,7 +36,12 @@ export class MockNotu {
         return Promise.resolve([
             newNote('Hello, this is a test', 1).clean(),
             newNote('I like cherries', 2).clean(),
-            newNote('Curtain flappps', 3).clean()
+            newNote('Curtain flappps', 3).clean(),
+            newNote(`Hello...
+<Checklist>
+Woop
+Doop
+</Checklist>`, 4).clean()
         ]);
     }
 
