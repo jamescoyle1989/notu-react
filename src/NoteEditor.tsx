@@ -141,6 +141,15 @@ export const NoteEditor = ({
         manualRefresh();
     }
 
+    function onCopyOtherTagColor(event): void {
+        const otherTagId = Number(event.target.value);
+        const otherTag = tags.find(x => x.id == otherTagId);
+        if (!otherTag)
+            return;
+        note.ownTag.color = otherTag.color;
+        manualRefresh();
+    }
+
     function toggleOwnTagPublic(): void {
         note.ownTag.isPublic = !note.ownTag.isPublic;
         manualRefresh();
@@ -239,12 +248,31 @@ export const NoteEditor = ({
 
         return [
             (<div className="control" key="1" style={{minWidth:'70px'}}>
-                <input type="color" className="input" value={note.ownTag.color ?? '#969DA3'} onChange={onOwnTagColorChange}/>
+                <input type="color" className="input" value={note.ownTag.color ?? '#969DA3'}
+                    onChange={onOwnTagColorChange} style={{boxShadow:'none', borderRight:0}}/>
             </div>),
-            (<div className="control" key="2">
+            renderOwnTagColorDropdown(),
+            (<div className="control" key="3">
                 <button type="button" className="button" onClick={toggleOwnTagPublic}>{note.ownTag.isPublic ? 'Public' : 'Private'}</button>
             </div>)
         ];
+    }
+
+    function renderOwnTagColorDropdown() {
+        const tagsWithColor = tags.filter(x => !!x.color).sort((a, b) => a.name.localeCompare(b.name));
+        if (tagsWithColor.length == 0)
+            return;
+
+        return (
+            <div className="control" key="2">
+                <div className="select">
+                    <select onChange={onCopyOtherTagColor} style={{width:0, paddingRight:'2em', borderLeftWidth:0}}>
+                        <option key="0" value={null}></option>
+                        {tagsWithColor.map(x => (<option key={x.id} value={x.id}>{x.getQualifiedName(note.space.id)}</option>))}
+                    </select>
+                </div>
+            </div>
+        );
     }
 
     return (
