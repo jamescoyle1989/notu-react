@@ -41,7 +41,13 @@ export class NoteImageProcessor implements NoteComponentProcessor {
         return new NoteComponentInfo(componentText, start, this);
     }
 
-    create(text: string, note: Note, save: () => Promise<void>, previous: NoteComponentInfo, next: NoteComponentInfo): NoteComponent {
+    create(
+        text: string,
+        note: Note,
+        save: () => Promise<void>,
+        previous: NoteComponentInfo,
+        next: NoteComponentInfo
+    ): NoteComponent {
         const lines = text
             .replace('<Image>', '')
             .replace('</Image>', '')

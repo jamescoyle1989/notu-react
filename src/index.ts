@@ -6,6 +6,7 @@ import { NoteAttrEditor } from './NoteAttrEditor';
 import { NoteComponentInfo, splitNoteTextIntoComponents } from './notecomponents/NoteComponent';
     import { NoteChecklistProcessor } from './notecomponents/NoteChecklist';
     import { NoteImageProcessor } from './notecomponents/NoteImage';
+    import { NoteLinkProcessor } from './notecomponents/NoteLink';
     import { NoteTextProcessor, DefaultTextProcessor } from './notecomponents/NoteText';
 import { NoteEditor } from './NoteEditor';
 import { NotesPanel } from './NotesPanel';
@@ -23,7 +24,7 @@ export {
     NoteAttrBadge,
     NoteAttrEditor,
     NoteComponentInfo, splitNoteTextIntoComponents,
-        NoteChecklistProcessor, NoteImageProcessor,
+        NoteChecklistProcessor, NoteImageProcessor, NoteLinkProcessor,
         NoteTextProcessor, DefaultTextProcessor,
     NoteEditor,
     NotesPanel,

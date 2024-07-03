@@ -128,3 +128,18 @@ export const DisplaysImagesCorrectly: Story = {
         noteTextSplitter: noteTextSplitter
     }
 }
+
+
+export const DisplaysLinksCorrectly: Story = {
+    args: {
+        note: (() => {
+            const output = new Note(`I've embedded a link into this note: <Link>https://www.npmjs.com/~jamescoyle1989</Link>`)
+                .in(space1);
+            return output;
+        })(),
+        actions: [],
+        isSelected: true,
+        showDate: true,
+        noteTextSplitter: noteTextSplitter
+    }
+}
