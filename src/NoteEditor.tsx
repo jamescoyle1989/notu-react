@@ -6,6 +6,7 @@ import 'bulma';
 import { NoteAttrEditor } from './NoteAttrEditor';
 import { NotuClient } from 'notu/dist/types/services/HttpClient';
 import { useManualRefresh } from './Hooks';
+import { getTextColorClass } from './helpers/ColorHelpers';
 
 interface NoteEditorProps {
     /** Used for saving the note once changes have been confirmed */
@@ -268,7 +269,11 @@ export const NoteEditor = ({
                 <div className="select">
                     <select onChange={onCopyOtherTagColor} style={{width:0, paddingRight:'2em', borderLeftWidth:0}}>
                         <option key="0" value={null}></option>
-                        {tagsWithColor.map(x => (<option key={x.id} value={x.id}>{x.getQualifiedName(note.space.id)}</option>))}
+                        {tagsWithColor.map(x => (
+                            <option key={x.id} value={x.id} style={{background:x.color}} className={getTextColorClass(x.color)}>
+                                {x.getQualifiedName(note.space.id)}
+                            </option>
+                        ))}
                     </select>
                 </div>
             </div>

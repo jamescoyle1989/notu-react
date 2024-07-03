@@ -2,7 +2,8 @@ import React from 'react';
 import { NoteAttr, Tag } from 'notu';
 import 'bulma';
 import { renderNoteAttrValue } from './helpers/NotuRender';
-import chroma from 'chroma-js';
+import { getTextColorClass } from './helpers/ColorHelpers';
+
 
 interface NoteAttrBadgeProps {
     noteAttr: NoteAttr,
@@ -31,10 +32,7 @@ export const NoteAttrBadge = ({
     }
 
     function getTextColor(): string {
-        const bgColor = getBackgroundColor();
-        const whiteContrast = chroma.contrast(bgColor, '#FFF');
-        const blackContrast = chroma.contrast(bgColor, '#000');
-        return (whiteContrast > blackContrast) ? 'has-text-white' : 'has-text-black';
+        return getTextColorClass(getBackgroundColor());
     }
     
     function renderDeleteButton() {

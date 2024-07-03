@@ -21,10 +21,10 @@ const space1 = newSpace('Space 1', 1).clean();
 const space2 = newSpace('Space 2', 2).clean();
 
 const tag1 = newTag('Tag 1', 1).in(space1);
-tag1.color = '#AABBCC';
+tag1.color = '#FF8800';
 tag1.clean();
 const tag2 = newTag('Tag 2', 2).in(space2).asPublic();
-tag2.color = '#998877';
+tag2.color = '#112211';
 tag2.clean();
 
 const attr1 = newAttr('Text Attr', 1).in(space1).asText().clean();
