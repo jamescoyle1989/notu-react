@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { NoteViewer, NoteViewerAction } from './NoteViewer';
 import { NotesPanelDisplay } from './NotesPanel';
 import { NoteComponent } from './notecomponents/NoteComponent';
+import styles from './GroupedNoteList.module.css';
 
 interface GroupedNoteListProps {
     notes: Array<Note>,
@@ -102,8 +103,9 @@ export const GroupedNoteList = React.forwardRef((
     function renderGroupNotes(notes: Array<Note>) {
         return (
             <div>
-                {notes.map(n => (
-                    <div key={n.id} onClick={() => setSelectedNote(n)}>
+                {notes.map((n, index) => (
+                    <div key={n.id} onClick={() => setSelectedNote(n)}
+                            className={`${index > 0 ? styles.upperBorderDivider : ''}`}>
                         {renderNoteViewer(n)}
                     </div>
                 ))}

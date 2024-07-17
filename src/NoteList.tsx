@@ -4,6 +4,7 @@ import { NoteViewer, NoteViewerAction } from './NoteViewer';
 import { useState } from 'react';
 import { NotesPanelDisplay } from './NotesPanel';
 import { NoteComponent } from './notecomponents/NoteComponent';
+import styles from './NoteList.module.css'
 
 interface NoteListProps {
     notes: Array<Note>,
@@ -44,10 +45,13 @@ export const NoteList = ({
         return noteViewer(note, actionsGenerator(note), selectedNote === note, noteTextSplitter);
     }
 
+
+
     return (
         <div>
-            {notes.map(n => (
-                <div key={n.id} onClick={() => onNoteClick(n)}>
+            {notes.map((n, index) => (
+                <div key={n.id} onClick={() => onNoteClick(n)}
+                        className={`${index > 0 ? styles.upperBorderDivider : ''}`}>
                     {renderNoteViewer(n)}
                 </div>
             ))}
