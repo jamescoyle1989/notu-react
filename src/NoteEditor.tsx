@@ -115,7 +115,10 @@ export const NoteEditor = ({
     }
 
     function removeAttr(noteAttr: NoteAttr): void {
-        note.removeAttr(noteAttr.attr);
+        if (!!showAttrsForTag)
+            note.getTag(showAttrsForTag).removeAttr(noteAttr.attr);
+        else
+            note.removeAttr(noteAttr.attr);
         manualRefresh();
     }
 
