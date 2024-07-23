@@ -7,6 +7,7 @@ import { NoteComponentInfo, splitNoteTextIntoComponents } from './notecomponents
     import { NoteChecklistProcessor } from './notecomponents/NoteChecklist';
     import { NoteImageProcessor } from './notecomponents/NoteImage';
     import { NoteLinkProcessor } from './notecomponents/NoteLink';
+    import { NoteRandomChoiceProcessor } from './notecomponents/NoteRandomChoice';
     import { NoteTextProcessor, DefaultTextProcessor } from './notecomponents/NoteText';
 import { NoteEditor } from './NoteEditor';
 import { NotesPanel } from './NotesPanel';
@@ -25,7 +26,7 @@ export {
     NoteAttrEditor,
     NoteComponentInfo, splitNoteTextIntoComponents,
         NoteChecklistProcessor, NoteImageProcessor, NoteLinkProcessor,
-        NoteTextProcessor, DefaultTextProcessor,
+        NoteRandomChoiceProcessor, NoteTextProcessor, DefaultTextProcessor,
     NoteEditor,
     NotesPanel,
     NoteSearch, PanelNoteSearch,

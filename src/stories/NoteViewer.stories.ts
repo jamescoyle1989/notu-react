@@ -143,3 +143,22 @@ export const DisplaysLinksCorrectly: Story = {
         noteTextSplitter: noteTextSplitter
     }
 }
+
+
+export const DisplaysRandomChoiceCorrectly: Story = {
+    args: {
+        note: (() => {
+            const output = new Note(`Back stretch
+<RandomChoice>
+4x Cobra
+Halasana
+</RandomChoice>`)
+                .in(space1);
+            return output;
+        })(),
+        actions: [],
+        isSelected: true,
+        showDate: true,
+        noteTextSplitter: noteTextSplitter
+    }
+}

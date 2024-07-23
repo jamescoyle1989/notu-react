@@ -104,7 +104,7 @@ export const NoteViewer = ({
     }
 
     return (
-        <div className={`is-flex is-align-items-center ${isSelected ? 'has-background-light' : 'has-background-white'}`}>
+        <div className={`is-flex is-align-items-center pt-1 pb-1 ${isSelected ? 'has-background-light' : 'has-background-white'}`}>
             {renderActions()}
             
             <div className="is-flex-grow-1" onClick={() => setShowActions(false)}>
