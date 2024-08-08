@@ -5,6 +5,7 @@ import 'bulma';
 import { useEffect, useState } from 'react';
 import { NoteAttrBadge } from './NoteAttrBadge';
 import { NoteComponent } from './notecomponents/NoteComponent';
+import { NoteComponentContainer } from './notecomponents/NoteComponentContainer';
 
 interface NoteViewerProps {
     note: Note,
@@ -110,7 +111,7 @@ export const NoteViewer = ({
             <div className="is-flex-grow-1" onClick={() => setShowActions(false)}>
                 {renderDate()}
 
-                {textComponents.map((x, index) => (<div key={index}>{x.render()}</div>))}
+                {textComponents.map((x, index) => (<NoteComponentContainer key={index} component={x}/>))}
 
                 <div>
                     {renderOwnTag()} {renderOwnTagDivider()}
