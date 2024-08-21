@@ -1,8 +1,7 @@
-import { Note } from 'notu';
-import { NoteComponent, NoteComponentInfo, NoteComponentProcessor } from './NoteComponent';
+import { Note, NoteComponentInfo } from 'notu';
 import React from 'react';
 
-export class NoteLink implements NoteComponent {
+export class NoteLink {
     private _url: string;
     get url(): string { return this._url; }
 
@@ -21,7 +20,11 @@ export class NoteLink implements NoteComponent {
     }
 }
 
-export class NoteLinkProcessor implements NoteComponentProcessor {
+export class NoteLinkProcessor {
+
+    constructor() {
+        this.creator = this.create;
+    }
 
     identify(text: string): NoteComponentInfo {
         const start = text.indexOf('<Link>');
@@ -37,14 +40,22 @@ export class NoteLinkProcessor implements NoteComponentProcessor {
         return new NoteComponentInfo(componentText, start, this);
     }
 
-    create(
-        text: string,
+    creator: (
+        info: NoteComponentInfo,
         note: Note,
         save: () => Promise<void>,
         previous: NoteComponentInfo,
         next: NoteComponentInfo
-    ): NoteComponent {
-        const content = text.replace('<Link>', '').replace('</Link>', '').trim();
+    ) => NoteLink;
+
+    create(
+        info: NoteComponentInfo,
+        note: Note,
+        save: () => Promise<void>,
+        previous: NoteComponentInfo,
+        next: NoteComponentInfo
+    ): NoteLink {
+        const content = info.text.replace('<Link>', '').replace('</Link>', '').trim();
 
         return new NoteLink(content);
     }

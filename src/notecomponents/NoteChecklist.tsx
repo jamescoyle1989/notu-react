@@ -1,8 +1,7 @@
-import { Note } from 'notu';
-import { NoteComponent, NoteComponentInfo, NoteComponentProcessor } from './NoteComponent';
+import { Note, NoteComponentInfo } from 'notu';
 import React, { useState } from 'react';
 
-export class NoteChecklist implements NoteComponent {
+export class NoteChecklist {
     private _lines: Array<string>;
     get lines(): Array<string> { return this._lines; }
     private _save: () => Promise<void>;
@@ -58,7 +57,18 @@ export class NoteChecklist implements NoteComponent {
 }
 
 
-export class NoteChecklistProcessor implements NoteComponentProcessor {
+export class NoteChecklistProcessor {
+
+    constructor() {
+        this.creator = (info: NoteComponentInfo, note: Note, save: () => Promise<void>, previous: NoteComponentInfo, next: NoteComponentInfo) => {
+            const lines = info.text
+                .replace('<Checklist>', '')
+                .replace('</Checklist>', '')
+                .trim().split('\n');
+    
+            return new NoteChecklist(lines, save);
+        }
+    }
 
     identify(text: string): NoteComponentInfo {
         const start = text.indexOf('<Checklist>');
@@ -74,12 +84,11 @@ export class NoteChecklistProcessor implements NoteComponentProcessor {
         return new NoteComponentInfo(componentText, start, this);
     }
 
-    create(text: string, note: Note, save: () => Promise<void>, previous: NoteComponentInfo, next: NoteComponentInfo): NoteComponent {
-        const lines = text
-            .replace('<Checklist>', '')
-            .replace('</Checklist>', '')
-            .trim().split('\n');
-
-        return new NoteChecklist(lines, save);
-    }
+    creator: (
+        info: NoteComponentInfo,
+        note: Note,
+        save: () => Promise<void>,
+        previous: NoteComponentInfo,
+        next: NoteComponentInfo
+    ) => NoteChecklist;
 }

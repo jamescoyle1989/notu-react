@@ -2,7 +2,6 @@ import { Note } from 'notu';
 import React, { useEffect, useRef, useState } from 'react';
 import { NoteViewer, NoteViewerAction } from './NoteViewer';
 import { NotesPanelDisplay } from './NotesPanel';
-import { NoteComponent } from './notecomponents/NoteComponent';
 import styles from './GroupedNoteList.module.css';
 
 interface GroupedNoteListProps {
@@ -11,12 +10,12 @@ interface GroupedNoteListProps {
     groupBy?: (note: Note) => number,
     groups?: (notes: Array<Note>) => Array<number>,
     groupHeader?: (key: number, notes: Array<Note>) => string,
-    noteTextSplitter: (note: Note) => Array<NoteComponent>,
+    noteTextSplitter: (note: Note) => Array<any>,
     noteViewer?: (
         note: Note,
         actions: Array<NoteViewerAction>,
         isSelected: boolean,
-        noteTextSplitter: (note: Note) => Array<NoteComponent>
+        noteTextSplitter: (note: Note) => Array<any>
     ) => JSX.Element
 }
 
@@ -126,7 +125,7 @@ export const GroupedNoteList = React.forwardRef((
 export class PanelGroupedNoteList implements NotesPanelDisplay {
 
     private _actionsGenerator: (note: Note) => Array<NoteViewerAction>;
-    private _noteTextSplitter: (note: Note) => Array<NoteComponent>;
+    private _noteTextSplitter: (note: Note) => Array<any>;
     private _noteViewer: (
         note: Note,
         actions: Array<NoteViewerAction>,
@@ -139,7 +138,7 @@ export class PanelGroupedNoteList implements NotesPanelDisplay {
 
     constructor(
         actionsGenerator: (note: Note) => Array<NoteViewerAction>,
-        noteTextSplitter: (note: Note) => Array<NoteComponent>,
+        noteTextSplitter: (note: Note) => Array<any>,
         groupBy: (note: Note) => number
     ) {
         this._actionsGenerator = actionsGenerator;

@@ -1,8 +1,7 @@
-import { Note } from 'notu';
-import { NoteComponent, NoteComponentInfo, NoteComponentProcessor } from './NoteComponent';
-import React, { useState } from 'react';
+import { Note, NoteComponentInfo } from 'notu';
+import React from 'react';
 
-export class NoteRandomChoice implements NoteComponent {
+export class NoteRandomChoice {
     private _displayText: string;
     get displayText(): string { return this._displayText; }
     private _fullText: string;
@@ -25,7 +24,11 @@ export class NoteRandomChoice implements NoteComponent {
 }
 
 
-export class NoteRandomChoiceProcessor implements NoteComponentProcessor {
+export class NoteRandomChoiceProcessor {
+
+    constructor() {
+        this.creator = this.create;
+    }
     
     identify(text: string): NoteComponentInfo {
         const start = text.indexOf('<RandomChoice>');
@@ -41,8 +44,16 @@ export class NoteRandomChoiceProcessor implements NoteComponentProcessor {
         return new NoteComponentInfo(componentText, start, this);
     }
 
-    create(text: string, note: Note, save: () => Promise<void>, previous: NoteComponentInfo, next: NoteComponentInfo): NoteComponent {
-        const lines = text
+    creator: (
+        info: NoteComponentInfo,
+        note: Note,
+        save: () => Promise<void>,
+        previous: NoteComponentInfo,
+        next: NoteComponentInfo
+    ) => NoteRandomChoice;
+
+    create(info: NoteComponentInfo, note: Note, save: () => Promise<void>, previous: NoteComponentInfo, next: NoteComponentInfo): NoteRandomChoice {
+        const lines = info.text
             .replace('<RandomChoice>', '')
             .replace('</RandomChoice>', '')
             .trim().split('\n');
@@ -56,7 +67,7 @@ export class NoteRandomChoiceProcessor implements NoteComponentProcessor {
             };
         });
 
-        return new NoteRandomChoice(this._chooseLine(weightedLines), text);
+        return new NoteRandomChoice(this._chooseLine(weightedLines), info.text);
     }
 
     private _chooseLine(lines: Array<{text: string, weight: number}>): string {

@@ -4,7 +4,6 @@ import { NoteTagBadge } from './NoteTagBadge';
 import 'bulma';
 import { useEffect, useState } from 'react';
 import { NoteAttrBadge } from './NoteAttrBadge';
-import { NoteComponent } from './notecomponents/NoteComponent';
 import { NoteComponentContainer } from './notecomponents/NoteComponentContainer';
 
 interface NoteViewerProps {
@@ -12,7 +11,7 @@ interface NoteViewerProps {
     actions: Array<NoteViewerAction>,
     isSelected: boolean,
     showDate?: boolean,
-    noteTextSplitter: (note: Note) => Array<NoteComponent>
+    noteTextSplitter: (note: Note) => Array<any>
 }
 
 

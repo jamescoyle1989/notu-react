@@ -1,8 +1,7 @@
-import { Note } from 'notu';
-import { NoteComponent, NoteComponentInfo, NoteComponentProcessor } from './NoteComponent';
+import { Note, NoteComponentInfo } from 'notu';
 import React from 'react';
 
-export class NoteImage implements NoteComponent {
+export class NoteImage {
     private _paths: Array<string>;
     get paths(): Array<string> { return this._paths; }
 
@@ -25,7 +24,11 @@ export class NoteImage implements NoteComponent {
     }
 }
 
-export class NoteImageProcessor implements NoteComponentProcessor {
+export class NoteImageProcessor {
+
+    constructor() {
+        this.creator = this.create;
+    }
 
     identify(text: string): NoteComponentInfo {
         const start = text.indexOf('<Image>');
@@ -41,14 +44,22 @@ export class NoteImageProcessor implements NoteComponentProcessor {
         return new NoteComponentInfo(componentText, start, this);
     }
 
-    create(
-        text: string,
+    creator: (
+        info: NoteComponentInfo,
         note: Note,
         save: () => Promise<void>,
         previous: NoteComponentInfo,
         next: NoteComponentInfo
-    ): NoteComponent {
-        const lines = text
+    ) => NoteImage;
+
+    create(
+        info: NoteComponentInfo,
+        note: Note,
+        save: () => Promise<void>,
+        previous: NoteComponentInfo,
+        next: NoteComponentInfo
+    ): NoteImage {
+        const lines = info.text
             .replace('<Image>', '')
             .replace('</Image>', '')
             .trim().split('\n');

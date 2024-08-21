@@ -3,7 +3,6 @@ import { GroupedNoteList, PanelGroupedNoteList } from './GroupedNoteList';
 import { LoginView } from './LoginView';
 import { NoteAttrBadge } from './NoteAttrBadge';
 import { NoteAttrEditor } from './NoteAttrEditor';
-import { NoteComponentInfo, splitNoteTextIntoComponents } from './notecomponents/NoteComponent';
     import { NoteChecklistProcessor } from './notecomponents/NoteChecklist';
     import { NoteImageProcessor } from './notecomponents/NoteImage';
     import { NoteLinkProcessor } from './notecomponents/NoteLink';
@@ -24,7 +23,6 @@ export {
     LoginView,
     NoteAttrBadge,
     NoteAttrEditor,
-    NoteComponentInfo, splitNoteTextIntoComponents,
         NoteChecklistProcessor, NoteImageProcessor, NoteLinkProcessor,
         NoteRandomChoiceProcessor, NoteTextProcessor, DefaultTextProcessor,
     NoteEditor,

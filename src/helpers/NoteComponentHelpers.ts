@@ -1,5 +1,4 @@
-import { Note } from 'notu';
-import { NoteComponent, splitNoteTextIntoComponents } from '../notecomponents/NoteComponent';
+import { Note, splitNoteTextIntoComponents } from 'notu';
 import { MockHttpClient } from './MockHttpClient';
 import { DefaultTextProcessor, NoteTextProcessor } from '../notecomponents/NoteText';
 import { NoteChecklistProcessor } from '../notecomponents/NoteChecklist';
@@ -8,7 +7,7 @@ import { NoteLinkProcessor } from '../notecomponents/NoteLink';
 import { NoteRandomChoiceProcessor } from '../notecomponents/NoteRandomChoice';
 
 
-export function noteTextSplitter(note: Note): Array<NoteComponent> {
+export function noteTextSplitter(note: Note): Array<any> {
     return splitNoteTextIntoComponents(
         note,
         new MockHttpClient() as any,

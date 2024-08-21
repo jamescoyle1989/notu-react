@@ -3,18 +3,17 @@ import { Note } from 'notu';
 import { NoteViewer, NoteViewerAction } from './NoteViewer';
 import { useState } from 'react';
 import { NotesPanelDisplay } from './NotesPanel';
-import { NoteComponent } from './notecomponents/NoteComponent';
 import styles from './NoteList.module.css'
 
 interface NoteListProps {
     notes: Array<Note>,
     actionsGenerator: (note: Note) => Array<NoteViewerAction>,
-    noteTextSplitter: (note: Note) => Array<NoteComponent>,
+    noteTextSplitter: (note: Note) => Array<any>,
     noteViewer?: (
         note: Note,
         actions: Array<NoteViewerAction>,
         isSelected: boolean,
-        noteTextSplitter: (note: Note) => Array<NoteComponent>
+        noteTextSplitter: (note: Note) => Array<any>
     ) => JSX.Element
 }
 
@@ -63,7 +62,7 @@ export const NoteList = ({
 export class PanelNoteList implements NotesPanelDisplay {
 
     private _actionsGenerator: (note: Note) => Array<NoteViewerAction>;
-    private _noteTextSplitter: (note: Note) => Array<NoteComponent>;
+    private _noteTextSplitter: (note: Note) => Array<any>;
     private _noteViewer: (
         note: Note,
         actions: Array<NoteViewerAction>,
@@ -72,7 +71,7 @@ export class PanelNoteList implements NotesPanelDisplay {
 
     constructor(
         actionsGenerator: (note: Note) => Array<NoteViewerAction>,
-        noteTextSplitter: (note: Note) => Array<NoteComponent>
+        noteTextSplitter: (note: Note) => Array<any>
     ) {
         this._actionsGenerator = actionsGenerator;
         this._noteTextSplitter = noteTextSplitter;
