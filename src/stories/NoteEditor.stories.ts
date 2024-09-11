@@ -129,3 +129,23 @@ export const AllowsRemovalOfAttrsFromTagOnNote: Story = {
         onSave: note => { console.log('Note saved'); }
     }
 };
+
+
+export const DisplaysCorrectDateLateAtNightCanadianTime: Story = {
+    args: {
+        notuClient: notuClient as any,
+        note: (() => {
+            const output = new Note('Hello').in(space1).at(new Date(2024, 8, 10, 23, 30));
+            output.id = 123;
+            return output;
+        })(),
+        tags: [tag1, tag2],
+        attrs: [attr1, attr2],
+        onConfirm: note => {
+            console.log('Confirm Clicked', note);
+            return Promise.resolve(false);
+        },
+        onCancel: note => { console.log('Cancel Clicked'); },
+        onSave: note => { console.log('Note saved'); }
+    }
+};

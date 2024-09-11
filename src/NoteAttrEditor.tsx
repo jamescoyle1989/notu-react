@@ -67,8 +67,9 @@ export const NoteAttrEditor = ({
         }
 
         if (noteAttr.attr.isDate) {
-            const date = noteAttr.value.toISOString().split('T')[0];
-            const time = noteAttr.value.toTimeString().split(' ')[0].substring(0, 5);
+            const dt = noteAttr.value as Date;
+            const date = `${dt.getFullYear()}-${(dt.getMonth() + 1).toString().padStart(2, '0')}-${dt.getDate().toString().padStart(2, '0')}`;
+            const time = `${dt.getHours().toString().padStart(2, '0')}:${dt.getMinutes().toString().padStart(2, '0')}`;
             return (
                 <div className="field has-addons">
                     {renderLabelPortion()}

@@ -38,8 +38,8 @@ export const NoteEditor = ({
     if (!note.space)
         return (<p>Note must define the space that it belongs to</p>);
 
-    const date = note.date.toISOString().split('T')[0];
-    const time = note.date.toTimeString().split(' ')[0].substring(0, 5);
+    const date = `${note.date.getFullYear()}-${(note.date.getMonth() + 1).toString().padStart(2, '0')}-${note.date.getDate().toString().padStart(2, '0')}`;
+    const time = `${note.date.getHours().toString().padStart(2, '0')}:${note.date.getMinutes().toString().padStart(2, '0')}`;
 
     const [ownTagName, setOwnTagName] = useState(note.ownTag?.name ?? '');
     const [showAttrsForTag, setShowAttrsForTag] = useState<Tag>(null);
