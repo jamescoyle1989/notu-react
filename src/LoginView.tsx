@@ -22,10 +22,13 @@ export const LoginView = ({
         const username = evt.target.elements.username.value;
         const password = evt.target.elements.password.value;
         try {
+            console.log('Attempting to login');
             await notuClient.login(username, password);
+            console.log('Login succeeded');
             await onLogin();
         }
         catch(err) {
+            console.log({err});
             setError(err.message);
         }
     }
