@@ -56,11 +56,20 @@ export const NoteTagBadge = ({
             return (<span className="has-text-weight-light ml-1">({noteTag.tag.isPublic ? 'Public' : 'Private'})</span>)
     }
 
+    function renderNoteTagData() {
+        const dataComponent = noteTagDataComponentResolver(noteTag.tag);
+        if (!dataComponent)
+            return;
+
+        return dataComponent.getBadgeComponent(noteTag);
+    }
+
     return (
         <span className={`tag is-small is-unselectable is-rounded mr-1 ${getTextWeight()} ${getTextColor()}`}
             style={{backgroundColor: getBackgroundColor()}}>
             {noteTag.tag.getQualifiedName(contextSpaceId)}
             {renderTagAttributes()}
+            {renderNoteTagData()}
             {renderDeleteButton()}
             {renderOwnTagPublicity()}
         </span>

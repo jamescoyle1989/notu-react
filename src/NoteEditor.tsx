@@ -1,5 +1,5 @@
 import React from 'react';
-import { Attr, Note, NoteAttr, Tag } from 'notu';
+import { Attr, Note, NoteAttr, NoteTag, Tag } from 'notu';
 import { useState } from 'react';
 import { NoteTagBadge } from './NoteTagBadge';
 import 'bulma';
@@ -288,6 +288,17 @@ export const NoteEditor = ({
         );
     }
 
+    function renderNoteTagData(noteTag: NoteTag) {
+        const dataComponent = noteTagDataComponentResolver(noteTag.tag);
+        if (!dataComponent)
+            return;
+
+        return (<div>
+            <p>{noteTag.tag.getQualifiedName(note.space.id)}</p>
+            {dataComponent.getEditorComponent(noteTag)}
+        </div>);
+    }
+
     return (
         <form onSubmit={submitNote}>
             <fieldset>
@@ -335,6 +346,8 @@ export const NoteEditor = ({
                 </div>
 
                 {renderAttrFields()}
+
+                {note.tags.map(nt => renderNoteTagData(nt))}
 
                 <div className="field">
                     <button type="submit" className="button is-link mr-3">Confirm</button>
