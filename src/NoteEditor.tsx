@@ -293,7 +293,7 @@ export const NoteEditor = ({
         if (!dataComponent)
             return;
 
-        return (<div>
+        return (<div key={noteTag.tag.id}>
             <p>{noteTag.tag.getQualifiedName(note.space.id)}</p>
             {dataComponent.getEditorComponent(noteTag)}
         </div>);
