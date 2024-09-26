@@ -130,7 +130,7 @@ export const NoteViewer = ({
                                     noteTag={nt}
                                     contextSpaceId={note.space.id}
                                     showAttrs={true}
-                                    noteTagDataComponentResolver={t => null}>
+                                    noteTagDataComponentResolver={noteTagDataComponentResolver}>
                         </NoteTagBadge>
                     ))}
 
