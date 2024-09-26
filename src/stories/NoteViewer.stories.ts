@@ -43,7 +43,8 @@ export const Primary: Story = {
             new NoteViewerAction('Say Goodbye', n => console.log('Goodbye'))
         ],
         isSelected: true,
-        noteTextSplitter: noteTextSplitter
+        noteTextSplitter: noteTextSplitter,
+        noteTagDataComponentResolver: t => null
     }
 };
 
@@ -61,7 +62,8 @@ export const NoActions: Story = {
         })(),
         actions: [],
         isSelected: true,
-        noteTextSplitter: noteTextSplitter
+        noteTextSplitter: noteTextSplitter,
+        noteTagDataComponentResolver: t => null
     }
 }
 
@@ -80,7 +82,8 @@ export const CanHideDate: Story = {
         actions: [],
         isSelected: true,
         showDate: false,
-        noteTextSplitter: noteTextSplitter
+        noteTextSplitter: noteTextSplitter,
+        noteTagDataComponentResolver: t => null
     }
 }
 
@@ -95,7 +98,8 @@ export const DisplaysNewLinesCorrectly: Story = {
         actions: [],
         isSelected: true,
         showDate: true,
-        noteTextSplitter: noteTextSplitter
+        noteTextSplitter: noteTextSplitter,
+        noteTagDataComponentResolver: t => null
     }
 }
 
@@ -110,7 +114,8 @@ export const DisplaysChecklistsCorrectly: Story = {
         actions: [],
         isSelected: true,
         showDate: true,
-        noteTextSplitter: noteTextSplitter
+        noteTextSplitter: noteTextSplitter,
+        noteTagDataComponentResolver: t => null
     }
 }
 
@@ -125,7 +130,8 @@ export const DisplaysImagesCorrectly: Story = {
         actions: [],
         isSelected: true,
         showDate: true,
-        noteTextSplitter: noteTextSplitter
+        noteTextSplitter: noteTextSplitter,
+        noteTagDataComponentResolver: t => null
     }
 }
 
@@ -140,7 +146,8 @@ export const DisplaysLinksCorrectly: Story = {
         actions: [],
         isSelected: true,
         showDate: true,
-        noteTextSplitter: noteTextSplitter
+        noteTextSplitter: noteTextSplitter,
+        noteTagDataComponentResolver: t => null
     }
 }
 
@@ -159,6 +166,7 @@ Halasana
         actions: [],
         isSelected: true,
         showDate: true,
-        noteTextSplitter: noteTextSplitter
+        noteTextSplitter: noteTextSplitter,
+        noteTagDataComponentResolver: t => null
     }
 }

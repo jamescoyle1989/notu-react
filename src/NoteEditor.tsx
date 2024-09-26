@@ -7,6 +7,7 @@ import { NoteAttrEditor } from './NoteAttrEditor';
 import { NotuClient } from 'notu/dist/types/services/HttpClient';
 import { useManualRefresh } from './Hooks';
 import { getTextColorClass } from './helpers/ColorHelpers';
+import { NoteTagDataComponentFactory } from './notetagdata/NoteTagDataComponentFactory';
 
 interface NoteEditorProps {
     /** Used for saving the note once changes have been confirmed */
@@ -22,7 +23,9 @@ interface NoteEditorProps {
     /** Called when the cancel button is clicked */
     onCancel: (note: Note) => void,
     /** Called when onConfirm has indicated that the NoteEditor should proceed with the save automatically, and the save has gone through successfully */
-    onSave: (note: Note) => void
+    onSave: (note: Note) => void,
+    /** Used for looking up NoteTagDataComponentFactory */
+    noteTagDataComponentResolver: (tag: Tag) => NoteTagDataComponentFactory
 }
 
 
@@ -33,7 +36,8 @@ export const NoteEditor = ({
     attrs,
     onConfirm,
     onCancel,
-    onSave
+    onSave,
+    noteTagDataComponentResolver
 }: NoteEditorProps) => {
     if (!note.space)
         return (<p>Note must define the space that it belongs to</p>);
@@ -207,7 +211,8 @@ export const NoteEditor = ({
                         <NoteTagBadge key={x.tag.id} noteTag={x}
                                       contextSpaceId={note.space.id}
                                       onDelete={() => removeTag(x.tag)}
-                                      showAttrs={true}/>
+                                      showAttrs={true}
+                                      noteTagDataComponentResolver={t => null}/>
                     ))}
                 </div>
             </div>

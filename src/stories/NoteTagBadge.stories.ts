@@ -29,7 +29,8 @@ export const Primary: Story = {
         })(),
         contextSpaceId: 1,
         onDelete: null,
-        showAttrs: true
+        showAttrs: true,
+        noteTagDataComponentResolver: t => null
     }
 };
 
@@ -41,7 +42,8 @@ export const WithDeleteButton: Story = {
         })(),
         contextSpaceId: 1,
         onDelete: () => { console.log('Delete clicked'); },
-        showAttrs: true
+        showAttrs: true,
+        noteTagDataComponentResolver: t => null
     }
 };
 
@@ -53,7 +55,8 @@ export const ShowsSpaceNameIfRequired: Story = {
         })(),
         contextSpaceId: 1,
         onDelete: null,
-        showAttrs: true
+        showAttrs: true,
+        noteTagDataComponentResolver: t => null
     }
 }
 
@@ -66,7 +69,8 @@ export const RedBadge: Story = {
         })(),
         contextSpaceId: 1,
         onDelete: null,
-        showAttrs: true
+        showAttrs: true,
+        noteTagDataComponentResolver: t => null
     }
 }
 
@@ -79,6 +83,7 @@ export const GreenBadge: Story = {
         })(),
         contextSpaceId: 1,
         onDelete: null,
-        showAttrs: true
+        showAttrs: true,
+        noteTagDataComponentResolver: t => null
     }
 }

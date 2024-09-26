@@ -1,17 +1,19 @@
 import React, { useMemo, useRef } from 'react';
-import { Note, NoteTag } from 'notu';
+import { Note, NoteTag, Tag } from 'notu';
 import { NoteTagBadge } from './NoteTagBadge';
 import 'bulma';
 import { useEffect, useState } from 'react';
 import { NoteAttrBadge } from './NoteAttrBadge';
 import { NoteComponentContainer } from './notecomponents/NoteComponentContainer';
+import { NoteTagDataComponentFactory } from './notetagdata/NoteTagDataComponentFactory';
 
 interface NoteViewerProps {
     note: Note,
     actions: Array<NoteViewerAction>,
     isSelected: boolean,
     showDate?: boolean,
-    noteTextSplitter: (note: Note) => Array<any>
+    noteTextSplitter: (note: Note) => Array<any>,
+    noteTagDataComponentResolver: (tag: Tag) => NoteTagDataComponentFactory
 }
 
 
@@ -31,7 +33,8 @@ export const NoteViewer = ({
     actions,
     isSelected,
     showDate = true,
-    noteTextSplitter
+    noteTextSplitter,
+    noteTagDataComponentResolver
 }: NoteViewerProps) => {
     const [showActions, setShowActions] = useState(false);
     const textComponents = useMemo(() => noteTextSplitter(note), [note, note.text]);
@@ -73,7 +76,14 @@ export const NoteViewer = ({
     function renderOwnTag() {
         if (!!note.ownTag) {
             const noteTag = new NoteTag(note.ownTag.duplicate().clean());
-            return (<NoteTagBadge noteTag={noteTag} contextSpaceId={note.space.id} showAttrs={false} isOwnTag={true}></NoteTagBadge>)
+            return (
+                <NoteTagBadge noteTag={noteTag} 
+                            contextSpaceId={note.space.id}
+                            showAttrs={false}
+                            isOwnTag={true}
+                            noteTagDataComponentResolver={t => null}>
+                </NoteTagBadge>
+            );
         }
     }
 
@@ -116,7 +126,12 @@ export const NoteViewer = ({
                     {renderOwnTag()} {renderOwnTagDivider()}
 
                     {note.tags.map(nt => (
-                        <NoteTagBadge key={nt.tag.id} noteTag={nt} contextSpaceId={note.space.id} showAttrs={true}></NoteTagBadge>
+                        <NoteTagBadge key={nt.tag.id} 
+                                    noteTag={nt}
+                                    contextSpaceId={note.space.id}
+                                    showAttrs={true}
+                                    noteTagDataComponentResolver={t => null}>
+                        </NoteTagBadge>
                     ))}
 
                     {note.attrs.map(na => (

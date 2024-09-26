@@ -3,7 +3,7 @@ import { DefaultTextProcessor, NoteText, NoteTextProcessor } from '../../src/not
 import { NoteChecklist, NoteChecklistProcessor } from '../../src/notecomponents/NoteChecklist';
 import { newNote } from '../../src/stories/StoryHelpers';
 import { MockHttpClient } from '../../src/helpers/MockHttpClient';
-import { splitNoteTextIntoComponents } from '../../src/notecomponents/NoteComponent';
+import { splitNoteTextIntoComponents } from 'notu';
 
 
 test('splitNoteIntoComponents returns correct component array', () => {

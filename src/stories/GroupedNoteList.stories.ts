@@ -61,6 +61,7 @@ export const CanShowNotesWithoutDates: Story = {
             new NoteViewerAction('Do something', async n => Promise.resolve(true))
         ],
         noteTextSplitter: noteTextSplitter,
+        noteTagDataComponentResolver: t => null,
         groupBy: n => n.date.getDay(),
         groupHeader: (key, notes) => {
             const day = Number(key);
@@ -86,6 +87,7 @@ export const CanAddGroupsThatNoNoteSatisfies: Story = {
             new NoteViewerAction('Do something', async n => Promise.resolve(true))
         ],
         noteTextSplitter: noteTextSplitter,
+        noteTagDataComponentResolver: t => null,
         groupBy: n => n.date.getDay(),
         groupHeader: (key, notes) => {
             const day = Number(key);

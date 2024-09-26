@@ -39,6 +39,7 @@ export const Primary: Story = {
                 output.push(new NoteViewerAction('Special First Note Action', n => { console.log('Other test'); }));
             return output;
         },
-        noteTextSplitter: noteTextSplitter
+        noteTextSplitter: noteTextSplitter,
+        noteTagDataComponentResolver: t => null
     }
 };

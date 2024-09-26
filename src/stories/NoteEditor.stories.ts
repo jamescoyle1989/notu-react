@@ -46,7 +46,8 @@ export const Primary: Story = {
             return Promise.resolve(true);
         },
         onCancel: note => { console.log('Cancel Clicked'); },
-        onSave: note => { console.log('Note saved'); }
+        onSave: note => { console.log('Note saved'); },
+        noteTagDataComponentResolver: t => null
     }
 };
 
@@ -64,7 +65,8 @@ export const DisplaysErrorMessageOnFailedConfirm: Story = {
             throw new Error('This note is crap, try again!');
         },
         onCancel: note => { console.log('Cancel Clicked'); },
-        onSave: note => { console.log('Note saved'); }
+        onSave: note => { console.log('Note saved'); },
+        noteTagDataComponentResolver: t => null
     }
 };
 
@@ -82,7 +84,8 @@ export const DoesntCallNotuClientIfOnConfirmReturnsFalse: Story = {
             return Promise.resolve(false);
         },
         onCancel: note => { console.log('Cancel Clicked'); },
-        onSave: note => { console.log('Note saved'); }
+        onSave: note => { console.log('Note saved'); },
+        noteTagDataComponentResolver: t => null
     }
 };
 
@@ -105,7 +108,8 @@ export const AllowsRemovalOfAttrsFromSavedNote: Story = {
             return Promise.resolve(false);
         },
         onCancel: note => { console.log('Cancel Clicked'); },
-        onSave: note => { console.log('Note saved'); }
+        onSave: note => { console.log('Note saved'); },
+        noteTagDataComponentResolver: t => null
     }
 };
 
@@ -126,7 +130,8 @@ export const AllowsRemovalOfAttrsFromTagOnNote: Story = {
             return Promise.resolve(false);
         },
         onCancel: note => { console.log('Cancel Clicked'); },
-        onSave: note => { console.log('Note saved'); }
+        onSave: note => { console.log('Note saved'); },
+        noteTagDataComponentResolver: t => null
     }
 };
 
@@ -146,6 +151,7 @@ export const DisplaysCorrectDateLateAtNightCanadianTime: Story = {
             return Promise.resolve(false);
         },
         onCancel: note => { console.log('Cancel Clicked'); },
-        onSave: note => { console.log('Note saved'); }
+        onSave: note => { console.log('Note saved'); },
+        noteTagDataComponentResolver: t => null
     }
 };
