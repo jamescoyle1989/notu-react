@@ -1,8 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { NoteEditor } from '../NoteEditor';
-import { Attr, Note, Space, Tag } from 'notu';
+import { Note } from 'notu';
 import { MockHttpClient } from '../helpers/MockHttpClient';
 import { newAttr, newSpace, newTag } from './StoryHelpers';
+import { TestNoteTagDataComponentFactory } from './ReactSnippets';
 
 const meta: Meta<typeof NoteEditor> = {
     title: 'NoteEditor',
@@ -153,5 +154,30 @@ export const DisplaysCorrectDateLateAtNightCanadianTime: Story = {
         onCancel: note => { console.log('Cancel Clicked'); },
         onSave: note => { console.log('Note saved'); },
         noteTagDataComponentResolver: t => null
+    }
+};
+
+
+export const EditorSupportsNoteTagDataComponent: Story = {
+    args: {
+        notuClient: notuClient as any,
+        note: (() => {
+            const output = new Note('Hello').in(space1);
+            output.addTag(tag1).withData({name: 'Barnabus'});
+            output.id = 123;
+            return output;
+        })(),
+        tags: [tag1, tag2],
+        attrs: [attr1, attr2],
+        onConfirm: note => {
+            console.log('Confirm Clicked', note);
+            return Promise.resolve(false);
+        },
+        onCancel: note => { console.log('Cancel Clicked'); },
+        onSave: note => { console.log('Note saved'); },
+        noteTagDataComponentResolver: t => {
+            if (t == tag1)
+                return new TestNoteTagDataComponentFactory();
+        }
     }
 };

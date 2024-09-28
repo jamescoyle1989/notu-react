@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { NoteTagBadge } from '../NoteTagBadge';
-import { Attr, Note, Space, Tag } from 'notu';
+import { Note } from 'notu';
 import { newSpace, newTag } from './StoryHelpers';
+import { TestNoteTagDataComponentFactory } from './ReactSnippets';
 
 const meta: Meta<typeof NoteTagBadge> = {
     title: 'NoteTagBadge',
@@ -85,5 +86,21 @@ export const GreenBadge: Story = {
         onDelete: null,
         showAttrs: true,
         noteTagDataComponentResolver: t => null
+    }
+}
+
+export const BadgeSupportsDataComponent: Story = {
+    args: {
+        noteTag: (() => {
+            const tag = newTag('Test', 123).in(space1).clean();
+            return new Note().in(space1).addTag(tag).withData({name: 'James'});
+        })(),
+        contextSpaceId: 1,
+        onDelete: null,
+        showAttrs: true,
+        noteTagDataComponentResolver: t => {
+            if (t.id == 123)
+                return new TestNoteTagDataComponentFactory();
+        }
     }
 }
