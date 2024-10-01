@@ -31,12 +31,12 @@ tag2.clean();
 const attr1 = newAttr('Text Attr', 1).in(space1).asText().clean();
 const attr2 = newAttr('Date Attr', 2).in(space1).asDate().clean();
 
-const notuClient = new MockHttpClient();
+const notu = new MockHttpClient();
 
 
 export const Primary: Story = {
     args: {
-        notuClient: notuClient as any,
+        notu: notu as any,
         note: new Note('hello')
             .in(space1)
             .at(new Date(1987, 6, 5, 4, 3, 2)),
@@ -55,7 +55,7 @@ export const Primary: Story = {
 
 export const DisplaysErrorMessageOnFailedConfirm: Story = {
     args: {
-        notuClient: notuClient as any,
+        notu: notu as any,
         note: new Note('hello')
             .in(space1)
             .at(new Date(1987, 6, 5, 4, 3, 2)),
@@ -74,7 +74,7 @@ export const DisplaysErrorMessageOnFailedConfirm: Story = {
 
 export const DoesntCallNotuClientIfOnConfirmReturnsFalse: Story = {
     args: {
-        notuClient: notuClient as any,
+        notu: notu as any,
         note: new Note('hello')
             .in(space1)
             .at(new Date(1987, 6, 5, 4, 3, 2)),
@@ -93,7 +93,7 @@ export const DoesntCallNotuClientIfOnConfirmReturnsFalse: Story = {
 
 export const AllowsRemovalOfAttrsFromSavedNote: Story = {
     args: {
-        notuClient: notuClient as any,
+        notu: notu as any,
         note: (() => {
             const output = new Note('Hello').in(space1);
             output.id = 123;
@@ -117,7 +117,7 @@ export const AllowsRemovalOfAttrsFromSavedNote: Story = {
 
 export const AllowsRemovalOfAttrsFromTagOnNote: Story = {
     args: {
-        notuClient: notuClient as any,
+        notu: notu as any,
         note: (() => {
             const output = new Note('Hello').in(space1);
             output.id = 123;
@@ -139,7 +139,7 @@ export const AllowsRemovalOfAttrsFromTagOnNote: Story = {
 
 export const DisplaysCorrectDateLateAtNightCanadianTime: Story = {
     args: {
-        notuClient: notuClient as any,
+        notu: notu as any,
         note: (() => {
             const output = new Note('Hello').in(space1).at(new Date(2024, 8, 10, 23, 30));
             output.id = 123;
@@ -160,7 +160,7 @@ export const DisplaysCorrectDateLateAtNightCanadianTime: Story = {
 
 export const EditorSupportsNoteTagDataComponent: Story = {
     args: {
-        notuClient: notuClient as any,
+        notu: notu as any,
         note: (() => {
             const output = new Note('Hello').in(space1);
             output.addTag(tag1).withData({name: 'Barnabus'});
@@ -185,7 +185,7 @@ export const EditorSupportsNoteTagDataComponent: Story = {
 
 export const EditorSupportsAddingNewNoteTagDataComponent: Story = {
     args: {
-        notuClient: notuClient as any,
+        notu: notu as any,
         note: (() => {
             const output = new Note('Add Tag 1 to this note').in(space1);
             output.id = 123;

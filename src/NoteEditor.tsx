@@ -1,17 +1,16 @@
 import React from 'react';
-import { Attr, Note, NoteAttr, NoteTag, Tag } from 'notu';
+import { Attr, Note, NoteAttr, NoteTag, Notu, Tag } from 'notu';
 import { useState } from 'react';
 import { NoteTagBadge } from './NoteTagBadge';
 import 'bulma';
 import { NoteAttrEditor } from './NoteAttrEditor';
-import { NotuClient } from 'notu/dist/types/services/HttpClient';
 import { useManualRefresh } from './Hooks';
 import { getTextColorClass } from './helpers/ColorHelpers';
 import { NoteTagDataComponentFactory } from './notetagdata/NoteTagDataComponentFactory';
 
 interface NoteEditorProps {
     /** Used for saving the note once changes have been confirmed */
-    notuClient: NotuClient,
+    notu: Notu,
     /** The note to be edited */
     note: Note,
     /** The collection of tags that can be added to the note */
@@ -30,7 +29,7 @@ interface NoteEditorProps {
 
 
 export const NoteEditor = ({
-    notuClient,
+    notu,
     note,
     tags,
     attrs,
@@ -57,7 +56,7 @@ export const NoteEditor = ({
         try {
             const confirmResult = await onConfirm(note);
             if (!!confirmResult) {
-                await notuClient.saveNotes([note]);
+                await notu.saveNotes([note]);
                 try { onSave(note); } catch (err) { }
             }
             setError(null);

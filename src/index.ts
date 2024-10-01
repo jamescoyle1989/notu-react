@@ -1,4 +1,3 @@
-import { AttrEditor } from './AttrEditor';
 import { GroupedNoteList, PanelGroupedNoteList } from './GroupedNoteList';
 import { LoginView } from './LoginView';
 import { NoteAttrBadge } from './NoteAttrBadge';
@@ -15,10 +14,9 @@ import { NoteTagBadge } from './NoteTagBadge';
 import { NoteList, PanelNoteList } from './NoteList';
 import { NoteViewer, NoteViewerAction } from './NoteViewer';
 import { RelatedTagSelector, PanelRelatedTagSelector } from './RelatedTagSelector';
-import { useNotu } from './Hooks';
+import { useNotu, useManualRefresh } from './Hooks';
 
 export {
-    AttrEditor,
     GroupedNoteList, PanelGroupedNoteList,
     LoginView,
     NoteAttrBadge,
@@ -32,5 +30,5 @@ export {
     NoteList, PanelNoteList,
     NoteViewer, NoteViewerAction,
     RelatedTagSelector, PanelRelatedTagSelector,
-    useNotu
+    useNotu, useManualRefresh
 }
