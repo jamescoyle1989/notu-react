@@ -181,3 +181,27 @@ export const EditorSupportsNoteTagDataComponent: Story = {
         }
     }
 };
+
+
+export const EditorSupportsAddingNewNoteTagDataComponent: Story = {
+    args: {
+        notuClient: notuClient as any,
+        note: (() => {
+            const output = new Note('Add Tag 1 to this note').in(space1);
+            output.id = 123;
+            return output;
+        })(),
+        tags: [tag1, tag2],
+        attrs: [attr1, attr2],
+        onConfirm: note => {
+            console.log('Confirm Clicked', note);
+            return Promise.resolve(false);
+        },
+        onCancel: note => { console.log('Cancel Clicked'); },
+        onSave: note => { console.log('Note saved'); },
+        noteTagDataComponentResolver: t => {
+            if (t == tag1)
+                return new TestNoteTagDataComponentFactory();
+        }
+    }
+};

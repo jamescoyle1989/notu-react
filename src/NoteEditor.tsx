@@ -292,6 +292,8 @@ export const NoteEditor = ({
         const dataComponent = noteTagDataComponentResolver(noteTag.tag);
         if (!dataComponent)
             return;
+        if (!noteTag.data)
+            noteTag.data = {};
 
         return (<div key={noteTag.tag.id}>
             <label className="label">{noteTag.tag.getQualifiedName(note.space.id)}</label>
