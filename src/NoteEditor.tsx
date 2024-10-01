@@ -207,7 +207,7 @@ export const NoteEditor = ({
             <div className="box">
                 <div>
                     {note.tags.map(x => (
-                        <NoteTagBadge key={x.tag.id} noteTag={x}
+                        <NoteTagBadge key={x.tag.id} noteTag={x} notu={notu}
                                       contextSpaceId={note.space.id}
                                       onDelete={() => removeTag(x.tag)}
                                       showAttrs={true}
@@ -296,7 +296,7 @@ export const NoteEditor = ({
 
         return (<div key={noteTag.tag.id}>
             <label className="label">{noteTag.tag.getQualifiedName(note.space.id)}</label>
-            <div className="box mb-3">{dataComponent.getEditorComponent(noteTag)}</div>
+            <div className="box mb-3">{dataComponent.getEditorComponent(noteTag, notu)}</div>
         </div>);
     }
 

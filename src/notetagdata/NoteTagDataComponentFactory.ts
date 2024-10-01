@@ -1,8 +1,8 @@
-import { NoteTag, Tag } from 'notu';
+import { NoteTag, Notu, Tag } from 'notu';
 
 export interface NoteTagDataComponentFactory {
     
-    getBadgeComponent(noteTag: NoteTag): JSX.Element;
+    getBadgeComponent(noteTag: NoteTag, notu: Notu): JSX.Element;
 
-    getEditorComponent(noteTag: NoteTag): JSX.Element;
+    getEditorComponent(noteTag: NoteTag, notu: Notu): JSX.Element;
 }

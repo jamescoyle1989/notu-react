@@ -5,6 +5,7 @@ import { NoteViewerAction } from '../NoteViewer';
 import { noteViewerWithoutDate } from './ReactSnippets';
 import { newSpace } from './StoryHelpers';
 import { noteTextSplitter } from '../helpers/NoteComponentHelpers';
+import { MockHttpClient } from '../helpers/MockHttpClient';
 
 const meta: Meta<typeof GroupedNoteList> = {
     title: 'GroupedNoteList',
@@ -18,6 +19,8 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
+
+const notu = new MockHttpClient();
 
 const space1 = newSpace('Space 1', 1).clean();
 
@@ -67,7 +70,7 @@ export const CanShowNotesWithoutDates: Story = {
             const day = Number(key);
             return ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][day];
         },
-        noteViewer: (note, actions, isSelected, splitter) => noteViewerWithoutDate(note, actions, isSelected, splitter)
+        noteViewer: (note, actions, isSelected, splitter) => noteViewerWithoutDate(note, notu, actions, isSelected, splitter)
     }
 }
 
@@ -94,6 +97,6 @@ export const CanAddGroupsThatNoNoteSatisfies: Story = {
             return ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][day];
         },
         groups: notes => [0,1,2,3,4,5,6],
-        noteViewer: (note, actions, isSelected, splitter) => noteViewerWithoutDate(note, actions, isSelected, splitter)
+        noteViewer: (note, actions, isSelected, splitter) => noteViewerWithoutDate(note, notu, actions, isSelected, splitter)
     }
 }

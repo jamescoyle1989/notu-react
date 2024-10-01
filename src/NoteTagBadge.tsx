@@ -1,5 +1,5 @@
 import React from 'react';
-import { NoteTag, Tag } from 'notu';
+import { NoteTag, Notu, Tag } from 'notu';
 import 'bulma';
 import { renderNoteAttrValue } from './helpers/NotuRender';
 import { getTextColorClass } from './helpers/ColorHelpers';
@@ -8,6 +8,7 @@ import { NoteTagDataComponentFactory } from './notetagdata/NoteTagDataComponentF
 
 interface NoteTagBadgeProps {
     noteTag: NoteTag,
+    notu: Notu,
     contextSpaceId: number,
     onDelete?: () => void,
     showAttrs: boolean,
@@ -18,6 +19,7 @@ interface NoteTagBadgeProps {
 
 export const NoteTagBadge = ({
     noteTag,
+    notu,
     contextSpaceId,
     onDelete = null,
     showAttrs,
@@ -61,7 +63,7 @@ export const NoteTagBadge = ({
         if (!dataComponent)
             return;
 
-        return dataComponent.getBadgeComponent(noteTag);
+        return dataComponent.getBadgeComponent(noteTag, notu);
     }
 
     return (

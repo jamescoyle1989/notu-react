@@ -1,4 +1,4 @@
-import { Note, Tag } from 'notu';
+import { Note, Notu, Tag } from 'notu';
 import React, { useState } from 'react';
 import { NoteViewer, NoteViewerAction } from './NoteViewer';
 import { NotesPanelDisplay } from './NotesPanel';
@@ -7,6 +7,7 @@ import { NoteTagDataComponentFactory } from './notetagdata/NoteTagDataComponentF
 
 interface GroupedNoteListProps {
     notes: Array<Note>,
+    notu: Notu,
     actionsGenerator: (note: Note) => Array<NoteViewerAction>,
     groupBy?: (note: Note) => number,
     groups?: (notes: Array<Note>) => Array<number>,
@@ -30,6 +31,7 @@ interface GroupedNoteListCommands {
 export const GroupedNoteList = React.forwardRef((
     {
         notes,
+        notu,
         actionsGenerator,
         noteTextSplitter,
         groupBy = null,
@@ -92,7 +94,7 @@ export const GroupedNoteList = React.forwardRef((
     function renderNoteViewer(note: Note) {
         if (!noteViewer) {
             return (
-                <NoteViewer note={note}
+                <NoteViewer note={note} notu={notu}
                             actions={actionsGenerator(note)}
                             isSelected={selectedNote === note}
                             noteTextSplitter={noteTextSplitter}
@@ -128,6 +130,7 @@ export const GroupedNoteList = React.forwardRef((
 
 export class PanelGroupedNoteList implements NotesPanelDisplay {
 
+    private _notu: Notu;
     private _actionsGenerator: (note: Note) => Array<NoteViewerAction>;
     private _noteTextSplitter: (note: Note) => Array<any>;
     private _noteViewer: (
@@ -142,11 +145,13 @@ export class PanelGroupedNoteList implements NotesPanelDisplay {
     private _noteTagDataComponentResolver: (tag: Tag) => NoteTagDataComponentFactory;
 
     constructor(
+        notu: Notu,
         actionsGenerator: (note: Note) => Array<NoteViewerAction>,
         noteTextSplitter: (note: Note) => Array<any>,
         noteTagDataComponentResolver: (tag: Tag) => NoteTagDataComponentFactory,
         groupBy: (note: Note) => number
     ) {
+        this._notu = notu;
         this._actionsGenerator = actionsGenerator;
         this._noteTextSplitter = noteTextSplitter;
         this._noteTagDataComponentResolver = noteTagDataComponentResolver;
@@ -174,7 +179,7 @@ export class PanelGroupedNoteList implements NotesPanelDisplay {
     }
 
     render(notes: Array<Note>) {
-        return (<GroupedNoteList notes={notes} 
+        return (<GroupedNoteList notes={notes} notu={this._notu}
                                  actionsGenerator={this._actionsGenerator}
                                  noteViewer={this._noteViewer}
                                  groupBy={this._groupBy}

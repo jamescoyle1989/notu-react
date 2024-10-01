@@ -1,5 +1,5 @@
 import React, { useMemo, useRef } from 'react';
-import { Note, NoteTag, Tag } from 'notu';
+import { Note, NoteTag, Notu, Tag } from 'notu';
 import { NoteTagBadge } from './NoteTagBadge';
 import 'bulma';
 import { useEffect, useState } from 'react';
@@ -9,6 +9,7 @@ import { NoteTagDataComponentFactory } from './notetagdata/NoteTagDataComponentF
 
 interface NoteViewerProps {
     note: Note,
+    notu: Notu,
     actions: Array<NoteViewerAction>,
     isSelected: boolean,
     showDate?: boolean,
@@ -30,6 +31,7 @@ export class NoteViewerAction {
 
 export const NoteViewer = ({
     note,
+    notu,
     actions,
     isSelected,
     showDate = true,
@@ -77,7 +79,7 @@ export const NoteViewer = ({
         if (!!note.ownTag) {
             const noteTag = new NoteTag(note.ownTag.duplicate().clean());
             return (
-                <NoteTagBadge noteTag={noteTag} 
+                <NoteTagBadge noteTag={noteTag} notu={notu}
                             contextSpaceId={note.space.id}
                             showAttrs={false}
                             isOwnTag={true}
@@ -127,7 +129,7 @@ export const NoteViewer = ({
 
                     {note.tags.map(nt => (
                         <NoteTagBadge key={nt.tag.id} 
-                                    noteTag={nt}
+                                    noteTag={nt} notu={notu}
                                     contextSpaceId={note.space.id}
                                     showAttrs={true}
                                     noteTagDataComponentResolver={noteTagDataComponentResolver}>
