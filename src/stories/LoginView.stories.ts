@@ -21,7 +21,7 @@ const notuClient = new MockHttpClient();
 export const Primary: Story = {
     args: {
         notuClient: notuClient as any,
-        onLogin: () => {
+        onLogin: async () => {
             console.log('Logged in', notuClient);
         }
     }

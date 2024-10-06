@@ -70,7 +70,7 @@ export const CanShowNotesWithoutDates: Story = {
             const day = Number(key);
             return ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][day];
         },
-        noteViewer: (note, actions, isSelected, splitter) => noteViewerWithoutDate(note, notu, actions, isSelected, splitter)
+        noteViewer: (note, actions, isSelected, splitter) => noteViewerWithoutDate(note, notu as any, actions, isSelected, splitter, t => null)
     }
 }
 
@@ -97,6 +97,6 @@ export const CanAddGroupsThatNoNoteSatisfies: Story = {
             return ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][day];
         },
         groups: notes => [0,1,2,3,4,5,6],
-        noteViewer: (note, actions, isSelected, splitter) => noteViewerWithoutDate(note, notu, actions, isSelected, splitter)
+        noteViewer: (note, actions, isSelected, splitter) => noteViewerWithoutDate(note, notu as any, actions, isSelected, splitter, t => null)
     }
 }

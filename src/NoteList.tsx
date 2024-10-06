@@ -1,5 +1,5 @@
 import React from 'react';
-import { Note, Tag } from 'notu';
+import { Note, Notu, Tag } from 'notu';
 import { NoteViewer, NoteViewerAction } from './NoteViewer';
 import { useState } from 'react';
 import { NotesPanelDisplay } from './NotesPanel';
@@ -8,6 +8,7 @@ import { NoteTagDataComponentFactory } from './notetagdata/NoteTagDataComponentF
 
 interface NoteListProps {
     notes: Array<Note>,
+    notu: Notu,
     actionsGenerator: (note: Note) => Array<NoteViewerAction>,
     noteTextSplitter: (note: Note) => Array<any>,
     noteTagDataComponentResolver: (tag: Tag) => NoteTagDataComponentFactory,
@@ -22,6 +23,7 @@ interface NoteListProps {
 
 export const NoteList = ({
     notes,
+    notu,
     actionsGenerator,
     noteTagDataComponentResolver,
     noteViewer = null,
@@ -37,7 +39,7 @@ export const NoteList = ({
     function renderNoteViewer(note: Note) {
         if (!noteViewer) {
             return (
-                <NoteViewer note={note}
+                <NoteViewer note={note} notu={notu}
                             actions={actionsGenerator(note)}
                             isSelected={selectedNote === note}
                             noteTextSplitter={noteTextSplitter}
@@ -65,6 +67,7 @@ export const NoteList = ({
 
 export class PanelNoteList implements NotesPanelDisplay {
 
+    private _notu: Notu;
     private _actionsGenerator: (note: Note) => Array<NoteViewerAction>;
     private _noteTextSplitter: (note: Note) => Array<any>;
     private _noteTagDataComponentResolver: (tag: Tag) => NoteTagDataComponentFactory;
@@ -75,10 +78,12 @@ export class PanelNoteList implements NotesPanelDisplay {
     ) => JSX.Element = null;
 
     constructor(
+        notu: Notu,
         actionsGenerator: (note: Note) => Array<NoteViewerAction>,
         noteTextSplitter: (note: Note) => Array<any>,
         noteTagDataComponentResolver: (tag: Tag) => NoteTagDataComponentFactory
     ) {
+        this._notu = notu;
         this._actionsGenerator = actionsGenerator;
         this._noteTextSplitter = noteTextSplitter;
         this._noteTagDataComponentResolver = noteTagDataComponentResolver;
@@ -95,7 +100,7 @@ export class PanelNoteList implements NotesPanelDisplay {
     }
 
     render(notes: Array<Note>) {
-        return (<NoteList notes={notes} 
+        return (<NoteList notes={notes} notu={this._notu}
                           actionsGenerator={this._actionsGenerator}
                           noteViewer={this._noteViewer}
                           noteTextSplitter={this._noteTextSplitter}

@@ -1,9 +1,9 @@
 {
   "name": "notu-react",
-  "version": "0.9.5",
-  "main": "dist/cjs/notu-react.cjs",
+  "version": "0.9.6",
+  "main": "dist/esm/notu-react.js",
   "module": "dist/esm/notu-react.js",
-  "unpkg": "dist/cjs/notu-react.cjs",
+  "unpkg": "dist/esm/notu-react.js",
   "types": "dist/types/index.d.ts",
   "type": "module",
   "files": [

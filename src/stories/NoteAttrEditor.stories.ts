@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { NoteAttrEditor } from '../NoteAttrEditor';
-import { Attr, Note, Space, Tag } from 'notu';
+import { Note } from 'notu';
 import 'bulma';
 import { newAttr, newSpace, newTag } from './StoryHelpers';
 
