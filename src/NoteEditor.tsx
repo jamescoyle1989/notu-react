@@ -24,7 +24,7 @@ interface NoteEditorProps {
     /** Called when onConfirm has indicated that the NoteEditor should proceed with the save automatically, and the save has gone through successfully */
     onSave: (note: Note) => void,
     /** Used for looking up NoteTagDataComponentFactory */
-    noteTagDataComponentResolver: (tag: Tag) => NoteTagDataComponentFactory
+    noteTagDataComponentResolver: (tag: Tag, note: Note) => NoteTagDataComponentFactory
 }
 
 
@@ -207,7 +207,7 @@ export const NoteEditor = ({
             <div className="box">
                 <div>
                     {note.tags.map(x => (
-                        <NoteTagBadge key={x.tag.id} noteTag={x} notu={notu}
+                        <NoteTagBadge key={x.tag.id} noteTag={x} note={note} notu={notu}
                                       contextSpaceId={note.space.id}
                                       onDelete={() => removeTag(x.tag)}
                                       showAttrs={true}
@@ -288,7 +288,7 @@ export const NoteEditor = ({
     }
 
     function renderNoteTagData(noteTag: NoteTag) {
-        const dataComponent = noteTagDataComponentResolver(noteTag.tag);
+        const dataComponent = noteTagDataComponentResolver(noteTag.tag, note);
         if (!dataComponent)
             return;
         if (!noteTag.data)

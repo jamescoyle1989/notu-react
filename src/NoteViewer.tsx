@@ -14,7 +14,7 @@ interface NoteViewerProps {
     isSelected: boolean,
     showDate?: boolean,
     noteTextSplitter: (note: Note) => Array<any>,
-    noteTagDataComponentResolver: (tag: Tag) => NoteTagDataComponentFactory
+    noteTagDataComponentResolver: (tag: Tag, note: Note) => NoteTagDataComponentFactory
 }
 
 
@@ -79,7 +79,7 @@ export const NoteViewer = ({
         if (!!note.ownTag) {
             const noteTag = new NoteTag(note.ownTag.duplicate().clean());
             return (
-                <NoteTagBadge noteTag={noteTag} notu={notu}
+                <NoteTagBadge noteTag={noteTag} note={note} notu={notu}
                             contextSpaceId={note.space.id}
                             showAttrs={false}
                             isOwnTag={true}
@@ -129,7 +129,7 @@ export const NoteViewer = ({
 
                     {note.tags.map(nt => (
                         <NoteTagBadge key={nt.tag.id} 
-                                    noteTag={nt} notu={notu}
+                                    noteTag={nt} note={note} notu={notu}
                                     contextSpaceId={note.space.id}
                                     showAttrs={true}
                                     noteTagDataComponentResolver={noteTagDataComponentResolver}>

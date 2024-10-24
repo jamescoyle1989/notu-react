@@ -13,7 +13,7 @@ interface GroupedNoteListProps {
     groups?: (notes: Array<Note>) => Array<number>,
     groupHeader?: (key: number, notes: Array<Note>) => string,
     noteTextSplitter: (note: Note) => Array<any>,
-    noteTagDataComponentResolver: (tag: Tag) => NoteTagDataComponentFactory
+    noteTagDataComponentResolver: (tag: Tag, note: Note) => NoteTagDataComponentFactory
     noteViewer?: (
         note: Note,
         actions: Array<NoteViewerAction>,
@@ -142,13 +142,13 @@ export class PanelGroupedNoteList implements NotesPanelDisplay {
     private _groupBy: (note: Note) => number;
     private _groups: (notes: Array<Note>) => Array<number>;
     private _groupHeader: (key: number, notes: Array<Note>) => string;
-    private _noteTagDataComponentResolver: (tag: Tag) => NoteTagDataComponentFactory;
+    private _noteTagDataComponentResolver: (tag: Tag, note: Note) => NoteTagDataComponentFactory;
 
     constructor(
         notu: Notu,
         actionsGenerator: (note: Note) => Array<NoteViewerAction>,
         noteTextSplitter: (note: Note) => Array<any>,
-        noteTagDataComponentResolver: (tag: Tag) => NoteTagDataComponentFactory,
+        noteTagDataComponentResolver: (tag: Tag, note: Note) => NoteTagDataComponentFactory,
         groupBy: (note: Note) => number
     ) {
         this._notu = notu;

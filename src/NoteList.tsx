@@ -11,7 +11,7 @@ interface NoteListProps {
     notu: Notu,
     actionsGenerator: (note: Note) => Array<NoteViewerAction>,
     noteTextSplitter: (note: Note) => Array<any>,
-    noteTagDataComponentResolver: (tag: Tag) => NoteTagDataComponentFactory,
+    noteTagDataComponentResolver: (tag: Tag, note: Note) => NoteTagDataComponentFactory,
     noteViewer?: (
         note: Note,
         actions: Array<NoteViewerAction>,
@@ -70,7 +70,7 @@ export class PanelNoteList implements NotesPanelDisplay {
     private _notu: Notu;
     private _actionsGenerator: (note: Note) => Array<NoteViewerAction>;
     private _noteTextSplitter: (note: Note) => Array<any>;
-    private _noteTagDataComponentResolver: (tag: Tag) => NoteTagDataComponentFactory;
+    private _noteTagDataComponentResolver: (tag: Tag, note: Note) => NoteTagDataComponentFactory;
     private _noteViewer: (
         note: Note,
         actions: Array<NoteViewerAction>,
@@ -81,7 +81,7 @@ export class PanelNoteList implements NotesPanelDisplay {
         notu: Notu,
         actionsGenerator: (note: Note) => Array<NoteViewerAction>,
         noteTextSplitter: (note: Note) => Array<any>,
-        noteTagDataComponentResolver: (tag: Tag) => NoteTagDataComponentFactory
+        noteTagDataComponentResolver: (tag: Tag, note: Note) => NoteTagDataComponentFactory
     ) {
         this._notu = notu;
         this._actionsGenerator = actionsGenerator;

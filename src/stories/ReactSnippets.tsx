@@ -9,7 +9,7 @@ export function noteViewerWithoutDate(
     actions: Array<NoteViewerAction>,
     isSelected: boolean,
     noteTextSplitter: (note: Note) => Array<any>,
-    noteTagDataComponentResolver: (tag: Tag) => NoteTagDataComponentFactory
+    noteTagDataComponentResolver: (tag: Tag, note: Note) => NoteTagDataComponentFactory
 ) {
     return (
         <NoteViewer note={note} notu={notu} actions={actions}
