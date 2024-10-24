@@ -3,6 +3,7 @@ import { NoteViewer, NoteViewerAction } from '../NoteViewer';
 import { Note } from 'notu';
 import { newAttr, newSpace, newTag } from './StoryHelpers';
 import { noteTextSplitter } from '../helpers/NoteComponentHelpers';
+import { NotuRenderTools } from '../helpers/NotuRender';
 
 const meta: Meta<typeof NoteViewer> = {
     title: 'NoteViewer',
@@ -25,6 +26,8 @@ tag1.clean();
 
 const attr1 = newAttr('Attr 1', 1).in(space1).asNumber().clean();
 
+const renderTools = new NotuRenderTools(null, noteTextSplitter, t => null);
+
 
 export const Primary: Story = {
     args: {
@@ -43,8 +46,7 @@ export const Primary: Story = {
             new NoteViewerAction('Say Goodbye', n => console.log('Goodbye'))
         ],
         isSelected: true,
-        noteTextSplitter: noteTextSplitter,
-        noteTagDataComponentResolver: t => null
+        notuRenderTools: renderTools
     }
 };
 
@@ -62,8 +64,7 @@ export const NoActions: Story = {
         })(),
         actions: [],
         isSelected: true,
-        noteTextSplitter: noteTextSplitter,
-        noteTagDataComponentResolver: t => null
+        notuRenderTools: renderTools
     }
 }
 
@@ -82,8 +83,7 @@ export const CanHideDate: Story = {
         actions: [],
         isSelected: true,
         showDate: false,
-        noteTextSplitter: noteTextSplitter,
-        noteTagDataComponentResolver: t => null
+        notuRenderTools: renderTools
     }
 }
 
@@ -98,8 +98,7 @@ export const DisplaysNewLinesCorrectly: Story = {
         actions: [],
         isSelected: true,
         showDate: true,
-        noteTextSplitter: noteTextSplitter,
-        noteTagDataComponentResolver: t => null
+        notuRenderTools: renderTools
     }
 }
 
@@ -114,8 +113,7 @@ export const DisplaysChecklistsCorrectly: Story = {
         actions: [],
         isSelected: true,
         showDate: true,
-        noteTextSplitter: noteTextSplitter,
-        noteTagDataComponentResolver: t => null
+        notuRenderTools: renderTools
     }
 }
 
@@ -130,8 +128,7 @@ export const DisplaysImagesCorrectly: Story = {
         actions: [],
         isSelected: true,
         showDate: true,
-        noteTextSplitter: noteTextSplitter,
-        noteTagDataComponentResolver: t => null
+        notuRenderTools: renderTools
     }
 }
 
@@ -146,8 +143,7 @@ export const DisplaysLinksCorrectly: Story = {
         actions: [],
         isSelected: true,
         showDate: true,
-        noteTextSplitter: noteTextSplitter,
-        noteTagDataComponentResolver: t => null
+        notuRenderTools: renderTools
     }
 }
 
@@ -166,7 +162,6 @@ Halasana
         actions: [],
         isSelected: true,
         showDate: true,
-        noteTextSplitter: noteTextSplitter,
-        noteTagDataComponentResolver: t => null
+        notuRenderTools: renderTools
     }
 }

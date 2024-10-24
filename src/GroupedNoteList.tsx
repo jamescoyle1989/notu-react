@@ -4,16 +4,15 @@ import { NoteViewer, NoteViewerAction } from './NoteViewer';
 import { NotesPanelDisplay } from './NotesPanel';
 import styles from './GroupedNoteList.module.css';
 import { NoteTagDataComponentFactory } from './notetagdata/NoteTagDataComponentFactory';
+import { NotuRenderTools } from './helpers/NotuRender';
 
 interface GroupedNoteListProps {
     notes: Array<Note>,
-    notu: Notu,
+    notuRenderTools: NotuRenderTools,
     actionsGenerator: (note: Note) => Array<NoteViewerAction>,
     groupBy?: (note: Note) => number,
     groups?: (notes: Array<Note>) => Array<number>,
     groupHeader?: (key: number, notes: Array<Note>) => string,
-    noteTextSplitter: (note: Note) => Array<any>,
-    noteTagDataComponentResolver: (tag: Tag, note: Note) => NoteTagDataComponentFactory
     noteViewer?: (
         note: Note,
         actions: Array<NoteViewerAction>,
@@ -31,13 +30,11 @@ interface GroupedNoteListCommands {
 export const GroupedNoteList = React.forwardRef((
     {
         notes,
-        notu,
+        notuRenderTools,
         actionsGenerator,
-        noteTextSplitter,
         groupBy = null,
         groups = null,
         groupHeader = null,
-        noteTagDataComponentResolver,
         noteViewer = null
     }: GroupedNoteListProps,
     ref: React.ForwardedRef<GroupedNoteListCommands>
@@ -94,15 +91,13 @@ export const GroupedNoteList = React.forwardRef((
     function renderNoteViewer(note: Note) {
         if (!noteViewer) {
             return (
-                <NoteViewer note={note} notu={notu}
+                <NoteViewer note={note} notuRenderTools={notuRenderTools}
                             actions={actionsGenerator(note)}
-                            isSelected={selectedNote === note}
-                            noteTextSplitter={noteTextSplitter}
-                            noteTagDataComponentResolver={noteTagDataComponentResolver}/>
+                            isSelected={selectedNote === note}/>
             )
         }
 
-        return noteViewer(note, actionsGenerator(note), selectedNote === note, noteTextSplitter);
+        return noteViewer(note, actionsGenerator(note), selectedNote === note, notuRenderTools.noteTextSplitter);
     }
 
     function renderGroupNotes(notes: Array<Note>) {
@@ -130,9 +125,8 @@ export const GroupedNoteList = React.forwardRef((
 
 export class PanelGroupedNoteList implements NotesPanelDisplay {
 
-    private _notu: Notu;
+    private _notuRenderTools: NotuRenderTools;
     private _actionsGenerator: (note: Note) => Array<NoteViewerAction>;
-    private _noteTextSplitter: (note: Note) => Array<any>;
     private _noteViewer: (
         note: Note,
         actions: Array<NoteViewerAction>,
@@ -142,19 +136,14 @@ export class PanelGroupedNoteList implements NotesPanelDisplay {
     private _groupBy: (note: Note) => number;
     private _groups: (notes: Array<Note>) => Array<number>;
     private _groupHeader: (key: number, notes: Array<Note>) => string;
-    private _noteTagDataComponentResolver: (tag: Tag, note: Note) => NoteTagDataComponentFactory;
 
     constructor(
-        notu: Notu,
+        notuRenderTools: NotuRenderTools,
         actionsGenerator: (note: Note) => Array<NoteViewerAction>,
-        noteTextSplitter: (note: Note) => Array<any>,
-        noteTagDataComponentResolver: (tag: Tag, note: Note) => NoteTagDataComponentFactory,
         groupBy: (note: Note) => number
     ) {
-        this._notu = notu;
+        this._notuRenderTools = notuRenderTools;
         this._actionsGenerator = actionsGenerator;
-        this._noteTextSplitter = noteTextSplitter;
-        this._noteTagDataComponentResolver = noteTagDataComponentResolver;
         this._groupBy = groupBy;
     }
 
@@ -179,13 +168,11 @@ export class PanelGroupedNoteList implements NotesPanelDisplay {
     }
 
     render(notes: Array<Note>) {
-        return (<GroupedNoteList notes={notes} notu={this._notu}
+        return (<GroupedNoteList notes={notes} notuRenderTools={this._notuRenderTools}
                                  actionsGenerator={this._actionsGenerator}
                                  noteViewer={this._noteViewer}
                                  groupBy={this._groupBy}
                                  groups={this._groups}
-                                 groupHeader={this._groupHeader}
-                                 noteTextSplitter={this._noteTextSplitter}
-                                 noteTagDataComponentResolver={this._noteTagDataComponentResolver}/>);
+                                 groupHeader={this._groupHeader}/>);
     }
 }

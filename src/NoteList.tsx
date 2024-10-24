@@ -1,17 +1,15 @@
 import React from 'react';
-import { Note, Notu, Tag } from 'notu';
+import { Note } from 'notu';
 import { NoteViewer, NoteViewerAction } from './NoteViewer';
 import { useState } from 'react';
 import { NotesPanelDisplay } from './NotesPanel';
 import styles from './NoteList.module.css'
-import { NoteTagDataComponentFactory } from './notetagdata/NoteTagDataComponentFactory';
+import { NotuRenderTools } from './helpers/NotuRender';
 
 interface NoteListProps {
     notes: Array<Note>,
-    notu: Notu,
+    notuRenderTools: NotuRenderTools,
     actionsGenerator: (note: Note) => Array<NoteViewerAction>,
-    noteTextSplitter: (note: Note) => Array<any>,
-    noteTagDataComponentResolver: (tag: Tag, note: Note) => NoteTagDataComponentFactory,
     noteViewer?: (
         note: Note,
         actions: Array<NoteViewerAction>,
@@ -23,11 +21,9 @@ interface NoteListProps {
 
 export const NoteList = ({
     notes,
-    notu,
+    notuRenderTools,
     actionsGenerator,
-    noteTagDataComponentResolver,
-    noteViewer = null,
-    noteTextSplitter
+    noteViewer = null
 }: NoteListProps) => {
 
     const [selectedNote, setSelectedNote] = useState(null);
@@ -39,15 +35,13 @@ export const NoteList = ({
     function renderNoteViewer(note: Note) {
         if (!noteViewer) {
             return (
-                <NoteViewer note={note} notu={notu}
+                <NoteViewer note={note} notuRenderTools={notuRenderTools}
                             actions={actionsGenerator(note)}
-                            isSelected={selectedNote === note}
-                            noteTextSplitter={noteTextSplitter}
-                            noteTagDataComponentResolver={noteTagDataComponentResolver}/>
+                            isSelected={selectedNote === note}/>
             )
         }
 
-        return noteViewer(note, actionsGenerator(note), selectedNote === note, noteTextSplitter);
+        return noteViewer(note, actionsGenerator(note), selectedNote === note, notuRenderTools.noteTextSplitter);
     }
 
 
@@ -67,10 +61,8 @@ export const NoteList = ({
 
 export class PanelNoteList implements NotesPanelDisplay {
 
-    private _notu: Notu;
+    private _notuRenderTools: NotuRenderTools;
     private _actionsGenerator: (note: Note) => Array<NoteViewerAction>;
-    private _noteTextSplitter: (note: Note) => Array<any>;
-    private _noteTagDataComponentResolver: (tag: Tag, note: Note) => NoteTagDataComponentFactory;
     private _noteViewer: (
         note: Note,
         actions: Array<NoteViewerAction>,
@@ -78,15 +70,11 @@ export class PanelNoteList implements NotesPanelDisplay {
     ) => JSX.Element = null;
 
     constructor(
-        notu: Notu,
-        actionsGenerator: (note: Note) => Array<NoteViewerAction>,
-        noteTextSplitter: (note: Note) => Array<any>,
-        noteTagDataComponentResolver: (tag: Tag, note: Note) => NoteTagDataComponentFactory
+        notuRenderTools: NotuRenderTools,
+        actionsGenerator: (note: Note) => Array<NoteViewerAction>
     ) {
-        this._notu = notu;
+        this._notuRenderTools = notuRenderTools;
         this._actionsGenerator = actionsGenerator;
-        this._noteTextSplitter = noteTextSplitter;
-        this._noteTagDataComponentResolver = noteTagDataComponentResolver;
     }
 
     withNoteViewer(
@@ -100,10 +88,8 @@ export class PanelNoteList implements NotesPanelDisplay {
     }
 
     render(notes: Array<Note>) {
-        return (<NoteList notes={notes} notu={this._notu}
+        return (<NoteList notes={notes} notuRenderTools={this._notuRenderTools}
                           actionsGenerator={this._actionsGenerator}
-                          noteViewer={this._noteViewer}
-                          noteTextSplitter={this._noteTextSplitter}
-                          noteTagDataComponentResolver={this._noteTagDataComponentResolver}/>);
+                          noteViewer={this._noteViewer}/>);
     }
 }

@@ -1,20 +1,18 @@
 import React, { useMemo, useRef } from 'react';
-import { Note, NoteTag, Notu, Tag } from 'notu';
+import { Note, NoteTag } from 'notu';
 import { NoteTagBadge } from './NoteTagBadge';
 import 'bulma';
 import { useEffect, useState } from 'react';
 import { NoteAttrBadge } from './NoteAttrBadge';
 import { NoteComponentContainer } from './notecomponents/NoteComponentContainer';
-import { NoteTagDataComponentFactory } from './notetagdata/NoteTagDataComponentFactory';
+import { NotuRenderTools } from './helpers/NotuRender';
 
 interface NoteViewerProps {
     note: Note,
-    notu: Notu,
+    notuRenderTools: NotuRenderTools,
     actions: Array<NoteViewerAction>,
     isSelected: boolean,
-    showDate?: boolean,
-    noteTextSplitter: (note: Note) => Array<any>,
-    noteTagDataComponentResolver: (tag: Tag, note: Note) => NoteTagDataComponentFactory
+    showDate?: boolean
 }
 
 
@@ -31,15 +29,13 @@ export class NoteViewerAction {
 
 export const NoteViewer = ({
     note,
-    notu,
+    notuRenderTools,
     actions,
     isSelected,
-    showDate = true,
-    noteTextSplitter,
-    noteTagDataComponentResolver
+    showDate = true
 }: NoteViewerProps) => {
     const [showActions, setShowActions] = useState(false);
-    const textComponents = useMemo(() => noteTextSplitter(note), [note, note.text]);
+    const textComponents = useMemo(() => notuRenderTools.noteTextSplitter(note), [note, note.text]);
 
     useEffect(() => {
         if (!isSelected)
@@ -79,11 +75,10 @@ export const NoteViewer = ({
         if (!!note.ownTag) {
             const noteTag = new NoteTag(note.ownTag.duplicate().clean());
             return (
-                <NoteTagBadge noteTag={noteTag} note={note} notu={notu}
+                <NoteTagBadge noteTag={noteTag} note={note} notuRenderTools={notuRenderTools}
                             contextSpaceId={note.space.id}
                             showAttrs={false}
-                            isOwnTag={true}
-                            noteTagDataComponentResolver={t => null}>
+                            isOwnTag={true}>
                 </NoteTagBadge>
             );
         }
@@ -129,10 +124,9 @@ export const NoteViewer = ({
 
                     {note.tags.map(nt => (
                         <NoteTagBadge key={nt.tag.id} 
-                                    noteTag={nt} note={note} notu={notu}
+                                    noteTag={nt} note={note} notuRenderTools={notuRenderTools}
                                     contextSpaceId={note.space.id}
-                                    showAttrs={true}
-                                    noteTagDataComponentResolver={noteTagDataComponentResolver}>
+                                    showAttrs={true}>
                         </NoteTagBadge>
                     ))}
 

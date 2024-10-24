@@ -15,6 +15,7 @@ import { NoteList, PanelNoteList } from './NoteList';
 import { NoteViewer, NoteViewerAction } from './NoteViewer';
 import { RelatedTagSelector, PanelRelatedTagSelector } from './RelatedTagSelector';
 import { useNotu, useManualRefresh } from './Hooks';
+import { NotuRenderTools } from './helpers/NotuRender';
 
 export {
     GroupedNoteList, PanelGroupedNoteList,
@@ -29,6 +30,7 @@ export {
     NoteTagBadge,
     NoteList, PanelNoteList,
     NoteViewer, NoteViewerAction,
+    NotuRenderTools,
     RelatedTagSelector, PanelRelatedTagSelector,
     useNotu, useManualRefresh
 }

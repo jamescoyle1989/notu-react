@@ -4,6 +4,7 @@ import { Note } from 'notu';
 import { NoteViewerAction } from '../NoteViewer';
 import { newSpace } from './StoryHelpers';
 import { noteTextSplitter } from '../helpers/NoteComponentHelpers';
+import { NotuRenderTools } from '../helpers/NotuRender';
 
 const meta: Meta<typeof NoteList> = {
     title: 'NoteList',
@@ -19,6 +20,8 @@ type Story = StoryObj<typeof meta>;
 
 
 const space1 = newSpace('Space 1', 1).clean();
+
+const renderTools = new NotuRenderTools(null, noteTextSplitter, t => null);
 
 
 export const Primary: Story = {
@@ -39,7 +42,6 @@ export const Primary: Story = {
                 output.push(new NoteViewerAction('Special First Note Action', n => { console.log('Other test'); }));
             return output;
         },
-        noteTextSplitter: noteTextSplitter,
-        noteTagDataComponentResolver: t => null
+        notuRenderTools: renderTools
     }
 };

@@ -7,10 +7,11 @@ import { NoteAttrEditor } from './NoteAttrEditor';
 import { useManualRefresh } from './Hooks';
 import { getTextColorClass } from './helpers/ColorHelpers';
 import { NoteTagDataComponentFactory } from './notetagdata/NoteTagDataComponentFactory';
+import { NotuRenderTools } from './helpers/NotuRender';
 
 interface NoteEditorProps {
     /** Used for saving the note once changes have been confirmed */
-    notu: Notu,
+    notuRenderTools: NotuRenderTools,
     /** The note to be edited */
     note: Note,
     /** The collection of tags that can be added to the note */
@@ -22,21 +23,18 @@ interface NoteEditorProps {
     /** Called when the cancel button is clicked */
     onCancel: (note: Note) => void,
     /** Called when onConfirm has indicated that the NoteEditor should proceed with the save automatically, and the save has gone through successfully */
-    onSave: (note: Note) => void,
-    /** Used for looking up NoteTagDataComponentFactory */
-    noteTagDataComponentResolver: (tag: Tag, note: Note) => NoteTagDataComponentFactory
+    onSave: (note: Note) => void
 }
 
 
 export const NoteEditor = ({
-    notu,
+    notuRenderTools,
     note,
     tags,
     attrs,
     onConfirm,
     onCancel,
-    onSave,
-    noteTagDataComponentResolver
+    onSave
 }: NoteEditorProps) => {
     if (!note.space)
         return (<p>Note must define the space that it belongs to</p>);
@@ -56,7 +54,7 @@ export const NoteEditor = ({
         try {
             const confirmResult = await onConfirm(note);
             if (!!confirmResult) {
-                await notu.saveNotes([note]);
+                await notuRenderTools.notu.saveNotes([note]);
                 try { onSave(note); } catch (err) { }
             }
             setError(null);
@@ -207,11 +205,10 @@ export const NoteEditor = ({
             <div className="box">
                 <div>
                     {note.tags.map(x => (
-                        <NoteTagBadge key={x.tag.id} noteTag={x} note={note} notu={notu}
+                        <NoteTagBadge key={x.tag.id} noteTag={x} note={note} notuRenderTools={notuRenderTools}
                                       contextSpaceId={note.space.id}
                                       onDelete={() => removeTag(x.tag)}
-                                      showAttrs={true}
-                                      noteTagDataComponentResolver={t => null}/>
+                                      showAttrs={true}/>
                     ))}
                 </div>
             </div>
@@ -288,7 +285,7 @@ export const NoteEditor = ({
     }
 
     function renderNoteTagData(noteTag: NoteTag) {
-        const dataComponent = noteTagDataComponentResolver(noteTag.tag, note);
+        const dataComponent = notuRenderTools.noteTagDataComponentResolver(noteTag.tag, note);
         if (!dataComponent)
             return;
         if (!noteTag.data)
@@ -296,7 +293,7 @@ export const NoteEditor = ({
 
         return (<div key={noteTag.tag.id}>
             <label className="label">{noteTag.tag.getQualifiedName(note.space.id)}</label>
-            <div className="box mb-3">{dataComponent.getEditorComponent(noteTag, notu)}</div>
+            <div className="box mb-3">{dataComponent.getEditorComponent(noteTag, notuRenderTools.notu)}</div>
         </div>);
     }
 

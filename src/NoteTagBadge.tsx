@@ -1,7 +1,7 @@
 import React from 'react';
-import { Note, NoteTag, Notu, Tag } from 'notu';
+import { Note, NoteTag, Tag } from 'notu';
 import 'bulma';
-import { renderNoteAttrValue } from './helpers/NotuRender';
+import { NotuRenderTools, renderNoteAttrValue } from './helpers/NotuRender';
 import { getTextColorClass } from './helpers/ColorHelpers';
 import { NoteTagDataComponentFactory } from './notetagdata/NoteTagDataComponentFactory';
 
@@ -9,24 +9,22 @@ import { NoteTagDataComponentFactory } from './notetagdata/NoteTagDataComponentF
 interface NoteTagBadgeProps {
     noteTag: NoteTag,
     note: Note,
-    notu: Notu,
+    notuRenderTools: NotuRenderTools,
     contextSpaceId: number,
     onDelete?: () => void,
     showAttrs: boolean,
-    isOwnTag?: boolean,
-    noteTagDataComponentResolver: (tag: Tag, note: Note) => NoteTagDataComponentFactory
+    isOwnTag?: boolean
 }
 
 
 export const NoteTagBadge = ({
     noteTag,
     note,
-    notu,
+    notuRenderTools,
     contextSpaceId,
     onDelete = null,
     showAttrs,
-    isOwnTag = false,
-    noteTagDataComponentResolver
+    isOwnTag = false
 }: NoteTagBadgeProps) => {
 
     function renderDeleteButton() {
@@ -61,11 +59,11 @@ export const NoteTagBadge = ({
     }
 
     function renderNoteTagData() {
-        const dataComponent = noteTagDataComponentResolver(noteTag.tag, note);
+        const dataComponent = notuRenderTools.noteTagDataComponentResolver(noteTag.tag, note);
         if (!dataComponent)
             return;
 
-        return dataComponent.getBadgeComponent(noteTag, notu);
+        return dataComponent.getBadgeComponent(noteTag, notuRenderTools.notu);
     }
 
     return (

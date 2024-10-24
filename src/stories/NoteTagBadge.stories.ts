@@ -3,6 +3,7 @@ import { NoteTagBadge } from '../NoteTagBadge';
 import { Note } from 'notu';
 import { newSpace, newTag } from './StoryHelpers';
 import { TestNoteTagDataComponentFactory } from './ReactSnippets';
+import { NotuRenderTools } from '../helpers/NotuRender';
 
 const meta: Meta<typeof NoteTagBadge> = {
     title: 'NoteTagBadge',
@@ -20,6 +21,8 @@ type Story = StoryObj<typeof meta>;
 const space1 = newSpace('Space', 1).clean();
 const space2 = newSpace('Space 2', 2).clean();
 
+const renderTools = new NotuRenderTools(null, null, t => null);
+
 
 
 export const Primary: Story = {
@@ -31,7 +34,7 @@ export const Primary: Story = {
         contextSpaceId: 1,
         onDelete: null,
         showAttrs: true,
-        noteTagDataComponentResolver: t => null
+        notuRenderTools: renderTools
     }
 };
 
@@ -44,7 +47,7 @@ export const WithDeleteButton: Story = {
         contextSpaceId: 1,
         onDelete: () => { console.log('Delete clicked'); },
         showAttrs: true,
-        noteTagDataComponentResolver: t => null
+        notuRenderTools: renderTools
     }
 };
 
@@ -57,7 +60,7 @@ export const ShowsSpaceNameIfRequired: Story = {
         contextSpaceId: 1,
         onDelete: null,
         showAttrs: true,
-        noteTagDataComponentResolver: t => null
+        notuRenderTools: renderTools
     }
 }
 
@@ -71,7 +74,7 @@ export const RedBadge: Story = {
         contextSpaceId: 1,
         onDelete: null,
         showAttrs: true,
-        noteTagDataComponentResolver: t => null
+        notuRenderTools: renderTools
     }
 }
 
@@ -85,7 +88,7 @@ export const GreenBadge: Story = {
         contextSpaceId: 1,
         onDelete: null,
         showAttrs: true,
-        noteTagDataComponentResolver: t => null
+        notuRenderTools: renderTools
     }
 }
 
@@ -98,9 +101,9 @@ export const BadgeSupportsDataComponent: Story = {
         contextSpaceId: 1,
         onDelete: null,
         showAttrs: true,
-        noteTagDataComponentResolver: t => {
+        notuRenderTools: new NotuRenderTools(null, null, t => {
             if (t.id == 123)
                 return new TestNoteTagDataComponentFactory();
-        }
+        })
     }
 }

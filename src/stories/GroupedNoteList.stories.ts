@@ -6,6 +6,7 @@ import { noteViewerWithoutDate } from './ReactSnippets';
 import { newSpace } from './StoryHelpers';
 import { noteTextSplitter } from '../helpers/NoteComponentHelpers';
 import { MockHttpClient } from '../helpers/MockHttpClient';
+import { NotuRenderTools } from '../helpers/NotuRender';
 
 const meta: Meta<typeof GroupedNoteList> = {
     title: 'GroupedNoteList',
@@ -24,6 +25,8 @@ const notu = new MockHttpClient();
 
 const space1 = newSpace('Space 1', 1).clean();
 
+const renderTools = new NotuRenderTools(null, noteTextSplitter, t => null);
+
 
 export const Primary: Story = {
     args: {
@@ -39,7 +42,7 @@ export const Primary: Story = {
         actionsGenerator: note => [
             new NoteViewerAction('Do something', async n => Promise.resolve(true))
         ],
-        noteTextSplitter: noteTextSplitter,
+        notuRenderTools: renderTools,
         groupBy: n => n.date.getDay(),
         groupHeader: (key, notes) => {
             const day = Number(key);
@@ -63,8 +66,7 @@ export const CanShowNotesWithoutDates: Story = {
         actionsGenerator: note => [
             new NoteViewerAction('Do something', async n => Promise.resolve(true))
         ],
-        noteTextSplitter: noteTextSplitter,
-        noteTagDataComponentResolver: t => null,
+        notuRenderTools: renderTools,
         groupBy: n => n.date.getDay(),
         groupHeader: (key, notes) => {
             const day = Number(key);
@@ -89,8 +91,7 @@ export const CanAddGroupsThatNoNoteSatisfies: Story = {
         actionsGenerator: note => [
             new NoteViewerAction('Do something', async n => Promise.resolve(true))
         ],
-        noteTextSplitter: noteTextSplitter,
-        noteTagDataComponentResolver: t => null,
+        notuRenderTools: renderTools,
         groupBy: n => n.date.getDay(),
         groupHeader: (key, notes) => {
             const day = Number(key);

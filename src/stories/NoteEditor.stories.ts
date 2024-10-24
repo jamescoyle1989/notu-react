@@ -4,6 +4,7 @@ import { Note } from 'notu';
 import { MockHttpClient } from '../helpers/MockHttpClient';
 import { newAttr, newSpace, newTag } from './StoryHelpers';
 import { TestNoteTagDataComponentFactory } from './ReactSnippets';
+import { NotuRenderTools } from '../helpers/NotuRender';
 
 const meta: Meta<typeof NoteEditor> = {
     title: 'NoteEditor',
@@ -33,10 +34,12 @@ const attr2 = newAttr('Date Attr', 2).in(space1).asDate().clean();
 
 const notu = new MockHttpClient();
 
+const renderTools = new NotuRenderTools(notu as any, null, t => null);
+
 
 export const Primary: Story = {
     args: {
-        notu: notu as any,
+        notuRenderTools: renderTools,
         note: new Note('hello')
             .in(space1)
             .at(new Date(1987, 6, 5, 4, 3, 2)),
@@ -47,15 +50,14 @@ export const Primary: Story = {
             return Promise.resolve(true);
         },
         onCancel: note => { console.log('Cancel Clicked'); },
-        onSave: note => { console.log('Note saved'); },
-        noteTagDataComponentResolver: t => null
+        onSave: note => { console.log('Note saved'); }
     }
 };
 
 
 export const DisplaysErrorMessageOnFailedConfirm: Story = {
     args: {
-        notu: notu as any,
+        notuRenderTools: renderTools,
         note: new Note('hello')
             .in(space1)
             .at(new Date(1987, 6, 5, 4, 3, 2)),
@@ -66,15 +68,14 @@ export const DisplaysErrorMessageOnFailedConfirm: Story = {
             throw new Error('This note is crap, try again!');
         },
         onCancel: note => { console.log('Cancel Clicked'); },
-        onSave: note => { console.log('Note saved'); },
-        noteTagDataComponentResolver: t => null
+        onSave: note => { console.log('Note saved'); }
     }
 };
 
 
 export const DoesntCallNotuClientIfOnConfirmReturnsFalse: Story = {
     args: {
-        notu: notu as any,
+        notuRenderTools: renderTools,
         note: new Note('hello')
             .in(space1)
             .at(new Date(1987, 6, 5, 4, 3, 2)),
@@ -85,15 +86,14 @@ export const DoesntCallNotuClientIfOnConfirmReturnsFalse: Story = {
             return Promise.resolve(false);
         },
         onCancel: note => { console.log('Cancel Clicked'); },
-        onSave: note => { console.log('Note saved'); },
-        noteTagDataComponentResolver: t => null
+        onSave: note => { console.log('Note saved'); }
     }
 };
 
 
 export const AllowsRemovalOfAttrsFromSavedNote: Story = {
     args: {
-        notu: notu as any,
+        notuRenderTools: renderTools,
         note: (() => {
             const output = new Note('Hello').in(space1);
             output.id = 123;
@@ -109,15 +109,14 @@ export const AllowsRemovalOfAttrsFromSavedNote: Story = {
             return Promise.resolve(false);
         },
         onCancel: note => { console.log('Cancel Clicked'); },
-        onSave: note => { console.log('Note saved'); },
-        noteTagDataComponentResolver: t => null
+        onSave: note => { console.log('Note saved'); }
     }
 };
 
 
 export const AllowsRemovalOfAttrsFromTagOnNote: Story = {
     args: {
-        notu: notu as any,
+        notuRenderTools: renderTools,
         note: (() => {
             const output = new Note('Hello').in(space1);
             output.id = 123;
@@ -131,15 +130,14 @@ export const AllowsRemovalOfAttrsFromTagOnNote: Story = {
             return Promise.resolve(false);
         },
         onCancel: note => { console.log('Cancel Clicked'); },
-        onSave: note => { console.log('Note saved'); },
-        noteTagDataComponentResolver: t => null
+        onSave: note => { console.log('Note saved'); }
     }
 };
 
 
 export const DisplaysCorrectDateLateAtNightCanadianTime: Story = {
     args: {
-        notu: notu as any,
+        notuRenderTools: renderTools,
         note: (() => {
             const output = new Note('Hello').in(space1).at(new Date(2024, 8, 10, 23, 30));
             output.id = 123;
@@ -152,15 +150,17 @@ export const DisplaysCorrectDateLateAtNightCanadianTime: Story = {
             return Promise.resolve(false);
         },
         onCancel: note => { console.log('Cancel Clicked'); },
-        onSave: note => { console.log('Note saved'); },
-        noteTagDataComponentResolver: t => null
+        onSave: note => { console.log('Note saved'); }
     }
 };
 
 
 export const EditorSupportsNoteTagDataComponent: Story = {
     args: {
-        notu: notu as any,
+        notuRenderTools: new NotuRenderTools(notu as any, null, t => {
+            if (t == tag1)
+                return new TestNoteTagDataComponentFactory();
+        }),
         note: (() => {
             const output = new Note('Hello').in(space1);
             output.addTag(tag1).withData({name: 'Barnabus'});
@@ -174,18 +174,17 @@ export const EditorSupportsNoteTagDataComponent: Story = {
             return Promise.resolve(false);
         },
         onCancel: note => { console.log('Cancel Clicked'); },
-        onSave: note => { console.log('Note saved'); },
-        noteTagDataComponentResolver: t => {
-            if (t == tag1)
-                return new TestNoteTagDataComponentFactory();
-        }
+        onSave: note => { console.log('Note saved'); }
     }
 };
 
 
 export const EditorSupportsAddingNewNoteTagDataComponent: Story = {
     args: {
-        notu: notu as any,
+        notuRenderTools: new NotuRenderTools(notu as any, null, t => {
+            if (t == tag1)
+                return new TestNoteTagDataComponentFactory();
+        }),
         note: (() => {
             const output = new Note('Add Tag 1 to this note').in(space1);
             output.id = 123;
@@ -198,10 +197,6 @@ export const EditorSupportsAddingNewNoteTagDataComponent: Story = {
             return Promise.resolve(false);
         },
         onCancel: note => { console.log('Cancel Clicked'); },
-        onSave: note => { console.log('Note saved'); },
-        noteTagDataComponentResolver: t => {
-            if (t == tag1)
-                return new TestNoteTagDataComponentFactory();
-        }
+        onSave: note => { console.log('Note saved'); }
     }
 };
