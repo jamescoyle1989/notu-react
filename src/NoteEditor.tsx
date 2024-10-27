@@ -1,13 +1,13 @@
 import React from 'react';
-import { Attr, Note, NoteAttr, NoteTag, Notu, Tag } from 'notu';
+import { Attr, Note, NoteAttr, NoteTag, Tag } from 'notu';
 import { useState } from 'react';
 import { NoteTagBadge } from './NoteTagBadge';
 import 'bulma';
 import { NoteAttrEditor } from './NoteAttrEditor';
 import { useManualRefresh } from './Hooks';
 import { getTextColorClass } from './helpers/ColorHelpers';
-import { NoteTagDataComponentFactory } from './notetagdata/NoteTagDataComponentFactory';
 import { NotuRenderTools } from './helpers/NotuRender';
+import { DateTimePicker } from './DateTimePicker';
 
 interface NoteEditorProps {
     /** Used for saving the note once changes have been confirmed */
@@ -38,9 +38,6 @@ export const NoteEditor = ({
 }: NoteEditorProps) => {
     if (!note.space)
         return (<p>Note must define the space that it belongs to</p>);
-
-    const date = `${note.date.getFullYear()}-${(note.date.getMonth() + 1).toString().padStart(2, '0')}-${note.date.getDate().toString().padStart(2, '0')}`;
-    const time = `${note.date.getHours().toString().padStart(2, '0')}:${note.date.getMinutes().toString().padStart(2, '0')}`;
 
     const [ownTagName, setOwnTagName] = useState(note.ownTag?.name ?? '');
     const [showAttrsForTag, setShowAttrsForTag] = useState<Tag>(null);
@@ -305,14 +302,7 @@ export const NoteEditor = ({
                 <div className="field">
                     <label className="label">Date</label>
                     <div className="control">
-                        <div className="field has-addons">
-                            <p className="control">
-                                <input type="date" className="input" name="date" defaultValue={date}></input>
-                            </p>
-                            <p className="control">
-                                <input type="time" className="input" name="time" defaultValue={time}></input>
-                            </p>
-                        </div>
+                        <DateTimePicker value={note.date} onChange={d => note.date}/>
                     </div>
                 </div>
 

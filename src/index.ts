@@ -1,3 +1,4 @@
+import { DateTimePicker } from './DateTimePicker';
 import { GroupedNoteList, PanelGroupedNoteList } from './GroupedNoteList';
 import { LoginView } from './LoginView';
 import { NoteAttrBadge } from './NoteAttrBadge';
@@ -18,6 +19,7 @@ import { useNotu, useManualRefresh } from './Hooks';
 import { NotuRenderTools } from './helpers/NotuRender';
 
 export {
+    DateTimePicker,
     GroupedNoteList, PanelGroupedNoteList,
     LoginView,
     NoteAttrBadge,
