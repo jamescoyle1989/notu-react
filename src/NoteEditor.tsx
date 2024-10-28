@@ -46,7 +46,6 @@ export const NoteEditor = ({
 
     async function submitNote(evt): Promise<void> {
         evt.preventDefault();
-        note.date = new Date(`${evt.target.elements.date.value} ${evt.target.elements.time.value}`);
         note.text = evt.target.elements.text.value;
         try {
             const confirmResult = await onConfirm(note);
@@ -302,7 +301,7 @@ export const NoteEditor = ({
                 <div className="field">
                     <label className="label">Date</label>
                     <div className="control">
-                        <DateTimePicker value={note.date} onChange={d => note.date}/>
+                        <DateTimePicker value={note.date} onChange={d => note.date = d}/>
                     </div>
                 </div>
 
