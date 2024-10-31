@@ -1,6 +1,6 @@
 {
   "name": "notu-react",
-  "version": "0.10.4",
+  "version": "0.10.5",
   "main": "dist/esm/notu-react.js",
   "module": "dist/esm/notu-react.js",
   "unpkg": "dist/esm/notu-react.js",
@@ -49,7 +49,7 @@
     "eslint": "^8.53.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.4",
-    "notu": "^0.11.6",
+    "notu": "^0.11.7",
     "postcss": "^8.4.35",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

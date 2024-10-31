@@ -5,17 +5,23 @@ export class NoteLink {
     private _url: string;
     get url(): string { return this._url; }
 
-    constructor(url: string) {
+    private _alias: string;
+    get alias(): string { return this._alias; }
+
+    constructor(url: string, alias: string) {
         this._url = url;
+        this._alias = alias;
     }
 
     render() {
         return (
-            <a href={this.url} target="_blank">{this.url}</a>
+            <a href={this.url} target="_blank">{this.alias ?? this.url}</a>
         );
     }
 
     getText(): string {
+        if (!!this.alias)
+            return `<Link>(${this.alias}) ${this.url}</Link>`;
         return `<Link>${this.url}</Link>`;
     }
 }
@@ -57,6 +63,12 @@ export class NoteLinkProcessor {
     ): NoteLink {
         const content = info.text.replace('<Link>', '').replace('</Link>', '').trim();
 
-        return new NoteLink(content);
+        const regexResult = /(?:\((.*?)\))?(.*)/.exec(content);
+        const url = regexResult[2];
+        let alias = regexResult[1];
+        if (!alias)
+            alias = null;
+
+        return new NoteLink(url, alias);
     }
 }
