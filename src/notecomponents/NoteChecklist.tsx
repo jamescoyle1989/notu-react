@@ -59,16 +59,7 @@ export class NoteChecklist {
 
 export class NoteChecklistProcessor {
 
-    constructor() {
-        this.creator = (info: NoteComponentInfo, note: Note, save: () => Promise<void>, previous: NoteComponentInfo, next: NoteComponentInfo) => {
-            const lines = info.text
-                .replace('<Checklist>', '')
-                .replace('</Checklist>', '')
-                .trim().split('\n');
-    
-            return new NoteChecklist(lines, save);
-        }
-    }
+    get componentShowsInlineInParagraph(): boolean { return false; }
 
     identify(text: string): NoteComponentInfo {
         const start = text.indexOf('<Checklist>');
@@ -84,11 +75,12 @@ export class NoteChecklistProcessor {
         return new NoteComponentInfo(componentText, start, this);
     }
 
-    creator: (
-        info: NoteComponentInfo,
-        note: Note,
-        save: () => Promise<void>,
-        previous: NoteComponentInfo,
-        next: NoteComponentInfo
-    ) => NoteChecklist;
+    create(info: NoteComponentInfo, note: Note, save: () => Promise<void>): NoteChecklist {
+        const lines = info.text
+            .replace('<Checklist>', '')
+            .replace('</Checklist>', '')
+            .trim().split('\n');
+    
+        return new NoteChecklist(lines, save);
+    }
 }

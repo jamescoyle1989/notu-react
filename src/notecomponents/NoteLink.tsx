@@ -28,9 +28,7 @@ export class NoteLink {
 
 export class NoteLinkProcessor {
 
-    constructor() {
-        this.creator = this.create;
-    }
+    get componentShowsInlineInParagraph(): boolean { return true; }
 
     identify(text: string): NoteComponentInfo {
         const start = text.indexOf('<Link>');
@@ -46,21 +44,7 @@ export class NoteLinkProcessor {
         return new NoteComponentInfo(componentText, start, this);
     }
 
-    creator: (
-        info: NoteComponentInfo,
-        note: Note,
-        save: () => Promise<void>,
-        previous: NoteComponentInfo,
-        next: NoteComponentInfo
-    ) => NoteLink;
-
-    create(
-        info: NoteComponentInfo,
-        note: Note,
-        save: () => Promise<void>,
-        previous: NoteComponentInfo,
-        next: NoteComponentInfo
-    ): NoteLink {
+    create(info: NoteComponentInfo, note: Note, save: () => Promise<void>): NoteLink {
         const content = info.text.replace('<Link>', '').replace('</Link>', '').trim();
 
         const regexResult = /(?:\((.*?)\))?(.*)/.exec(content);

@@ -26,9 +26,7 @@ export class NoteImage {
 
 export class NoteImageProcessor {
 
-    constructor() {
-        this.creator = this.create;
-    }
+    get componentShowsInlineInParagraph(): boolean { return false; }
 
     identify(text: string): NoteComponentInfo {
         const start = text.indexOf('<Image>');
@@ -44,21 +42,7 @@ export class NoteImageProcessor {
         return new NoteComponentInfo(componentText, start, this);
     }
 
-    creator: (
-        info: NoteComponentInfo,
-        note: Note,
-        save: () => Promise<void>,
-        previous: NoteComponentInfo,
-        next: NoteComponentInfo
-    ) => NoteImage;
-
-    create(
-        info: NoteComponentInfo,
-        note: Note,
-        save: () => Promise<void>,
-        previous: NoteComponentInfo,
-        next: NoteComponentInfo
-    ): NoteImage {
+    create(info: NoteComponentInfo, note: Note, save: () => Promise<void>): NoteImage {
         const lines = info.text
             .replace('<Image>', '')
             .replace('</Image>', '')

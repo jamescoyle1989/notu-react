@@ -66,7 +66,7 @@ export const NoActions: Story = {
         isSelected: true,
         notuRenderTools: renderTools
     }
-}
+};
 
 
 export const CanHideDate: Story = {
@@ -85,7 +85,7 @@ export const CanHideDate: Story = {
         showDate: false,
         notuRenderTools: renderTools
     }
-}
+};
 
 
 export const DisplaysNewLinesCorrectly: Story = {
@@ -100,7 +100,7 @@ export const DisplaysNewLinesCorrectly: Story = {
         showDate: true,
         notuRenderTools: renderTools
     }
-}
+};
 
 
 export const DisplaysChecklistsCorrectly: Story = {
@@ -115,7 +115,7 @@ export const DisplaysChecklistsCorrectly: Story = {
         showDate: true,
         notuRenderTools: renderTools
     }
-}
+};
 
 
 export const DisplaysImagesCorrectly: Story = {
@@ -130,7 +130,7 @@ export const DisplaysImagesCorrectly: Story = {
         showDate: true,
         notuRenderTools: renderTools
     }
-}
+};
 
 
 export const DisplaysLinksCorrectly: Story = {
@@ -145,7 +145,7 @@ export const DisplaysLinksCorrectly: Story = {
         showDate: true,
         notuRenderTools: renderTools
     }
-}
+};
 
 export const DisplaysAliasedLinksCorrectly: Story = {
     args: {
@@ -159,7 +159,7 @@ export const DisplaysAliasedLinksCorrectly: Story = {
         showDate: true,
         notuRenderTools: renderTools
     }
-}
+};
 
 
 export const DisplaysRandomChoiceCorrectly: Story = {
@@ -178,4 +178,34 @@ Halasana
         showDate: true,
         notuRenderTools: renderTools
     }
-}
+};
+
+
+export const LinksDisplayInline: Story = {
+    args: {
+        note: (() => {
+            const output = new Note('This is a piece of text that has a <Link>(link)https://www.google.com</Link> buried within it.')
+                .in(space1);
+            return output;
+        })(),
+        actions: [],
+        isSelected: true,
+        showDate: true,
+        notuRenderTools: renderTools
+    }
+};
+
+
+export const ImagesDisplayOnSeparateLines: Story = {
+    args: {
+        note: (() => {
+            const output = new Note('This is a piece of text that has an image <Image>./src/stories/assets/docs.png</Image> buried within it.')
+                .in(space1);
+            return output;
+        })(),
+        actions: [],
+        isSelected: true,
+        showDate: true,
+        notuRenderTools: renderTools
+    }
+};

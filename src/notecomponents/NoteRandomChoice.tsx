@@ -26,9 +26,7 @@ export class NoteRandomChoice {
 
 export class NoteRandomChoiceProcessor {
 
-    constructor() {
-        this.creator = this.create;
-    }
+    get componentShowsInlineInParagraph(): boolean { return false; }
     
     identify(text: string): NoteComponentInfo {
         const start = text.indexOf('<RandomChoice>');
@@ -44,15 +42,7 @@ export class NoteRandomChoiceProcessor {
         return new NoteComponentInfo(componentText, start, this);
     }
 
-    creator: (
-        info: NoteComponentInfo,
-        note: Note,
-        save: () => Promise<void>,
-        previous: NoteComponentInfo,
-        next: NoteComponentInfo
-    ) => NoteRandomChoice;
-
-    create(info: NoteComponentInfo, note: Note, save: () => Promise<void>, previous: NoteComponentInfo, next: NoteComponentInfo): NoteRandomChoice {
+    create(info: NoteComponentInfo, note: Note, save: () => Promise<void>): NoteRandomChoice {
         const lines = info.text
             .replace('<RandomChoice>', '')
             .replace('</RandomChoice>', '')

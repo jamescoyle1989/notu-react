@@ -18,7 +18,7 @@ export class NoteText {
             return;
 
         return (
-            <p style={{whiteSpace: 'pre-line'}}>{this._displayText}</p>
+            <span style={{whiteSpace: 'pre-line'}}>{this._displayText}</span>
         )
     }
 
@@ -30,18 +30,7 @@ export class NoteText {
 
 export class NoteTextProcessor {
 
-    constructor() {
-        this.creator = (info: NoteComponentInfo, note: Note, save: () => Promise<void>, previous: NoteComponentInfo, next: NoteComponentInfo) => {
-            let displayText = info.text.replace('<Text>', '').replace('</Text>', '');
-            const firstLineBreakIndex = displayText.indexOf('\n');
-            if (firstLineBreakIndex >= 0 && displayText.substring(0, firstLineBreakIndex).trim() == '')
-                displayText = displayText.substring(firstLineBreakIndex + 1);
-            const lastLineBreakIndex = displayText.lastIndexOf('\n');
-            if (lastLineBreakIndex >= 0 && displayText.substring(lastLineBreakIndex).trim() == '')
-                displayText = displayText.substring(0, lastLineBreakIndex);
-            return new NoteText(displayText, info.text);
-        }
-    }
+    get componentShowsInlineInParagraph(): boolean { return true; }
 
     identify(text: string): NoteComponentInfo {
         const start = text.indexOf('<Text>');
@@ -57,40 +46,29 @@ export class NoteTextProcessor {
         return new NoteComponentInfo(componentText, start, this);
     }
 
-    creator: (
-        info: NoteComponentInfo,
-        note: Note,
-        save: () => Promise<void>,
-        previous: NoteComponentInfo,
-        next: NoteComponentInfo
-    ) => NoteText;
+    create(info: NoteComponentInfo, note: Note, save: () => Promise<void>): NoteText {
+        let displayText = info.text.replace('<Text>', '').replace('</Text>', '');
+        return new NoteText(displayText, info.text);
+    }
 }
 
 
 export class DefaultTextProcessor {
 
-    constructor() {
-        this.creator = (info: NoteComponentInfo, note: Note, save: () => Promise<void>, previous: NoteComponentInfo, next: NoteComponentInfo) => {
-            let displayText = info.text;
-            const firstLineBreakIndex = displayText.indexOf('\n');
-            if (firstLineBreakIndex >= 0 && !!previous && displayText.substring(0, firstLineBreakIndex).trim() == '')
-                displayText = displayText.substring(firstLineBreakIndex + 1);
-            const lastLineBreakIndex = displayText.lastIndexOf('\n');
-            if (lastLineBreakIndex >= 0 && !!next && displayText.substring(lastLineBreakIndex).trim() == '')
-                displayText = displayText.substring(0, lastLineBreakIndex);
-            return new NoteText(displayText, info.text);
-        }
-    }
+    get componentShowsInlineInParagraph(): boolean { return true; }
 
     identify(text: string): NoteComponentInfo {
         return new NoteComponentInfo(text, 0, this);
     }
 
-    creator: (
-        info: NoteComponentInfo,
-        note: Note,
-        save: () => Promise<void>,
-        previous: NoteComponentInfo,
-        next: NoteComponentInfo
-    ) => NoteText;
+    create(info: NoteComponentInfo, note: Note, save: () => Promise<void>): NoteText {
+        let displayText = info.text;
+        const firstLineBreakIndex = displayText.indexOf('\n');
+        if (firstLineBreakIndex >= 0 && displayText.substring(0, firstLineBreakIndex).trim() == '')
+            displayText = displayText.substring(firstLineBreakIndex + 1);
+        const lastLineBreakIndex = displayText.lastIndexOf('\n');
+        if (lastLineBreakIndex >= 0 && displayText.substring(lastLineBreakIndex).trim() == '')
+            displayText = displayText.substring(0, lastLineBreakIndex);
+        return new NoteText(displayText, info.text);
+    }
 }

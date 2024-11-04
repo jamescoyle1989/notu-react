@@ -5,6 +5,8 @@ import { NoteChecklistProcessor } from '../notecomponents/NoteChecklist';
 import { NoteImageProcessor } from '../notecomponents/NoteImage';
 import { NoteLinkProcessor } from '../notecomponents/NoteLink';
 import { NoteRandomChoiceProcessor } from '../notecomponents/NoteRandomChoice';
+import { NoteComponent } from 'notu/dist/types/notecomponents/NoteComponent';
+import { NoteParagraph } from '../notecomponents/NoteParagraph';
 
 
 export function noteTextSplitter(note: Note): Array<any> {
@@ -18,6 +20,7 @@ export function noteTextSplitter(note: Note): Array<any> {
             new NoteLinkProcessor(),
             new NoteRandomChoiceProcessor()
         ],
-        new DefaultTextProcessor()
+        new DefaultTextProcessor(),
+        (components: Array<NoteComponent>) => new NoteParagraph(components)
     );
 }
