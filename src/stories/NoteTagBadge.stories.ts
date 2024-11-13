@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { NoteTagBadge } from '../NoteTagBadge';
-import { Note } from 'notu';
+import { Note, Notu, NotuCache } from 'notu';
 import { newSpace, newTag } from './StoryHelpers';
 import { TestNoteTagDataComponentFactory } from './ReactSnippets';
 import { NotuRenderTools } from '../helpers/NotuRender';
@@ -21,7 +21,23 @@ type Story = StoryObj<typeof meta>;
 const space1 = newSpace('Space', 1).clean();
 const space2 = newSpace('Space 2', 2).clean();
 
-const renderTools = new NotuRenderTools(null, null, t => null);
+const cacheFetcher = {
+    getSpacesData: async function() { return [
+        { state:'CLEAN', id:1, name:'Space', version:'1.0.0', useCommonSpace:false },
+        { state:'CLEAN', id:2, name:'Space 2', version:'1.0.0', useCommonSpace:false }
+    ]; },
+    getTagsData: async function() { return [
+        { state:'CLEAN', id:123, name:'Test', spaceId:1, color:null, isPublic:true, links:[] },
+        { state:'CLEAN', id:234, name:'Test 2', spaceId:2, color:null, isPUblic:true, links:[] }
+    ]; },
+    getAttrsData: async function() { return []; }
+};
+const notu = new Notu(
+    null,
+    new NotuCache(cacheFetcher)
+);
+notu.cache.populate();
+const renderTools = new NotuRenderTools(notu, null, t => null);
 
 
 
@@ -54,13 +70,27 @@ export const WithDeleteButton: Story = {
 export const ShowsSpaceNameIfRequired: Story = {
     args: {
         noteTag: (() => {
-            const tag = newTag('Test', 123).in(space2).asPublic().clean();
+            const tag = newTag('Test 2', 234).in(space2).asPublic().clean();
             return new Note().in(space1).addTag(tag);
         })(),
         contextSpaceId: 1,
         onDelete: null,
         showAttrs: true,
         notuRenderTools: renderTools
+    }
+}
+
+export const SupportsUsingUniqueName: Story = {
+    args: {
+        noteTag: (() => {
+            const tag = newTag('Test 2', 234).in(space2).asPublic().clean();
+            return new Note().in(space1).addTag(tag);
+        })(),
+        contextSpaceId: 1,
+        onDelete: null,
+        showAttrs: true,
+        notuRenderTools: renderTools,
+        useUniqueName: true
     }
 }
 

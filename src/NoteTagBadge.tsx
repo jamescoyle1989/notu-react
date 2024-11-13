@@ -1,9 +1,8 @@
 import React from 'react';
-import { Note, NoteTag, Tag } from 'notu';
+import { Note, NoteTag } from 'notu';
 import 'bulma';
 import { NotuRenderTools, renderNoteAttrValue } from './helpers/NotuRender';
 import { getTextColorClass } from './helpers/ColorHelpers';
-import { NoteTagDataComponentFactory } from './notetagdata/NoteTagDataComponentFactory';
 
 
 interface NoteTagBadgeProps {
@@ -13,7 +12,8 @@ interface NoteTagBadgeProps {
     contextSpaceId: number,
     onDelete?: () => void,
     showAttrs: boolean,
-    isOwnTag?: boolean
+    isOwnTag?: boolean,
+    useUniqueName?: boolean
 }
 
 
@@ -24,7 +24,8 @@ export const NoteTagBadge = ({
     contextSpaceId,
     onDelete = null,
     showAttrs,
-    isOwnTag = false
+    isOwnTag = false,
+    useUniqueName = false
 }: NoteTagBadgeProps) => {
 
     function renderDeleteButton() {
@@ -69,7 +70,7 @@ export const NoteTagBadge = ({
     return (
         <span className={`tag is-small is-unselectable is-rounded mr-1 ${getTextWeight()} ${getTextColor()}`}
             style={{backgroundColor: getBackgroundColor()}}>
-            {noteTag.tag.getQualifiedName(contextSpaceId)}
+            {useUniqueName ? noteTag.tag.getUniqueName(notuRenderTools.notu.cache) : noteTag.tag.getQualifiedName(contextSpaceId)}
             {renderTagAttributes()}
             {renderNoteTagData()}
             {renderDeleteButton()}
