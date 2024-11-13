@@ -126,7 +126,7 @@ export const NoteViewer = ({
                         <NoteTagBadge key={nt.tag.id} 
                                     noteTag={nt} note={note} notuRenderTools={notuRenderTools}
                                     contextSpaceId={note.space.id}
-                                    showAttrs={true}>
+                                    showAttrs={true} useUniqueName={true}>
                         </NoteTagBadge>
                     ))}
 
