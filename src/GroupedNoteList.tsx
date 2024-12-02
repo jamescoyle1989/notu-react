@@ -1,9 +1,9 @@
-import { Note, Notu, Tag } from 'notu';
+import { Note } from 'notu';
 import React, { useState } from 'react';
-import { NoteViewer, NoteViewerAction } from './NoteViewer';
+import { NoteViewer } from './NoteViewer';
+import { NoteViewerAction } from './NoteActionsViewer';
 import { NotesPanelDisplay } from './NotesPanel';
 import styles from './GroupedNoteList.module.css';
-import { NoteTagDataComponentFactory } from './notetagdata/NoteTagDataComponentFactory';
 import { NotuRenderTools } from './helpers/NotuRender';
 
 interface GroupedNoteListProps {

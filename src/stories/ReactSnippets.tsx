@@ -1,22 +1,19 @@
 import React from 'react';
-import { NoteViewer, NoteViewerAction } from "../NoteViewer";
-import { Note, NoteTag, Notu, Tag } from 'notu';
-import { NoteTagDataComponentFactory } from '../notetagdata/NoteTagDataComponentFactory';
+import { NoteViewer } from '../NoteViewer';
+import { NoteViewerAction } from '../NoteActionsViewer';
+import { Note, NoteTag } from 'notu';
+import { NotuRenderTools } from '../helpers/NotuRender';
 
 export function noteViewerWithoutDate(
     note: Note,
-    notu: Notu,
+    notuRenderTools: NotuRenderTools,
     actions: Array<NoteViewerAction>,
-    isSelected: boolean,
-    noteTextSplitter: (note: Note) => Array<any>,
-    noteTagDataComponentResolver: (tag: Tag, note: Note) => NoteTagDataComponentFactory
+    isSelected: boolean
 ) {
     return (
-        <NoteViewer note={note} notu={notu} actions={actions}
+        <NoteViewer note={note} notuRenderTools={notuRenderTools} actions={actions}
                     isSelected={isSelected}
-                    showDate={false}
-                    noteTextSplitter={noteTextSplitter}
-                    noteTagDataComponentResolver={noteTagDataComponentResolver}/>
+                    showDate={false}/>
     )
 }
 

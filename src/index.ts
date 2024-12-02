@@ -1,6 +1,7 @@
 import { DateTimePicker } from './DateTimePicker';
 import { GroupedNoteList, PanelGroupedNoteList } from './GroupedNoteList';
 import { LoginView } from './LoginView';
+import { NoteActionsViewer, NoteViewerAction } from './NoteActionsViewer';
 import { NoteAttrBadge } from './NoteAttrBadge';
 import { NoteAttrEditor } from './NoteAttrEditor';
     import { NoteChecklistProcessor } from './notecomponents/NoteChecklist';
@@ -14,7 +15,7 @@ import { NotesPanel } from './NotesPanel';
 import { NoteSearch, PanelNoteSearch } from './NoteSearch';
 import { NoteTagBadge } from './NoteTagBadge';
 import { NoteList, PanelNoteList } from './NoteList';
-import { NoteViewer, NoteViewerAction } from './NoteViewer';
+import { NoteViewer } from './NoteViewer';
 import { RelatedTagSelector, PanelRelatedTagSelector } from './RelatedTagSelector';
 import { useNotu, useManualRefresh } from './Hooks';
 import { NotuRenderTools } from './helpers/NotuRender';
@@ -23,6 +24,7 @@ export {
     DateTimePicker,
     GroupedNoteList, PanelGroupedNoteList,
     LoginView,
+    NoteActionsViewer, NoteViewerAction,
     NoteAttrBadge,
     NoteAttrEditor,
         NoteChecklistProcessor, NoteImageProcessor, NoteLinkProcessor,
@@ -33,7 +35,7 @@ export {
     NoteSearch, PanelNoteSearch,
     NoteTagBadge,
     NoteList, PanelNoteList,
-    NoteViewer, NoteViewerAction,
+    NoteViewer,
     NotuRenderTools,
     RelatedTagSelector, PanelRelatedTagSelector,
     useNotu, useManualRefresh

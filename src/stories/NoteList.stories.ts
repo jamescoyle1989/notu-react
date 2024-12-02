@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { NoteList } from '../NoteList';
 import { Note } from 'notu';
-import { NoteViewerAction } from '../NoteViewer';
+import { NoteViewerAction } from '../NoteActionsViewer';
 import { newSpace } from './StoryHelpers';
 import { noteTextSplitter } from '../helpers/NoteComponentHelpers';
 import { NotuRenderTools } from '../helpers/NotuRender';

@@ -1,6 +1,6 @@
 {
   "name": "notu-react",
-  "version": "0.11.4",
+  "version": "0.12.0",
   "main": "dist/esm/notu-react.js",
   "module": "dist/esm/notu-react.js",
   "unpkg": "dist/esm/notu-react.js",

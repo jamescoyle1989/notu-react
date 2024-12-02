@@ -1,9 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { NoteViewer, NoteViewerAction } from '../NoteViewer';
-import { Note } from 'notu';
-import { newAttr, newSpace, newTag } from './StoryHelpers';
+import { NoteViewer } from '../NoteViewer';
+import { NoteViewerAction } from '../NoteActionsViewer';
+import { Note, Notu, NotuCache } from 'notu';
+import { FakeCacheFetcher, newAttr, newSpace, newTag } from './StoryHelpers';
 import { noteTextSplitter } from '../helpers/NoteComponentHelpers';
 import { NotuRenderTools } from '../helpers/NotuRender';
+import { MockHttpClient } from '../helpers/MockHttpClient';
 
 const meta: Meta<typeof NoteViewer> = {
     title: 'NoteViewer',
@@ -17,7 +19,6 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-
 const space1 = newSpace('Space 1', 1).clean();
 
 const tag1 = newTag('Tag 1', 1).in(space1);
@@ -26,7 +27,18 @@ tag1.clean();
 
 const attr1 = newAttr('Attr 1', 1).in(space1).asNumber().clean();
 
-const renderTools = new NotuRenderTools(null, noteTextSplitter, t => null);
+const cache = new FakeCacheFetcher();
+cache.spaces = [space1];
+cache.tags = [tag1];
+
+const notu = new Notu(
+    new MockHttpClient() as any,
+    new NotuCache(cache)
+);
+notu.cache.populate();
+
+const renderTools = new NotuRenderTools(notu, noteTextSplitter, t => null);
+console.log({renderTools});
 
 
 export const Primary: Story = {

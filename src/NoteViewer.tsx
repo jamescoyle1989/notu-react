@@ -2,10 +2,12 @@ import React, { useMemo, useRef } from 'react';
 import { Note, NoteTag } from 'notu';
 import { NoteTagBadge } from './NoteTagBadge';
 import 'bulma';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { NoteAttrBadge } from './NoteAttrBadge';
 import { NoteComponentContainer } from './notecomponents/NoteComponentContainer';
 import { NotuRenderTools } from './helpers/NotuRender';
+import { NoteActionsViewer, NoteActionsViewerCommands, NoteViewerAction } from './NoteActionsViewer';
+
 
 interface NoteViewerProps {
     note: Note,
@@ -16,17 +18,6 @@ interface NoteViewerProps {
 }
 
 
-export class NoteViewerAction {
-    name: string;
-    action: (note: Note) => void;
-
-    public constructor(name: string, action: (note: Note) => void) {
-        this.name = name;
-        this.action = action;
-    }
-}
-
-
 export const NoteViewer = ({
     note,
     notuRenderTools,
@@ -34,37 +25,20 @@ export const NoteViewer = ({
     isSelected,
     showDate = true
 }: NoteViewerProps) => {
-    const [showActions, setShowActions] = useState(false);
     const textComponents = useMemo(() => notuRenderTools.noteTextSplitter(note), [note, note.text]);
+    const actionsRef = useRef();
 
     useEffect(() => {
         if (!isSelected)
-            setShowActions(false);
+            collapseActions();
     }, [isSelected]);
-    const menuDivRef = useRef();
-    useEffect(() => {
-        if (!menuDivRef.current)
-            document.removeEventListener('click', onDocumentClick);
-        else
-            document.addEventListener('click', onDocumentClick);
-        return () => document.removeEventListener('click', onDocumentClick);
-    }, [menuDivRef]);
 
-    function onDocumentClick(evt) {
-        if (!(menuDivRef.current as any).contains(evt.target))
-            setShowActions(false);
+    function collapseActions() {
+        if (!!actionsRef)
+            (actionsRef.current as NoteActionsViewerCommands).collapse();
     }
 
     const dateTimeString = `${note.date.toDateString()} ${note.date.getHours().toString().padStart(2, '0')}:${note.date.getMinutes().toString().padStart(2, '0')}`;
-
-    function toggleShowActions() {
-        setShowActions(!showActions);
-    }
-
-    function callAction(action: (note: Note) => void) {
-        action(note);
-        setShowActions(false);
-    }
 
     function renderDate() {
         if (showDate)
@@ -90,31 +64,12 @@ export const NoteViewer = ({
                          className='is-inline mr-2'/>);
     }
 
-    function renderActions() {
-        if (actions?.length ?? 0 > 0) {
-            return (
-                <div className={`dropdown is-left mr-2 ${showActions ? 'is-active' : ''}`} ref={menuDivRef}>
-                    <div className="dropdown-trigger">
-                        <button className="button" aria-haspopup="true" aria-controls="dropdown-menu"
-                                onClick={toggleShowActions}>•••</button>
-                    </div>
-                    <div className="dropdown-menu" role="menu">
-                        <div className="dropdown-content">
-                            {actions.map(x => (
-                                <a key={x.name} className="dropdown-item" onClick={() => callAction(x.action)}>{x.name}</a>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            );
-        }
-    }
-
     return (
         <div className={`is-flex is-align-items-center pt-1 pb-1 ${isSelected ? 'has-background-light' : 'has-background-white'}`}>
-            {renderActions()}
             
-            <div className="is-flex-grow-1" onClick={() => setShowActions(false)}>
+            <NoteActionsViewer note={note} actions={actions} ref={actionsRef}/>
+            
+            <div className="is-flex-grow-1" onClick={collapseActions}>
                 {renderDate()}
 
                 {textComponents.map((x, index) => (<NoteComponentContainer key={index} component={x}/>))}

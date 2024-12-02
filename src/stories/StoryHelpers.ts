@@ -1,4 +1,4 @@
-import { Attr, Note, Notu, Space, Tag } from 'notu';
+import { Attr, Note, Space, Tag } from 'notu';
 
 
 export function newNote(text?: string, id: number = null): Note {
@@ -61,5 +61,24 @@ Doop
             newTag('Tag 2', 2).in(this._space1).clean(),
             newTag('Tag 3', 3).in(this._space1).clean()
         ];
+    }
+}
+
+
+export class FakeCacheFetcher {
+    spaces: Array<Space> = [];
+    tags: Array<Tag> = [];
+    attrs: Array<Attr> = [];
+
+    getSpacesData(): Promise<Array<any>> {
+        return Promise.resolve(this.spaces.map(x => x.toJSON()));
+    }
+
+    getTagsData(): Promise<Array<any>> {
+        return Promise.resolve(this.tags.map(x => x.toJSON()));
+    }
+
+    getAttrsData(): Promise<Array<any>> {
+        return Promise.resolve(this.attrs.map(x => x.toJSON()));
     }
 }

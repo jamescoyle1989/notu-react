@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { GroupedNoteList } from '../GroupedNoteList';
 import { Note } from 'notu';
-import { NoteViewerAction } from '../NoteViewer';
+import { NoteViewerAction } from '../NoteActionsViewer';
 import { noteViewerWithoutDate } from './ReactSnippets';
 import { newSpace } from './StoryHelpers';
 import { noteTextSplitter } from '../helpers/NoteComponentHelpers';
@@ -72,7 +72,7 @@ export const CanShowNotesWithoutDates: Story = {
             const day = Number(key);
             return ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][day];
         },
-        noteViewer: (note, actions, isSelected, splitter) => noteViewerWithoutDate(note, notu as any, actions, isSelected, splitter, t => null)
+        noteViewer: (note, actions, isSelected, splitter) => noteViewerWithoutDate(note, renderTools, actions, isSelected)
     }
 }
 
@@ -98,6 +98,6 @@ export const CanAddGroupsThatNoNoteSatisfies: Story = {
             return ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][day];
         },
         groups: notes => [0,1,2,3,4,5,6],
-        noteViewer: (note, actions, isSelected, splitter) => noteViewerWithoutDate(note, notu as any, actions, isSelected, splitter, t => null)
+        noteViewer: (note, actions, isSelected, splitter) => noteViewerWithoutDate(note, renderTools, actions, isSelected)
     }
 }

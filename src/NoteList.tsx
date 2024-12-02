@@ -1,6 +1,7 @@
 import React from 'react';
 import { Note } from 'notu';
-import { NoteViewer, NoteViewerAction } from './NoteViewer';
+import { NoteViewer } from './NoteViewer';
+import { NoteViewerAction } from './NoteActionsViewer';
 import { useState } from 'react';
 import { NotesPanelDisplay } from './NotesPanel';
 import styles from './NoteList.module.css'
