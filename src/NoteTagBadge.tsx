@@ -64,7 +64,7 @@ export const NoteTagBadge = ({
         if (!dataComponent)
             return;
 
-        return dataComponent.getBadgeComponent(noteTag, notuRenderTools.notu);
+        return dataComponent.getBadgeComponent(noteTag, note, notuRenderTools.notu);
     }
 
     return (

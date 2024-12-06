@@ -289,7 +289,7 @@ export const NoteEditor = ({
 
         return (<div key={noteTag.tag.id}>
             <label className="label">{noteTag.tag.getQualifiedName(note.space.id)}</label>
-            <div className="box mb-3">{dataComponent.getEditorComponent(noteTag, notuRenderTools.notu)}</div>
+            <div className="box mb-3">{dataComponent.getEditorComponent(noteTag, note, notuRenderTools.notu)}</div>
         </div>);
     }
 
