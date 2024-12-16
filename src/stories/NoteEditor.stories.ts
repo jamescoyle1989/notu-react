@@ -200,3 +200,41 @@ export const EditorSupportsAddingNewNoteTagDataComponent: Story = {
         onSave: note => { console.log('Note saved'); }
     }
 };
+
+
+export const CanSetOwnTagModeToRequired: Story = {
+    args: {
+        notuRenderTools: renderTools,
+        note: new Note('hello')
+            .in(space1)
+            .at(new Date(1987, 6, 5, 4, 3, 2)),
+        tags: [tag2, tag1],
+        attrs: [attr1, attr2],
+        ownTagMode: 'Required',
+        onConfirm: note => {
+            console.log('Confirm Clicked', note);
+            return Promise.resolve(true);
+        },
+        onCancel: note => { console.log('Cancel Clicked'); },
+        onSave: note => { console.log('Note saved'); }
+    }
+};
+
+
+export const CanSetOwnTagModeToNone: Story = {
+    args: {
+        notuRenderTools: renderTools,
+        note: new Note('hello')
+            .in(space1)
+            .at(new Date(1987, 6, 5, 4, 3, 2)),
+        tags: [tag2, tag1],
+        attrs: [attr1, attr2],
+        ownTagMode: 'None',
+        onConfirm: note => {
+            console.log('Confirm Clicked', note);
+            return Promise.resolve(true);
+        },
+        onCancel: note => { console.log('Cancel Clicked'); },
+        onSave: note => { console.log('Note saved'); }
+    }
+};

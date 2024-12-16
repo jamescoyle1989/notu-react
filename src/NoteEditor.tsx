@@ -23,7 +23,9 @@ interface NoteEditorProps {
     /** Called when the cancel button is clicked */
     onCancel: (note: Note) => void,
     /** Called when onConfirm has indicated that the NoteEditor should proceed with the save automatically, and the save has gone through successfully */
-    onSave: (note: Note) => void
+    onSave: (note: Note) => void,
+    /** Default mode is Optional, which allows the user to choose if they want to give a note its own tag. Required means that the note must have its own tag set, and None hides the own tag field entirely. */
+    ownTagMode: ('Optional' | 'Required' | 'None')
 }
 
 
@@ -34,12 +36,12 @@ export const NoteEditor = ({
     attrs,
     onConfirm,
     onCancel,
-    onSave
+    onSave,
+    ownTagMode = 'Optional'
 }: NoteEditorProps) => {
     if (!note.space)
         return (<p>Note must define the space that it belongs to</p>);
 
-    const [ownTagName, setOwnTagName] = useState(note.ownTag?.name ?? '');
     const [showAttrsForTag, setShowAttrsForTag] = useState<Tag>(null);
     const [error, setError] = useState(null);
     const manualRefresh = useManualRefresh();
@@ -61,11 +63,11 @@ export const NoteEditor = ({
     }
 
     function onOwnTagNameChange(event): void {
-        setOwnTagName(event.target.value);
         if (event.target.value.length == 0)
             note.removeOwnTag();
         else
             note.setOwnTag(event.target.value);
+        manualRefresh();
     }
 
     function onTagSelected(event): void {
@@ -243,6 +245,20 @@ export const NoteEditor = ({
         );
     }
 
+    function renderOwnTag() {
+        if (ownTagMode != 'None')
+
+        return (<div>
+            <label className="label">Own Tag</label>
+            <div className={`field ${!!note.ownTag ? 'has-addons' : ''}`}>
+                <div className="control is-expanded">
+                    <input type="text" className="input" value={note.ownTag?.name ?? ''} onChange={onOwnTagNameChange}></input>
+                </div>
+                {renderOwnTagFields()}
+            </div>
+        </div>);
+    }
+
     function renderOwnTagFields() {
         if (!note.ownTag)
             return;
@@ -293,6 +309,12 @@ export const NoteEditor = ({
         </div>);
     }
 
+    function canSubmit(): boolean {
+        if (ownTagMode == 'Required' && !note.ownTag)
+            return false;
+        return true;
+    }
+
     return (
         <form onSubmit={submitNote}>
             <fieldset>
@@ -305,13 +327,7 @@ export const NoteEditor = ({
                     </div>
                 </div>
 
-                <label className="label">Own Tag</label>
-                <div className={`field ${!!note.ownTag ? 'has-addons' : ''}`}>
-                    <div className="control is-expanded">
-                        <input type="text" className="input" value={ownTagName} onChange={onOwnTagNameChange}></input>
-                    </div>
-                    {renderOwnTagFields()}
-                </div>
+                {renderOwnTag()}
 
                 <div className="field">
                     <label className="label">Text</label>
@@ -337,7 +353,7 @@ export const NoteEditor = ({
                 {note.tags.map(nt => renderNoteTagData(nt))}
 
                 <div className="field">
-                    <button type="submit" className="button is-link mr-3">Confirm</button>
+                    <button type="submit" className="button is-link mr-3" disabled={!canSubmit()}>Confirm</button>
                     <button type="button" className="button is-danger" onClick={onCancelClick}>Cancel</button>
                 </div>
             </fieldset>
