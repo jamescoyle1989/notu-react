@@ -7,6 +7,7 @@ import { NoteAttrBadge } from './NoteAttrBadge';
 import { NoteComponentContainer } from './notecomponents/NoteComponentContainer';
 import { NotuRenderTools } from './helpers/NotuRender';
 import { NoteActionsViewer, NoteActionsViewerCommands, NoteViewerAction } from './NoteActionsViewer';
+import { TagBadge } from './TagBadge';
 
 
 interface NoteViewerProps {
@@ -47,13 +48,10 @@ export const NoteViewer = ({
 
     function renderOwnTag() {
         if (!!note.ownTag) {
-            const noteTag = new NoteTag(note.ownTag.duplicate().clean());
             return (
-                <NoteTagBadge noteTag={noteTag} note={note} notuRenderTools={notuRenderTools}
-                            contextSpaceId={note.space.id}
-                            showAttrs={false}
-                            isOwnTag={true}>
-                </NoteTagBadge>
+                <TagBadge tag={note.ownTag} notuRenderTools={notuRenderTools}
+                          contextSpaceId={note.space.id}>
+                </TagBadge>
             );
         }
     }

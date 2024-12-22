@@ -12,7 +12,6 @@ interface NoteTagBadgeProps {
     contextSpaceId: number,
     onDelete?: () => void,
     showAttrs: boolean,
-    isOwnTag?: boolean,
     useUniqueName?: boolean
 }
 
@@ -24,7 +23,6 @@ export const NoteTagBadge = ({
     contextSpaceId,
     onDelete = null,
     showAttrs,
-    isOwnTag = false,
     useUniqueName = false
 }: NoteTagBadgeProps) => {
 
@@ -32,10 +30,6 @@ export const NoteTagBadge = ({
         if (!onDelete)
             return;
         return (<button type="button" className="delete" onClick={onDelete}></button>);
-    }
-
-    function getTextWeight() {
-        return isOwnTag ? 'has-text-weight-bold' : 'has-text-weight-normal';
     }
 
     function getBackgroundColor() {
@@ -54,11 +48,6 @@ export const NoteTagBadge = ({
         ));
     }
 
-    function renderOwnTagPublicity() {
-        if (isOwnTag)
-            return (<span className="has-text-weight-light ml-1">({noteTag.tag.isPublic ? 'Public' : 'Private'})</span>)
-    }
-
     function renderNoteTagData() {
         const dataComponent = notuRenderTools.noteTagDataComponentResolver(noteTag.tag, note);
         if (!dataComponent)
@@ -68,13 +57,12 @@ export const NoteTagBadge = ({
     }
 
     return (
-        <span className={`tag is-small is-unselectable is-rounded mr-1 ${getTextWeight()} ${getTextColor()}`}
+        <span className={`tag is-small is-unselectable is-rounded mr-1 has-text-weight-normal ${getTextColor()}`}
             style={{backgroundColor: getBackgroundColor()}}>
             {useUniqueName ? noteTag.tag.getUniqueName(notuRenderTools.notu.cache) : noteTag.tag.getQualifiedName(contextSpaceId)}
             {renderTagAttributes()}
             {renderNoteTagData()}
             {renderDeleteButton()}
-            {renderOwnTagPublicity()}
         </span>
     );
 };
