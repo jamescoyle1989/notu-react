@@ -19,6 +19,7 @@ import { NoteViewer } from './NoteViewer';
 import { RelatedTagSelector, PanelRelatedTagSelector } from './RelatedTagSelector';
 import { useNotu, useManualRefresh } from './Hooks';
 import { NotuRenderTools } from './helpers/NotuRender';
+import { TagBadge } from './TagBadge';
 
 export {
     DateTimePicker,
@@ -38,5 +39,6 @@ export {
     NoteViewer,
     NotuRenderTools,
     RelatedTagSelector, PanelRelatedTagSelector,
-    useNotu, useManualRefresh
+    useNotu, useManualRefresh,
+    TagBadge
 }
