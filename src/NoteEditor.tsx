@@ -1,9 +1,8 @@
 import React from 'react';
-import { Attr, Note, NoteAttr, NoteTag, Tag } from 'notu';
+import { Note, NoteTag, Tag } from 'notu';
 import { useState } from 'react';
 import { NoteTagBadge } from './NoteTagBadge';
 import 'bulma';
-import { NoteAttrEditor } from './NoteAttrEditor';
 import { useManualRefresh } from './Hooks';
 import { getTextColorClass } from './helpers/ColorHelpers';
 import { NotuRenderTools } from './helpers/NotuRender';
@@ -16,8 +15,6 @@ interface NoteEditorProps {
     note: Note,
     /** The collection of tags that can be added to the note */
     tags: Array<Tag>,
-    /** The collection of attrs that can be added to the note */
-    attrs: Array<Attr>,
     /** Called when the confirm button is clicked. A false return value will prevent saving, so will a thrown error, which will also display on the note editor */
     onConfirm: (note: Note) => Promise<boolean>,
     /** Called when the cancel button is clicked */
@@ -33,7 +30,6 @@ export const NoteEditor = ({
     notuRenderTools,
     note,
     tags,
-    attrs,
     onConfirm,
     onCancel,
     onSave,
@@ -42,7 +38,6 @@ export const NoteEditor = ({
     if (!note.space)
         return (<p>Note must define the space that it belongs to</p>);
 
-    const [showAttrsForTag, setShowAttrsForTag] = useState<Tag>(null);
     const [error, setError] = useState(null);
     const manualRefresh = useManualRefresh();
 
@@ -79,58 +74,12 @@ export const NoteEditor = ({
         manualRefresh();
     }
 
-    function onTagToShowAttrsForSelected(event): void {
-        const tagId = event.target.value;
-        const tag = note.tags.find(x => x.tag.id == tagId)?.tag;
-        setShowAttrsForTag(tag);
-    }
-
-    function noteAttrsToDisplay(): Array<NoteAttr> {
-        if (!!showAttrsForTag)
-            return note.getTag(showAttrsForTag).attrs;
-        return note.attrs;
-    }
-
     function tagsThatCanBeAdded(): Array<Tag> {
         return tags.filter(x => (x.isPublic || x.space.id == note.space.id) && !note.tags.find(y => x.id == y.tag.id));
     }
 
     function removeTag(tag: Tag): void {
         note.removeTag(tag);
-        if (tag == showAttrsForTag)
-            setShowAttrsForTag(null);
-        manualRefresh();
-    }
-
-    function attrsThatCanBeAdded(): Array<Attr> {
-        let result = attrs.filter(x => x.space.id == note.space.id);
-        if (!!showAttrsForTag) {
-            const nt = note.getTag(showAttrsForTag);
-            result = result.filter(x => !nt.getAttr(x));
-        }
-        else
-            result = result.filter(x => !note.getAttr(x));
-        return result;
-    }
-
-    function removeAttr(noteAttr: NoteAttr): void {
-        if (!!showAttrsForTag)
-            note.getTag(showAttrsForTag).removeAttr(noteAttr.attr);
-        else
-            note.removeAttr(noteAttr.attr);
-        manualRefresh();
-    }
-
-    function onAttrSelected(event): void {
-        const attrId = event.target.value;
-        const attr = attrsThatCanBeAdded().find(x => x.id == attrId);
-        if (!attr)
-            return;
-        if (!!showAttrsForTag)
-            note.getTag(showAttrsForTag)?.addAttr(attr);
-        else
-            note.addAttr(attr);
-        event.target.value = null;
         manualRefresh();
     }
 
@@ -205,42 +154,9 @@ export const NoteEditor = ({
                     {note.tags.map(x => (
                         <NoteTagBadge key={x.tag.id} noteTag={x} note={note} notuRenderTools={notuRenderTools}
                                       contextSpaceId={note.space.id}
-                                      onDelete={() => removeTag(x.tag)}
-                                      showAttrs={true}/>
+                                      onDelete={() => removeTag(x.tag)}/>
                     ))}
                 </div>
-            </div>
-        );
-    }
-
-    function renderAttrsDropdown() {
-        const attrs = attrsThatCanBeAdded().sort((a, b) => a.name.localeCompare(b.name));
-
-        return (
-            <div className="field has-addons">
-                {renderTagsDropdown(note.tags.map(x => x.tag), onTagToShowAttrsForSelected)}
-                <div className="control">
-                    <div className="select">
-                        <select onChange={onAttrSelected}>
-                            <option key="0" value={null}></option>
-                            {attrs.map(x => (<option key={x.id} value={x.id}>{x.name}</option>))}
-                        </select>
-                    </div>
-                </div>
-            </div>
-        );
-    }
-
-    function renderAttrFields() {
-        let noteAttrs = noteAttrsToDisplay();
-        if (noteAttrs.length == 0)
-            return;
-        
-        return (
-            <div className="box">
-                {noteAttrs.map((noteAttr, index) => (
-                    <NoteAttrEditor key={index} noteAttr={noteAttr} onRemove={removeAttr} onChanged={manualRefresh}/>
-                ))}
             </div>
         );
     }
@@ -342,13 +258,6 @@ export const NoteEditor = ({
                 </div>
 
                 {renderTags()}
-
-                <div className="field">
-                    <label className="label">Attrs</label>
-                    {renderAttrsDropdown()}
-                </div>
-
-                {renderAttrFields()}
 
                 {note.tags.map(nt => renderNoteTagData(nt))}
 

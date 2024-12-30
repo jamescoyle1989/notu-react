@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { NoteViewer } from '../NoteViewer';
 import { NoteViewerAction } from '../NoteActionsViewer';
 import { Note, Notu, NotuCache } from 'notu';
-import { FakeCacheFetcher, newAttr, newSpace, newTag } from './StoryHelpers';
+import { FakeCacheFetcher, newSpace, newTag } from './StoryHelpers';
 import { noteTextSplitter } from '../helpers/NoteComponentHelpers';
 import { NotuRenderTools } from '../helpers/NotuRender';
 import { MockHttpClient } from '../helpers/MockHttpClient';
@@ -24,8 +24,6 @@ const space1 = newSpace('Space 1', 1).clean();
 const tag1 = newTag('Tag 1', 1).in(space1);
 tag1.color = '#FF0000';
 tag1.clean();
-
-const attr1 = newAttr('Attr 1', 1).in(space1).asNumber().clean();
 
 const cache = new FakeCacheFetcher();
 cache.spaces = [space1];
@@ -49,8 +47,7 @@ export const Primary: Story = {
                 .at(new Date(2023, 11, 18))
                 .setOwnTag('My Tag');
             output.ownTag.color = '#0000FF';
-            output.addAttr(attr1, 12345);
-            output.addTag(tag1).addAttr(attr1, 23456);
+            output.addTag(tag1);
             return output;
         })(),
         actions: [

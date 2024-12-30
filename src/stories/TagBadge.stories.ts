@@ -28,8 +28,7 @@ const cacheFetcher = {
     getTagsData: async function() { return [
         { state:'CLEAN', id:123, name:'Test', spaceId:1, color:null, isPublic:true, links:[] },
         { state:'CLEAN', id:234, name:'Test 2', spaceId:2, color:null, isPUblic:true, links:[] }
-    ]; },
-    getAttrsData: async function() { return []; }
+    ]; }
 };
 const notu = new Notu(
     null,

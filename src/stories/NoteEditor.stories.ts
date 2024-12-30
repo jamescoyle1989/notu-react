@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { NoteEditor } from '../NoteEditor';
 import { Note } from 'notu';
 import { MockHttpClient } from '../helpers/MockHttpClient';
-import { newAttr, newSpace, newTag } from './StoryHelpers';
+import { newSpace, newTag } from './StoryHelpers';
 import { TestNoteTagDataComponentFactory } from './ReactSnippets';
 import { NotuRenderTools } from '../helpers/NotuRender';
 
@@ -29,9 +29,6 @@ const tag2 = newTag('Tag 2', 2).in(space2).asPublic();
 tag2.color = '#112211';
 tag2.clean();
 
-const attr1 = newAttr('Text Attr', 1).in(space1).asText().clean();
-const attr2 = newAttr('Date Attr', 2).in(space1).asDate().clean();
-
 const notu = new MockHttpClient();
 
 const renderTools = new NotuRenderTools(notu as any, null, t => null);
@@ -44,7 +41,6 @@ export const Primary: Story = {
             .in(space1)
             .at(new Date(1987, 6, 5, 4, 3, 2)),
         tags: [tag2, tag1],
-        attrs: [attr1, attr2],
         onConfirm: note => {
             console.log('Confirm Clicked', note);
             return Promise.resolve(true);
@@ -62,7 +58,6 @@ export const DisplaysErrorMessageOnFailedConfirm: Story = {
             .in(space1)
             .at(new Date(1987, 6, 5, 4, 3, 2)),
         tags: [tag1, tag2],
-        attrs: [attr1, attr2],
         onConfirm: note => {
             console.log('Confirm Clicked', note);
             throw new Error('This note is crap, try again!');
@@ -80,51 +75,6 @@ export const DoesntCallNotuClientIfOnConfirmReturnsFalse: Story = {
             .in(space1)
             .at(new Date(1987, 6, 5, 4, 3, 2)),
         tags: [tag1, tag2],
-        attrs: [attr1, attr2],
-        onConfirm: note => {
-            console.log('Confirm Clicked', note);
-            return Promise.resolve(false);
-        },
-        onCancel: note => { console.log('Cancel Clicked'); },
-        onSave: note => { console.log('Note saved'); }
-    }
-};
-
-
-export const AllowsRemovalOfAttrsFromSavedNote: Story = {
-    args: {
-        notuRenderTools: renderTools,
-        note: (() => {
-            const output = new Note('Hello').in(space1);
-            output.id = 123;
-            output.addAttr(attr1, 'Woo woo');
-            output.getAttr(attr1).clean();
-            output.clean();
-            return output;
-        })(),
-        tags: [tag1, tag2],
-        attrs: [attr1, attr2],
-        onConfirm: note => {
-            console.log('Confirm Clicked', note);
-            return Promise.resolve(false);
-        },
-        onCancel: note => { console.log('Cancel Clicked'); },
-        onSave: note => { console.log('Note saved'); }
-    }
-};
-
-
-export const AllowsRemovalOfAttrsFromTagOnNote: Story = {
-    args: {
-        notuRenderTools: renderTools,
-        note: (() => {
-            const output = new Note('Hello').in(space1);
-            output.id = 123;
-            output.addTag(tag1).addAttr(attr1, 'Woo woo');
-            return output;
-        })(),
-        tags: [tag1, tag2],
-        attrs: [attr1, attr2],
         onConfirm: note => {
             console.log('Confirm Clicked', note);
             return Promise.resolve(false);
@@ -144,7 +94,6 @@ export const DisplaysCorrectDateLateAtNightCanadianTime: Story = {
             return output;
         })(),
         tags: [tag1, tag2],
-        attrs: [attr1, attr2],
         onConfirm: note => {
             console.log('Confirm Clicked', note);
             return Promise.resolve(false);
@@ -168,7 +117,6 @@ export const EditorSupportsNoteTagDataComponent: Story = {
             return output;
         })(),
         tags: [tag1, tag2],
-        attrs: [attr1, attr2],
         onConfirm: note => {
             console.log('Confirm Clicked', note);
             return Promise.resolve(false);
@@ -191,7 +139,6 @@ export const EditorSupportsAddingNewNoteTagDataComponent: Story = {
             return output;
         })(),
         tags: [tag1, tag2],
-        attrs: [attr1, attr2],
         onConfirm: note => {
             console.log('Confirm Clicked', note);
             return Promise.resolve(false);
@@ -209,7 +156,6 @@ export const CanSetOwnTagModeToRequired: Story = {
             .in(space1)
             .at(new Date(1987, 6, 5, 4, 3, 2)),
         tags: [tag2, tag1],
-        attrs: [attr1, attr2],
         ownTagMode: 'Required',
         onConfirm: note => {
             console.log('Confirm Clicked', note);
@@ -228,7 +174,6 @@ export const CanSetOwnTagModeToNone: Story = {
             .in(space1)
             .at(new Date(1987, 6, 5, 4, 3, 2)),
         tags: [tag2, tag1],
-        attrs: [attr1, attr2],
         ownTagMode: 'None',
         onConfirm: note => {
             console.log('Confirm Clicked', note);

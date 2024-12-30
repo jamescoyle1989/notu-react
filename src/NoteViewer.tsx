@@ -3,7 +3,6 @@ import { Note, NoteTag } from 'notu';
 import { NoteTagBadge } from './NoteTagBadge';
 import 'bulma';
 import { useEffect } from 'react';
-import { NoteAttrBadge } from './NoteAttrBadge';
 import { NoteComponentContainer } from './notecomponents/NoteComponentContainer';
 import { NotuRenderTools } from './helpers/NotuRender';
 import { NoteActionsViewer, NoteActionsViewerCommands, NoteViewerAction } from './NoteActionsViewer';
@@ -57,7 +56,7 @@ export const NoteViewer = ({
     }
 
     function renderOwnTagDivider() {
-        if (!!note.ownTag && (note.tags.length > 0 || note.attrs.length > 0))
+        if (!!note.ownTag && note.tags.length > 0)
             return (<div style={{borderLeft: '2px solid #888', height: '100%'}}
                          className='is-inline mr-2'/>);
     }
@@ -78,13 +77,7 @@ export const NoteViewer = ({
                     {note.tags.map(nt => (
                         <NoteTagBadge key={nt.tag.id} 
                                     noteTag={nt} note={note} notuRenderTools={notuRenderTools}
-                                    contextSpaceId={note.space.id}
-                                    showAttrs={true} useUniqueName={true}>
-                        </NoteTagBadge>
-                    ))}
-
-                    {note.attrs.map(na => (
-                        <NoteAttrBadge key={na.attr.id} noteAttr={na} contextSpaceId={note.space.id}></NoteAttrBadge>
+                                    contextSpaceId={note.space.id}/>
                     ))}
                 </div>
             </div>

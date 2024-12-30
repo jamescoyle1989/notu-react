@@ -46,7 +46,7 @@ export const TextBoxIsDisabledIfNoOnQueryChanged: Story = {
         space: space1,
         notu: new FakeHttpClient() as any,
         onFetched: console.log,
-        query: '#Tag AND @Attr.Exists'
+        query: '#Tag'
     }
 }
 

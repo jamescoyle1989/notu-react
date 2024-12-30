@@ -29,8 +29,7 @@ const cacheFetcher = {
     getTagsData: async function() { return [
         { state:'CLEAN', id:123, name:'Test', spaceId:1, color:null, isPublic:true, links:[] },
         { state:'CLEAN', id:234, name:'Test 2', spaceId:2, color:null, isPUblic:true, links:[] }
-    ]; },
-    getAttrsData: async function() { return []; }
+    ]; }
 };
 const notu = new Notu(
     null,
@@ -49,7 +48,6 @@ export const Primary: Story = {
         })(),
         contextSpaceId: 1,
         onDelete: null,
-        showAttrs: true,
         notuRenderTools: renderTools
     }
 };
@@ -62,7 +60,6 @@ export const WithDeleteButton: Story = {
         })(),
         contextSpaceId: 1,
         onDelete: () => { console.log('Delete clicked'); },
-        showAttrs: true,
         notuRenderTools: renderTools
     }
 };
@@ -75,7 +72,6 @@ export const ShowsSpaceNameIfRequired: Story = {
         })(),
         contextSpaceId: 1,
         onDelete: null,
-        showAttrs: true,
         notuRenderTools: renderTools
     }
 }
@@ -88,7 +84,6 @@ export const SupportsUsingUniqueName: Story = {
         })(),
         contextSpaceId: 1,
         onDelete: null,
-        showAttrs: true,
         notuRenderTools: renderTools,
         useUniqueName: true
     }
@@ -103,7 +98,6 @@ export const RedBadge: Story = {
         })(),
         contextSpaceId: 1,
         onDelete: null,
-        showAttrs: true,
         notuRenderTools: renderTools
     }
 }
@@ -117,7 +111,6 @@ export const GreenBadge: Story = {
         })(),
         contextSpaceId: 1,
         onDelete: null,
-        showAttrs: true,
         notuRenderTools: renderTools
     }
 }
@@ -130,7 +123,6 @@ export const BadgeSupportsDataComponent: Story = {
         })(),
         contextSpaceId: 1,
         onDelete: null,
-        showAttrs: true,
         notuRenderTools: new NotuRenderTools(null, null, t => {
             if (t.id == 123)
                 return new TestNoteTagDataComponentFactory();

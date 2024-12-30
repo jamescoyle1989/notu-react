@@ -2,8 +2,6 @@ import { DateTimePicker } from './DateTimePicker';
 import { GroupedNoteList, PanelGroupedNoteList } from './GroupedNoteList';
 import { LoginView } from './LoginView';
 import { NoteActionsViewer, NoteViewerAction } from './NoteActionsViewer';
-import { NoteAttrBadge } from './NoteAttrBadge';
-import { NoteAttrEditor } from './NoteAttrEditor';
     import { NoteChecklistProcessor } from './notecomponents/NoteChecklist';
     import { NoteImageProcessor } from './notecomponents/NoteImage';
     import { NoteLinkProcessor } from './notecomponents/NoteLink';
@@ -26,8 +24,6 @@ export {
     GroupedNoteList, PanelGroupedNoteList,
     LoginView,
     NoteActionsViewer, NoteViewerAction,
-    NoteAttrBadge,
-    NoteAttrEditor,
         NoteChecklistProcessor, NoteImageProcessor, NoteLinkProcessor,
         NoteRandomChoiceProcessor, NoteTextProcessor, DefaultTextProcessor,
         NoteParagraph,

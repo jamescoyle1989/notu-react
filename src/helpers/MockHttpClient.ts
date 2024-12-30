@@ -1,4 +1,4 @@
-import { Attr, Note, Space } from "notu";
+import { Note, Space } from "notu";
 
 export class MockHttpClient {
     calls: Array<any> = [];
@@ -16,16 +16,6 @@ export class MockHttpClient {
     saveSpace(space: Space): Promise<Space> {
         this.calls.push({name: 'saveSpace', space});
         return Promise.resolve(space);
-    }
-
-    getAttrs(): Promise<Array<Attr>> {
-        this.calls.push({name: 'getAttrs'});
-        return Promise.resolve([]);
-    }
-
-    saveAttr(attr: Attr): Promise<Attr> {
-        this.calls.push({name: 'saveAttr', attr});
-        return Promise.resolve(attr);
     }
 
     getNotes(query: string, spaceId: number): Promise<Array<Note>> {
