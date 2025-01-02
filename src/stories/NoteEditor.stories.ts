@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { NoteEditor } from '../NoteEditor';
 import { Note } from 'notu';
 import { MockHttpClient } from '../helpers/MockHttpClient';
-import { newSpace, newTag } from './StoryHelpers';
+import { newNote, newSpace, newTag } from './StoryHelpers';
 import { TestNoteTagDataComponentFactory } from './ReactSnippets';
 import { NotuRenderTools } from '../helpers/NotuRender';
 
@@ -175,6 +175,27 @@ export const CanSetOwnTagModeToNone: Story = {
             .at(new Date(1987, 6, 5, 4, 3, 2)),
         tags: [tag2, tag1],
         ownTagMode: 'None',
+        onConfirm: note => {
+            console.log('Confirm Clicked', note);
+            return Promise.resolve(true);
+        },
+        onCancel: note => { console.log('Cancel Clicked'); },
+        onSave: note => { console.log('Note saved'); }
+    }
+};
+
+
+export const CanGetRidOfAnOwnTag: Story = {
+    args: {
+        notuRenderTools: renderTools,
+        note: (() => {
+            const note = newNote('Hello', 123).in(space1);
+            note.setOwnTag('My Tag');
+            note.clean().ownTag.clean();
+            return note;
+        })(),
+        tags: [tag1, tag2],
+        ownTagMode: 'Optional',
         onConfirm: note => {
             console.log('Confirm Clicked', note);
             return Promise.resolve(true);

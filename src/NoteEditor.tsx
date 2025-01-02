@@ -162,13 +162,18 @@ export const NoteEditor = ({
     }
 
     function renderOwnTag() {
-        if (ownTagMode != 'None')
+        if (ownTagMode == 'None')
+            return;
+
+        let value = note.ownTag?.name ?? '';
+        if (note.ownTag?.isDeleted)
+            value = '';
 
         return (<div>
             <label className="label">Own Tag</label>
             <div className={`field ${!!note.ownTag ? 'has-addons' : ''}`}>
                 <div className="control is-expanded">
-                    <input type="text" className="input" value={note.ownTag?.name ?? ''} onChange={onOwnTagNameChange}></input>
+                    <input type="text" className="input" value={value} onChange={onOwnTagNameChange}></input>
                 </div>
                 {renderOwnTagFields()}
             </div>
@@ -176,7 +181,7 @@ export const NoteEditor = ({
     }
 
     function renderOwnTagFields() {
-        if (!note.ownTag)
+        if (!note.ownTag || note.ownTag.isDeleted)
             return;
 
         return [
