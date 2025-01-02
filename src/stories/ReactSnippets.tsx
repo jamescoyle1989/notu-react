@@ -28,3 +28,15 @@ export class TestNoteTagDataComponentFactory {
         return (<p>Name: {noteTag.data.name}</p>);
     }
 }
+
+
+export class NonEditableNoteTagDataComponentFactory {
+
+    getBadgeComponent(noteTag: NoteTag): JSX.Element {
+        return (<span className="ml-1">Name: {noteTag.data.name}</span>);
+    }
+
+    getEditorComponent(noteTag: NoteTag): JSX.Element {
+        return null;
+    }
+}

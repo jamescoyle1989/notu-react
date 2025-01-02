@@ -3,7 +3,7 @@ import { NoteEditor } from '../NoteEditor';
 import { Note } from 'notu';
 import { MockHttpClient } from '../helpers/MockHttpClient';
 import { newNote, newSpace, newTag } from './StoryHelpers';
-import { TestNoteTagDataComponentFactory } from './ReactSnippets';
+import { NonEditableNoteTagDataComponentFactory, TestNoteTagDataComponentFactory } from './ReactSnippets';
 import { NotuRenderTools } from '../helpers/NotuRender';
 
 const meta: Meta<typeof NoteEditor> = {
@@ -199,6 +199,28 @@ export const CanGetRidOfAnOwnTag: Story = {
         onConfirm: note => {
             console.log('Confirm Clicked', note);
             return Promise.resolve(true);
+        },
+        onCancel: note => { console.log('Cancel Clicked'); },
+        onSave: note => { console.log('Note saved'); }
+    }
+};
+
+
+export const EditorDoesntRenderNoteTagDataComponentWithNullEditorImplementation: Story = {
+    args: {
+        notuRenderTools: new NotuRenderTools(notu as any, null, t => {
+            if (t == tag1)
+                return new NonEditableNoteTagDataComponentFactory();
+        }),
+        note: (() => {
+            const output = new Note('Add Tag 1 to this note').in(space1);
+            output.id = 123;
+            return output;
+        })(),
+        tags: [tag1, tag2],
+        onConfirm: note => {
+            console.log('Confirm Clicked', note);
+            return Promise.resolve(false);
         },
         onCancel: note => { console.log('Cancel Clicked'); },
         onSave: note => { console.log('Note saved'); }
