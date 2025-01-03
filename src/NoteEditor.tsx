@@ -6,7 +6,6 @@ import 'bulma';
 import { useManualRefresh } from './Hooks';
 import { getTextColorClass } from './helpers/ColorHelpers';
 import { NotuRenderTools } from './helpers/NotuRender';
-import { DateTimePicker } from './DateTimePicker';
 
 interface NoteEditorProps {
     /** Used for saving the note once changes have been confirmed */
@@ -247,10 +246,9 @@ export const NoteEditor = ({
                 {renderErrorMessage()}
 
                 <div className="field">
-                    <label className="label">Date</label>
-                    <div className="control">
-                        <DateTimePicker value={note.date} onChange={d => note.date = d}/>
-                    </div>
+                    <label className="is-italic">
+                        {`${note.date.toDateString()} ${note.date.getHours().toString().padStart(2, '0')}:${note.date.getMinutes().toString().padStart(2, '0')}`}
+                    </label>
                 </div>
 
                 {renderOwnTag()}
