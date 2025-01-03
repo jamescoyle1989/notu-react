@@ -77,7 +77,7 @@ export const NoteViewer = ({
                     {note.tags.map(nt => (
                         <NoteTagBadge key={nt.tag.id} 
                                     noteTag={nt} note={note} notuRenderTools={notuRenderTools}
-                                    contextSpaceId={note.space.id}/>
+                                    contextSpaceId={note.space.id} useUniqueName={true}/>
                     ))}
                 </div>
             </div>
