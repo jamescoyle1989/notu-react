@@ -38,4 +38,21 @@ export const WithClassName: Story = {
         className: 'has-text-link has-text-weight-bold',
         onChange: v => console.log(v)
     }
-}
+};
+
+
+export const CanBeDisabled: Story = {
+    args: {
+        value: 123,
+        disabled: true
+    }
+};
+
+
+export const CanSendFocusAndBlurEvents: Story = {
+    args: {
+        value: 1,
+        onFocus: () => console.log('Focused'),
+        onBlur: () => console.log('Blurred')
+    }
+};

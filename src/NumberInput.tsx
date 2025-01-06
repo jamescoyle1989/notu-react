@@ -4,7 +4,10 @@ interface NumberInputProps {
     value: number,
     onChange: (value: number) => void,
     className?: string,
-    allowNull?: boolean
+    allowNull?: boolean,
+    disabled?: boolean,
+    onFocus?: () => void,
+    onBlur?: () => void
 }
 
 
@@ -12,7 +15,10 @@ export const NumberInput = ({
     value,
     onChange,
     className = '',
-    allowNull = false
+    allowNull = false,
+    disabled = false,
+    onFocus,
+    onBlur
 }: NumberInputProps) => {
 
     const [dirtyText, setDirtyText] = React.useState((value == null) ? '' : value.toString());
@@ -68,8 +74,9 @@ export const NumberInput = ({
     }
 
     return (
-        <input type="text" inputMode="numeric"
+        <input type="text" inputMode="numeric" disabled={disabled}
                 className={`input${isInError ? ' has-background-danger' : ' '} ${className}`}
-                value={dirtyText} onChange={onValueChange}/>
+                value={dirtyText} onChange={onValueChange}
+                onFocus={() => { if (!!onFocus) onFocus(); }} onBlur={() => { if (!!onBlur) onBlur(); }}/>
     );
 }
