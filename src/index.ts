@@ -15,7 +15,6 @@ import { NoteTagBadge } from './NoteTagBadge';
 import { NoteList, PanelNoteList } from './NoteList';
 import { NoteViewer } from './NoteViewer';
 import { NumberInput } from './NumberInput';
-import { RelatedTagSelector, PanelRelatedTagSelector } from './RelatedTagSelector';
 import { useNotu, useManualRefresh } from './Hooks';
 import { NotuRenderTools } from './helpers/NotuRender';
 import { TagBadge } from './TagBadge';
@@ -36,7 +35,6 @@ export {
     NoteViewer,
     NotuRenderTools,
     NumberInput,
-    RelatedTagSelector, PanelRelatedTagSelector,
     useNotu, useManualRefresh,
     TagBadge
 }

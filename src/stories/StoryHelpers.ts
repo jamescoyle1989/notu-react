@@ -39,15 +39,6 @@ Doop
         ]);
     }
 
-    getRelatedNotes(tag: number | Note | Tag): Promise<Array<Note>> {
-        this.log.push(`getRelatedNotes('${tag}')`);
-        return Promise.resolve([
-            newNote('Related Note 1', 1).clean(),
-            newNote('Related Note 2', 2).clean(),
-            newNote('Boopity boopity', 3).clean()
-        ]);
-    }
-
     getTags(space?: number | Space, includeOtherSpacePublics?: boolean): Array<Tag> {
         this.log.push(`getTags('${space}', ${includeOtherSpacePublics})`);
         return [

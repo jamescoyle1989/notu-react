@@ -5,7 +5,6 @@ import { PanelNoteSearch } from '../NoteSearch';
 import { PanelNoteList } from '../NoteList';
 import { NoteViewerAction } from '../NoteActionsViewer';
 import { PanelGroupedNoteList } from '../GroupedNoteList';
-import { PanelRelatedTagSelector } from '../RelatedTagSelector';
 import { noteTextSplitter } from '../helpers/NoteComponentHelpers';
 import { NotuRenderTools } from '../helpers/NotuRender';
 
@@ -51,16 +50,6 @@ export const Grouped: Story = {
             n => [new NoteViewerAction('Do something', n => console.log('Something done'))],
             n => n.text.length
         ).withHeaders((key, notes) => `Text length: ${key}`)
-    }
-}
-
-export const FetchRelatedTags: Story = {
-    args: {
-        selector: new PanelRelatedTagSelector(notu as any, null, null),
-        display: new PanelNoteList(
-            renderTools,
-            n => [new NoteViewerAction('Do something', n => console.log('Something done'))]
-        )
     }
 }
 
