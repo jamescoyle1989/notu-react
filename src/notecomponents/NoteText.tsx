@@ -4,6 +4,7 @@ import React from 'react';
 export class NoteText {
     private _displayText: string;
     get displayText(): string { return this._displayText; }
+    set displayText(value: string) { this._displayText = value; }
 
     private _originalText: string;
     get originalText(): string { return this._originalText; }
@@ -62,13 +63,6 @@ export class DefaultTextProcessor {
     }
 
     create(info: NoteComponentInfo, note: Note, save: () => Promise<void>): NoteText {
-        let displayText = info.text;
-        const firstLineBreakIndex = displayText.indexOf('\n');
-        if (firstLineBreakIndex >= 0 && displayText.substring(0, firstLineBreakIndex).trim() == '')
-            displayText = displayText.substring(firstLineBreakIndex + 1);
-        const lastLineBreakIndex = displayText.lastIndexOf('\n');
-        if (lastLineBreakIndex >= 0 && displayText.substring(lastLineBreakIndex).trim() == '')
-            displayText = displayText.substring(0, lastLineBreakIndex);
-        return new NoteText(displayText, info.text);
+        return new NoteText(info.text, info.text);
     }
 }

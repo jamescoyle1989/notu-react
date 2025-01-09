@@ -205,6 +205,21 @@ export const LinksDisplayInline: Story = {
 };
 
 
+export const LinkNewlineTextDisplaysCorrectly: Story = {
+    args: {
+        note: (() => {
+            const output = new Note('<Link>(link)https://www.google.com</Link>\nThen text on a new line afterwards')
+                .in(space1);
+            return output;
+        })(),
+        actions: [],
+        isSelected: true,
+        showDate: true,
+        notuRenderTools: renderTools
+    }
+};
+
+
 export const ImagesDisplayOnSeparateLines: Story = {
     args: {
         note: (() => {
