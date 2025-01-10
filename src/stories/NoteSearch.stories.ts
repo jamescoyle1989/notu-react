@@ -83,3 +83,13 @@ export const HandlesErrorReturnedFromFetch: Story = {
         onFetched: console.log
     }
 }
+
+
+export const CanSearchAcrossSpaces: Story = {
+    args: {
+        space: null,
+        notu: new FakeHttpClient() as any,
+        onFetched: console.log,
+        onQueryChanged: query => console.log('Query changed: ' + query)
+    }
+};

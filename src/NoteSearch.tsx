@@ -5,8 +5,8 @@ import 'bulma';
 import { NotesPanelSelector } from './NotesPanel';
 
 interface NoteSearchProps {
-    /** The space which we're fetching notes from */
-    space: Space,
+    /** The space which we're fetching notes from, if null then we're searching across all spaces */
+    space?: Space,
     /** The client used for fetching results from the server, only add this if you want notes to be auto-fetched for you */
     notu?: Notu,
     /** The query string which the search field will display and use for querying */
@@ -21,7 +21,7 @@ interface NoteSearchProps {
 
 
 export const NoteSearch = ({
-    space,
+    space = null,
     notu = null,
     query = '',
     onQueryChanged = null,
@@ -41,7 +41,7 @@ export const NoteSearch = ({
         try {
             let searchResults: Array<Note>;
             if (!!notu)
-                searchResults = await notu.getNotes(query, space.id);
+                searchResults = await notu.getNotes(query, space?.id);
             else
                 searchResults = await onFetchRequested(query, space);
             if (!!onFetched)
@@ -50,6 +50,16 @@ export const NoteSearch = ({
         catch (err) {
             setError(err.message);
         }
+    }
+
+    function renderSpaceLabel() {
+        if (!space)
+            return;
+        return (
+            <div className="control">
+                <button className="button" disabled>{space.name}</button>
+            </div>
+        )
     }
 
     function renderButton() {
@@ -67,6 +77,7 @@ export const NoteSearch = ({
 
     return (
         <div className="field has-addons is-flex">
+            {renderSpaceLabel()}
             <div className="control is-flex-grow-1">
                 <input type="text" className="input" disabled={!onQueryChanged}
                     value={query} onChange={onSearchTextChange}></input>
