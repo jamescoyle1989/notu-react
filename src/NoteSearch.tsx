@@ -115,8 +115,8 @@ export class PanelNoteSearch implements NotesPanelSelector {
 
     async requestNotes(): Promise<void> {
         const notes = (!!this._customQueryHandling)
-            ? await this._customQueryHandling(this._query, this._space.id)
-            : await this._notu.getNotes(this._query, this._space.id);
+            ? await this._customQueryHandling(this._query, this._space?.id)
+            : await this._notu.getNotes(this._query, this._space?.id);
         this.onNotesRetrieved(notes);
     }
 
