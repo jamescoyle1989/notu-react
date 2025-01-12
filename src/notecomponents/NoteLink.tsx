@@ -28,6 +28,12 @@ export class NoteLink {
 
 export class NoteLinkProcessor {
 
+    get displayName(): string { return 'Link'; }
+
+    newComponentText(textContent: string): string {
+        return `<Link>${textContent}</Link>`;
+    }
+
     get componentShowsInlineInParagraph(): boolean { return true; }
 
     identify(text: string): NoteComponentInfo {

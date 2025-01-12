@@ -3,7 +3,6 @@ import { NoteList } from '../NoteList';
 import { Note } from 'notu';
 import { NoteViewerAction } from '../NoteActionsViewer';
 import { newSpace } from './StoryHelpers';
-import { noteTextSplitter } from '../helpers/NoteComponentHelpers';
 import { NotuRenderTools } from '../helpers/NotuRender';
 
 const meta: Meta<typeof NoteList> = {
@@ -21,7 +20,7 @@ type Story = StoryObj<typeof meta>;
 
 const space1 = newSpace('Space 1', 1).clean();
 
-const renderTools = new NotuRenderTools(null, noteTextSplitter, t => null);
+const renderTools = new NotuRenderTools(null, NotuRenderTools.defaultNoteComponentProcessors(), t => null);
 
 
 export const Primary: Story = {

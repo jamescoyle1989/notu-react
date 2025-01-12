@@ -26,6 +26,12 @@ export class NoteImage {
 
 export class NoteImageProcessor {
 
+    get displayName(): string { return 'Image'; }
+
+    newComponentText(textContent: string): string {
+        return `<Image>${textContent}</Image>`;
+    }
+
     get componentShowsInlineInParagraph(): boolean { return false; }
 
     identify(text: string): NoteComponentInfo {

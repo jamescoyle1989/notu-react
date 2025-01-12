@@ -31,7 +31,7 @@ tag2.clean();
 
 const notu = new MockHttpClient();
 
-const renderTools = new NotuRenderTools(notu as any, null, t => null);
+const renderTools = new NotuRenderTools(notu as any, NotuRenderTools.defaultNoteComponentProcessors(), t => null);
 
 
 export const Primary: Story = {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Note, NoteTag, Tag } from 'notu';
 import { useState } from 'react';
 import { NoteTagBadge } from './NoteTagBadge';
@@ -38,6 +38,7 @@ export const NoteEditor = ({
         return (<p>Note must define the space that it belongs to</p>);
 
     const [error, setError] = useState(null);
+    const textRef = useRef();
     const manualRefresh = useManualRefresh();
 
     async function submitNote(evt): Promise<void> {
@@ -99,6 +100,27 @@ export const NoteEditor = ({
             return;
         note.ownTag.color = otherTag.color;
         manualRefresh();
+    }
+
+    function onTextComponentDropdownChange(event): void {
+        if (!textRef.current)
+            return;
+        const componentDisplayName = event.target.value as string;
+        if (!componentDisplayName)
+            return;
+        const componentProcessor = notuRenderTools.noteComponentProcessors
+            .find(x => x.displayName == componentDisplayName);
+        if (!componentProcessor)
+            return;
+        const textArea = textRef.current as any;
+        const selectionStart = textArea.selectionStart as number;
+        const selectionEnd = textArea.selectionEnd as number;
+        let fullText = textArea.value as string;
+        const selectionText = (fullText).substring(selectionStart, selectionEnd);
+        fullText =  fullText.slice(0, selectionStart) +
+                    componentProcessor.newComponentText(selectionText) +
+                    fullText.slice(selectionEnd);
+        textArea.value = fullText;
     }
 
     function toggleOwnTagPublic(): void {
@@ -216,6 +238,24 @@ export const NoteEditor = ({
         );
     }
 
+    function renderTextComponentDropdown() {
+        if (notuRenderTools.noteComponentProcessors.length == 0)
+            return;
+
+        return (
+            <div className="control">
+                <div className="select">
+                    <select value="" onChange={onTextComponentDropdownChange} className="has-text-weight-bold">
+                        <option key="0" value={""} className="has-text-weight-bold">Add Text Component:</option>
+                        {notuRenderTools.noteComponentProcessors.filter(x => !!x.displayName).map(x => (
+                            <option key={x.displayName} value={x.displayName}>{x.displayName}</option>
+                        ))}
+                    </select>
+                </div>
+            </div>
+        )
+    }
+
     function renderNoteTagData(noteTag: NoteTag) {
         const dataComponent = notuRenderTools.noteTagDataComponentResolver(noteTag.tag, note);
         if (!dataComponent)
@@ -256,8 +296,9 @@ export const NoteEditor = ({
                 <div className="field">
                     <label className="label">Text</label>
                     <div className="control">
-                        <textarea defaultValue={note.text} name="text" className="textarea"/>
+                        <textarea defaultValue={note.text} name="text" className="textarea" ref={textRef}/>
                     </div>
+                    {renderTextComponentDropdown()}
                 </div>
                 
                 <div className="field">

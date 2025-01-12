@@ -59,6 +59,14 @@ export class NoteChecklist {
 
 export class NoteChecklistProcessor {
 
+    get displayName(): string { return 'Checklist'; }
+
+    newComponentText(textContent: string): string {
+        return `<Checklist>
+${textContent}
+</Checklist>`;
+    }
+
     get componentShowsInlineInParagraph(): boolean { return false; }
 
     identify(text: string): NoteComponentInfo {

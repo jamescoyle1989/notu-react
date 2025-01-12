@@ -5,7 +5,6 @@ import { PanelNoteSearch } from '../NoteSearch';
 import { PanelNoteList } from '../NoteList';
 import { NoteViewerAction } from '../NoteActionsViewer';
 import { PanelGroupedNoteList } from '../GroupedNoteList';
-import { noteTextSplitter } from '../helpers/NoteComponentHelpers';
 import { NotuRenderTools } from '../helpers/NotuRender';
 
 const meta: Meta<typeof NotesPanel> = {
@@ -27,7 +26,7 @@ const notu = new MockNotu();
 
 const renderTools = new NotuRenderTools(
     notu as any,
-    noteTextSplitter,
+    NotuRenderTools.defaultNoteComponentProcessors(),
     t => null
 );
 

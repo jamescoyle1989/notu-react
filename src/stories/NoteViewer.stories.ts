@@ -3,7 +3,6 @@ import { NoteViewer } from '../NoteViewer';
 import { NoteViewerAction } from '../NoteActionsViewer';
 import { Note, Notu, NotuCache } from 'notu';
 import { FakeCacheFetcher, newSpace, newTag } from './StoryHelpers';
-import { noteTextSplitter } from '../helpers/NoteComponentHelpers';
 import { NotuRenderTools } from '../helpers/NotuRender';
 import { MockHttpClient } from '../helpers/MockHttpClient';
 
@@ -35,7 +34,7 @@ const notu = new Notu(
 );
 notu.cache.populate();
 
-const renderTools = new NotuRenderTools(notu, noteTextSplitter, t => null);
+const renderTools = new NotuRenderTools(notu, NotuRenderTools.defaultNoteComponentProcessors(), t => null);
 console.log({renderTools});
 
 

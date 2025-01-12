@@ -26,6 +26,14 @@ export class NoteRandomChoice {
 
 export class NoteRandomChoiceProcessor {
 
+    get displayName(): string { return 'Random Choice'; }
+
+    newComponentText(textContent: string): string {
+        return `<RandomChoice>
+${textContent}
+</RandomChoice>`;
+    }
+
     get componentShowsInlineInParagraph(): boolean { return false; }
     
     identify(text: string): NoteComponentInfo {

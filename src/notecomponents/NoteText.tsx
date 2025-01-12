@@ -31,6 +31,12 @@ export class NoteText {
 
 export class NoteTextProcessor {
 
+    get displayName(): string { return null; }
+
+    newComponentText(textContent: string): string {
+        return textContent;
+    }
+
     get componentShowsInlineInParagraph(): boolean { return true; }
 
     identify(text: string): NoteComponentInfo {
@@ -55,6 +61,12 @@ export class NoteTextProcessor {
 
 
 export class DefaultTextProcessor {
+
+    get displayName(): string { return null; }
+
+    newComponentText(textContent: string): string {
+        return textContent;
+    }
 
     get componentShowsInlineInParagraph(): boolean { return true; }
 

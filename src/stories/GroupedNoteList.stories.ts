@@ -4,7 +4,6 @@ import { Note } from 'notu';
 import { NoteViewerAction } from '../NoteActionsViewer';
 import { noteViewerWithoutDate } from './ReactSnippets';
 import { newSpace } from './StoryHelpers';
-import { noteTextSplitter } from '../helpers/NoteComponentHelpers';
 import { MockHttpClient } from '../helpers/MockHttpClient';
 import { NotuRenderTools } from '../helpers/NotuRender';
 
@@ -25,7 +24,7 @@ const notu = new MockHttpClient();
 
 const space1 = newSpace('Space 1', 1).clean();
 
-const renderTools = new NotuRenderTools(null, noteTextSplitter, t => null);
+const renderTools = new NotuRenderTools(null, NotuRenderTools.defaultNoteComponentProcessors(), t => null);
 
 
 export const Primary: Story = {
