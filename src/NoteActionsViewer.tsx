@@ -67,7 +67,7 @@ export const NoteActionsViewer = React.forwardRef((
         return (
             <div className={`dropdown is-left mr-2 ${isExpanded ? 'is-active' : ''}`} ref={menuDivRef}>
                 <div className="dropdown-trigger">
-                    <button className="button" aria-haspopup="true" aria-controls="dropdown-menu"
+                    <button className="button pl-1 pr-1" aria-haspopup="true" aria-controls="dropdown-menu"
                             onClick={toggleShowActions}>•••</button>
                 </div>
                 <div className="dropdown-menu" role="menu">
