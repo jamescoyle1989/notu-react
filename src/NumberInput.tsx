@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 interface NumberInputProps {
     value: number,
@@ -23,6 +23,11 @@ export const NumberInput = ({
 
     const [dirtyText, setDirtyText] = React.useState((value == null) ? '' : value.toString());
     const [isInError, setIsInError] = React.useState(false);
+
+    useEffect(() => {
+        setDirtyText((value == null) ? '' : value.toString());
+        setIsInError(false);
+    }, [value]);
 
     function onValueChange(evt) {
         const text = (evt.target.value as string).trim();

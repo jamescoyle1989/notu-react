@@ -1,5 +1,5 @@
 import React, { useMemo, useRef } from 'react';
-import { Note, NoteTag } from 'notu';
+import { Note } from 'notu';
 import { NoteTagBadge } from './NoteTagBadge';
 import 'bulma';
 import { useEffect } from 'react';

@@ -45,6 +45,16 @@ export const NoteEditor = ({
         evt.preventDefault();
         note.text = evt.target.elements.text.value;
         try {
+            for (const nt of note.tags) {
+                const ntd = notuRenderTools.noteTagDataComponentResolver(nt.tag, note);
+                if (!!ntd) {
+                    const ntdValidateResult = await ntd.validate(nt, note, notuRenderTools.notu);
+                    if (!ntdValidateResult) {
+                        setError(null);
+                        return;
+                    }
+                }
+            }
             const confirmResult = await onConfirm(note);
             if (!!confirmResult) {
                 await notuRenderTools.notu.saveNotes([note]);
@@ -239,7 +249,7 @@ export const NoteEditor = ({
     }
 
     function renderTextComponentDropdown() {
-        if (notuRenderTools.noteComponentProcessors.length == 0)
+        if ((notuRenderTools.noteComponentProcessors?.length ?? 0) == 0)
             return;
 
         return (
@@ -257,14 +267,14 @@ export const NoteEditor = ({
     }
 
     function renderNoteTagData(noteTag: NoteTag) {
-        const dataComponent = notuRenderTools.noteTagDataComponentResolver(noteTag.tag, note);
-        if (!dataComponent)
+        const componentFactory = notuRenderTools.noteTagDataComponentResolver(noteTag.tag, note);
+        if (!componentFactory)
             return;
         
         if (!noteTag.data)
             noteTag.data = {};
 
-        const editorComponent = dataComponent.getEditorComponent(noteTag, note, notuRenderTools.notu);
+        const editorComponent = componentFactory.getEditorComponent(noteTag, note, notuRenderTools.notu, manualRefresh);
         if (!editorComponent)
             return;
 

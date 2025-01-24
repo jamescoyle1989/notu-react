@@ -27,6 +27,11 @@ export class TestNoteTagDataComponentFactory {
     getEditorComponent(noteTag: NoteTag): JSX.Element {
         return (<p>Name: {noteTag.data.name}</p>);
     }
+
+    validate(): Promise<boolean> {
+        console.log('Note Tag Data running validation...');
+        return Promise.resolve(true);
+    }
 }
 
 
@@ -38,5 +43,9 @@ export class NonEditableNoteTagDataComponentFactory {
 
     getEditorComponent(noteTag: NoteTag): JSX.Element {
         return null;
+    }
+
+    validate(): Promise<boolean> {
+        return Promise.resolve(true);
     }
 }

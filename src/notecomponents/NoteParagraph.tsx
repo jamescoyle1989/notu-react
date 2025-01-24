@@ -8,7 +8,6 @@ export class NoteParagraph {
     get children(): Array<NoteComponent> { return this._children; }
 
     constructor(children: Array<NoteComponent>) {
-        console.log(children);
         this._children = children;
         if (children.length == 0)
             return;
