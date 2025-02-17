@@ -85,7 +85,7 @@ export const NoteEditor = ({
     }
 
     function tagsThatCanBeAdded(): Array<Tag> {
-        return tags.filter(x => (x.isPublic || x.space.id == note.space.id) && !note.tags.find(y => x.id == y.tag.id));
+        return tags.filter(x => (!x.isPrivate || x.space.id == note.space.id) && !note.tags.find(y => x.id == y.tag.id));
     }
 
     function removeTag(tag: Tag): void {
@@ -133,8 +133,8 @@ export const NoteEditor = ({
         textArea.value = fullText;
     }
 
-    function toggleOwnTagPublic(): void {
-        note.ownTag.isPublic = !note.ownTag.isPublic;
+    function toggleOwnTagAvailability(): void {
+        note.ownTag.availability = (note.ownTag.availability + 1) % 3;
         manualRefresh();
     }
 
@@ -215,6 +215,10 @@ export const NoteEditor = ({
         if (!note.ownTag || note.ownTag.isDeleted)
             return;
 
+        const availabilityText = note.ownTag.availability == 0
+            ? 'Private'
+            : (note.ownTag.availability == 1 ? 'Common' : 'Public');
+
         return [
             (<div className="control" key="1" style={{minWidth:'70px'}}>
                 <input type="color" className="input" value={note.ownTag.color ?? '#969DA3'}
@@ -222,7 +226,7 @@ export const NoteEditor = ({
             </div>),
             renderOwnTagColorDropdown(),
             (<div className="control" key="3">
-                <button type="button" className="button" onClick={toggleOwnTagPublic}>{note.ownTag.isPublic ? 'Public' : 'Private'}</button>
+                <button type="button" className="button" onClick={toggleOwnTagAvailability}>{availabilityText}</button>
             </div>)
         ];
     }

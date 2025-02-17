@@ -26,8 +26,8 @@ const cacheFetcher = {
         { state:'CLEAN', id:2, name:'Space 2', version:'1.0.0', useCommonSpace:false }
     ]; },
     getTagsData: async function() { return [
-        { state:'CLEAN', id:123, name:'Test', spaceId:1, color:null, isPublic:true, links:[] },
-        { state:'CLEAN', id:234, name:'Test 2', spaceId:2, color:null, isPUblic:true, links:[] }
+        { state:'CLEAN', id:123, name:'Test', spaceId:1, color:null, availability:2, links:[] },
+        { state:'CLEAN', id:234, name:'Test 2', spaceId:2, color:null, availability:2, links:[] }
     ]; }
 };
 const notu = new Notu(
@@ -67,6 +67,18 @@ export const ShowsSpaceNameIfRequired: Story = {
     args: {
         tag: (() => {
             const tag = newTag('Test 2', 234).in(space2).asPublic().clean();
+            return tag;
+        })(),
+        contextSpaceId: 1,
+        onDelete: null,
+        notuRenderTools: renderTools
+    }
+}
+
+export const ShowsCommon: Story = {
+    args: {
+        tag: (() => {
+            const tag = newTag('Test 2', 234).in(space2).asCommon().clean();
             return tag;
         })(),
         contextSpaceId: 1,

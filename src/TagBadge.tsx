@@ -36,11 +36,15 @@ export const TagBadge = ({
         return getTextColorClass(getBackgroundColor());
     }
 
+    const availabilityText = tag.availability == 0
+        ? 'Private'
+        : (tag.availability == 1 ? 'Common' : 'Public');
+
     return (
         <span className={`tag is-small is-unselectable is-rounded mr-1 has-text-weight-bold ${getTextColor()}`}
             style={{backgroundColor: getBackgroundColor()}}>
             {useUniqueName ? tag.getUniqueName(notuRenderTools.notu.cache) : tag.getQualifiedName(contextSpaceId)}
-            <span className="has-text-weight-light ml-1">({tag.isPublic ? 'Public' : 'Private'})</span>
+            <span className="has-text-weight-light ml-1">({availabilityText})</span>
             {renderDeleteButton()}
         </span>
     );
