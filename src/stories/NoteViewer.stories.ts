@@ -189,6 +189,30 @@ Halasana
 };
 
 
+export const DisplaysDailyRandomChoiceCorrectly: Story = {
+    args: {
+        note: (() => {
+            const output = new Note(`<RandomChoice Frequency="Daily">
+abc
+def
+ghi
+jkl
+mno
+pqr
+stu
+vwx
+</RandomChoice>`)
+                .in(space1);
+            return output;
+        })(),
+        actions: [],
+        isSelected: true,
+        showDate: true,
+        notuRenderTools: renderTools
+    }
+};
+
+
 export const LinksDisplayInline: Story = {
     args: {
         note: (() => {

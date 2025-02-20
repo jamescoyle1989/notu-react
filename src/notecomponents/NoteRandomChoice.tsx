@@ -1,5 +1,7 @@
 import { Note, NoteComponentInfo } from 'notu';
 import React from 'react';
+import { DateProvider, RealDateProvider } from '../helpers/DateProvider';
+import Rand from 'rand-seed';
 
 export class NoteRandomChoice {
     private _displayText: string;
@@ -26,18 +28,28 @@ export class NoteRandomChoice {
 
 export class NoteRandomChoiceProcessor {
 
+    constructor(dateProvider: DateProvider = null) {
+        if (dateProvider == null)
+            dateProvider = new RealDateProvider();
+        this._dateProvider = dateProvider;
+    }
+
+    private _dateProvider: DateProvider;
+
     get displayName(): string { return 'Random Choice'; }
 
     newComponentText(textContent: string): string {
-        return `<RandomChoice>
+        return `<RandomChoice Frequency="Every Load">
 ${textContent}
 </RandomChoice>`;
     }
 
     get componentShowsInlineInParagraph(): boolean { return false; }
+
+    private _openTagRegex = /<RandomChoice(?: Frequency="(.*)")?>/;
     
     identify(text: string): NoteComponentInfo {
-        const start = text.indexOf('<RandomChoice>');
+        const start = text.search(this._openTagRegex);
         if (start < 0)
             return null;
 
@@ -51,8 +63,10 @@ ${textContent}
     }
 
     create(info: NoteComponentInfo, note: Note, save: () => Promise<void>): NoteRandomChoice {
+        const openTagInfo = this._openTagRegex.exec(info.text);
+        const frequency = openTagInfo[1] ?? 'Every Load';
         const lines = info.text
-            .replace('<RandomChoice>', '')
+            .replace(openTagInfo[0], '')
             .replace('</RandomChoice>', '')
             .trim().split('\n');
 
@@ -65,12 +79,12 @@ ${textContent}
             };
         });
 
-        return new NoteRandomChoice(this._chooseLine(weightedLines), info.text);
+        return new NoteRandomChoice(this._chooseLine(weightedLines, frequency), info.text);
     }
 
-    private _chooseLine(lines: Array<{text: string, weight: number}>): string {
+    private _chooseLine(lines: Array<{text: string, weight: number}>, frequency: string): string {
         const weightSum = lines.map(x => x.weight).reduce((acc, cur) => acc + cur, 0);
-        const randomVal = Math.random() * weightSum;
+        const randomVal = this._getRandomGenerator(frequency).next() * weightSum;
         let weightAcc = 0;
         for (const line of lines) {
             weightAcc += line.weight;
@@ -78,5 +92,24 @@ ${textContent}
                 return line.text;
         }
         return null;
+    }
+
+    private _getRandomGenerator(frequency: string): Rand {
+        let date = this._dateProvider.now();
+        switch (frequency) {
+            case 'Every Load':
+                return new Rand();
+            case 'Daily':
+                return new Rand(`${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`);
+            case 'Weekly':
+                date.setDate(date.getDate() - date.getDay());
+                return new Rand(`${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`);
+            case 'Monthly':
+                return new Rand(`${date.getFullYear()}-${date.getMonth()}`);
+            case 'Yearly':
+                return new Rand(`${date.getFullYear()}`);
+            default:
+                throw new Error(`Unknown frequency: ${frequency}`);
+        }
     }
 }

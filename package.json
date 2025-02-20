@@ -1,6 +1,6 @@
 {
   "name": "notu-react",
-  "version": "0.15.8",
+  "version": "0.16.0",
   "main": "dist/esm/notu-react.js",
   "module": "dist/esm/notu-react.js",
   "unpkg": "dist/esm/notu-react.js",
@@ -24,7 +24,8 @@
   },
   "dependencies": {
     "bulma": "^0.9.4",
-    "chroma-js": "^2.4.2"
+    "chroma-js": "^2.4.2",
+    "rand-seed": "^2.1.7"
   },
   "peerDependencies": {
     "notu": "^0.15.1",
