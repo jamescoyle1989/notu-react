@@ -8,6 +8,7 @@ import { NoteActionsViewer, NoteViewerAction } from './NoteActionsViewer';
     import { NoteParagraph } from './notecomponents/NoteParagraph';
     import { NoteRandomChoiceProcessor } from './notecomponents/NoteRandomChoice';
     import { NoteTextProcessor, DefaultTextProcessor } from './notecomponents/NoteText';
+import { NoteComponentContainer } from './notecomponents/NoteComponentContainer';
 import { NoteEditor } from './NoteEditor';
 import { NotesPanel } from './NotesPanel';
 import { NoteSearch, PanelNoteSearch } from './NoteSearch';
@@ -27,6 +28,7 @@ export {
         NoteChecklistProcessor, NoteImageProcessor, NoteLinkProcessor,
         NoteRandomChoiceProcessor, NoteTextProcessor, DefaultTextProcessor,
         NoteParagraph,
+    NoteComponentContainer,
     NoteEditor,
     NotesPanel,
     NoteSearch, PanelNoteSearch,
