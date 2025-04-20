@@ -78,13 +78,13 @@ ${textContent}
                 weight: Number(result[1] ?? 1)
             };
         });
-
-        return new NoteRandomChoice(this._chooseLine(weightedLines, frequency), info.text);
+        
+        return new NoteRandomChoice(this._chooseLine(weightedLines, frequency, info), info.text);
     }
 
-    private _chooseLine(lines: Array<{text: string, weight: number}>, frequency: string): string {
+    private _chooseLine(lines: Array<{text: string, weight: number}>, frequency: string, info: NoteComponentInfo): string {
         const weightSum = lines.map(x => x.weight).reduce((acc, cur) => acc + cur, 0);
-        const randomVal = this._getRandomGenerator(frequency).next() * weightSum;
+        const randomVal = this._getRandomGenerator(frequency, info).next() * weightSum;
         let weightAcc = 0;
         for (const line of lines) {
             weightAcc += line.weight;
@@ -94,20 +94,20 @@ ${textContent}
         return null;
     }
 
-    private _getRandomGenerator(frequency: string): Rand {
+    private _getRandomGenerator(frequency: string, info: NoteComponentInfo): Rand {
         let date = this._dateProvider.now();
         switch (frequency) {
             case 'Every Load':
                 return new Rand();
             case 'Daily':
-                return new Rand(`${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`);
+                return new Rand(`${date.getFullYear()}-${date.getMonth()}-${date.getDate()}-${info.start}`);
             case 'Weekly':
                 date.setDate(date.getDate() - date.getDay());
-                return new Rand(`${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`);
+                return new Rand(`${date.getFullYear()}-${date.getMonth()}-${date.getDate()}-${info.start}`);
             case 'Monthly':
-                return new Rand(`${date.getFullYear()}-${date.getMonth()}`);
+                return new Rand(`${date.getFullYear()}-${date.getMonth()}-${info.start}`);
             case 'Yearly':
-                return new Rand(`${date.getFullYear()}`);
+                return new Rand(`${date.getFullYear()}-${info.start}`);
             default:
                 throw new Error(`Unknown frequency: ${frequency}`);
         }

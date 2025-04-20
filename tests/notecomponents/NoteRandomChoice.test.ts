@@ -102,3 +102,28 @@ ghi
     }
     throw new Error('All results were the same');
 });
+
+
+test('RandomChoiceProcessor will generate different results for different random choices within the same note when frequency is Daily', () => {
+    const processors = new Array<NoteRandomChoiceProcessor>();
+    for (let i = 1; i <= 20; i++)
+        processors.push(new NoteRandomChoiceProcessor(new FakeDateProvider(new Date(`2025-01-${i.toString().padStart(2, '0')}`))));
+    const componentInfo1 = processors[0].identify(`<RandomChoice Frequency="Daily">
+abc
+def
+ghi
+</RandomChoice>`);
+    const componentInfo2 = processors[0].identify(`Some leading text: <RandomChoice Frequency="Daily">
+abc
+def
+ghi
+</RandomChoice>`);
+
+    for (const processor of processors) {
+        const component1 = processor.create(componentInfo1, null, null);
+        const component2 = processor.create(componentInfo2, null, null);
+        if (!component2.displayText.includes(component1.displayText))
+            return;
+    }
+    throw new Error('For each day, both random choices had the same result');
+});
