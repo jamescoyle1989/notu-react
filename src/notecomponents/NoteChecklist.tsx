@@ -58,6 +58,10 @@ export class NoteChecklist {
     getText(): string {
         return `<Checklist>\n${this._lines.join('\n')}\n</Checklist>`;
     }
+
+    getTypeInfo(): string {
+        return 'NoteChecklist';
+    }
 }
 
 

@@ -34,4 +34,8 @@ export class NoteParagraph {
     getText(): string {
         return this._children.map(x => x.getText()).join('');
     }
+
+    getTypeInfo(): string {
+        return 'NoteParagraph';
+    }
 }

@@ -22,6 +22,10 @@ export class NoteImage {
     getText(): string {
         return `<Image>\n${this._paths.join('\n')}\n</Image>`;
     }
+
+    getTypeInfo(): string {
+        return 'NoteImage';
+    }
 }
 
 export class NoteImageProcessor {

@@ -26,6 +26,10 @@ export class NoteText {
     getText(): string {
         return this._originalText;
     }
+
+    getTypeInfo(): string {
+        return 'NoteText';
+    }
 }
 
 

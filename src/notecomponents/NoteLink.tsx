@@ -24,6 +24,10 @@ export class NoteLink {
             return `<Link>(${this.alias}) ${this.url}</Link>`;
         return `<Link>${this.url}</Link>`;
     }
+
+    getTypeInfo(): string {
+        return 'NoteLink';
+    }
 }
 
 export class NoteLinkProcessor {

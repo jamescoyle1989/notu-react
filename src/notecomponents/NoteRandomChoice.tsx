@@ -23,6 +23,10 @@ export class NoteRandomChoice {
     getText(): string {
         return this.fullText;
     }
+
+    getTypeInfo(): string {
+        return 'NoteRandomChoice';
+    }
 }
 
 
