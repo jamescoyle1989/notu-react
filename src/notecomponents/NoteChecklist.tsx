@@ -11,6 +11,10 @@ export class NoteChecklist {
         this._save = save;
     }
 
+    removeFinishedItems(): void {
+        this._lines = this._lines.filter(x => !x.startsWith('✔'));
+    }
+
     render() {
         const myself = this;
         const [manualRefresh, setManualRefresh] = useState(false);
