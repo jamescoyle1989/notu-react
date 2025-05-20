@@ -300,6 +300,10 @@ export const NoteEditor = ({
                 {renderErrorMessage()}
 
                 <div className="field">
+                    <label className="label">{note.space.name}</label>
+                </div>
+
+                <div className="field">
                     <label className="is-italic">
                         {`${note.date.toDateString()} ${note.date.getHours().toString().padStart(2, '0')}:${note.date.getMinutes().toString().padStart(2, '0')}`}
                     </label>
