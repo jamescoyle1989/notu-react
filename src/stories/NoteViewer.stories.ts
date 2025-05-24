@@ -126,6 +126,21 @@ export const DisplaysChecklistsCorrectly: Story = {
 };
 
 
+export const DisplaysEmptyChecklistsCorrectly: Story = {
+    args: {
+        note: (() => {
+            const output = new Note('Test test\n\n<Checklist>\n</Checklist>')
+                .in(space1)
+            return output;
+        })(),
+        actions: [],
+        isSelected: true,
+        showDate: true,
+        notuRenderTools: renderTools
+    }
+};
+
+
 export const DisplaysImagesCorrectly: Story = {
     args: {
         note: (() => {

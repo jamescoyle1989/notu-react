@@ -95,7 +95,8 @@ ${textContent}
         const lines = info.text
             .replace('<Checklist>', '')
             .replace('</Checklist>', '')
-            .trim().split('\n');
+            .trim().split('\n')
+            .filter(x => !!x);
     
         return new NoteChecklist(lines, save);
     }
